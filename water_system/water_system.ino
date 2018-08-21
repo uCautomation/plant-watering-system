@@ -8,13 +8,22 @@ LiquidCrystal_PCF8574 lcd(0x27);  // set the LCD address to 0x27 for a 16 chars 
 
 class SensorAndPump {
   public:
-    SensorAndPump(int VsensorPin, int SensorPin, int PumpCmdPin, int DryValue=0, int WetValue=1024)
+    SensorAndPump
+    (
+      int VsensorPin,
+      int SensorPin,
+      int PumpCmdPin,
+      int DryValue=0,
+      int WetValue=1024,
+      int pumpOnMS=PUMP_ON_MS
+    )
       :
       _vSensorPin(VsensorPin),
       _sensorPin(SensorPin),
       _pumpCmdPin(PumpCmdPin)
       _dryValue(DryValue),
-      _wetValue(WetValue)
+      _wetValue(WetValue),
+      _pumpOnMS(pumpOnMS)
       {}
 
     void SensorOn(void)
@@ -50,13 +59,14 @@ class SensorAndPump {
     void GiveWater()
     {
       digitalWrite(_pumpCmdPin, HIGH); // open valve to let water run
-      delay(PUMP_ON_MS);
+      delay(_pumpOnMS);
       digitalWrite(_pumpCmdPin, LOW); // close valve
     }
 
   private:
     int _vSensorPin, _sensorPin, _pumpCmdPin;
     int _dryValue, _wetValue, _lastMoisture;
+    int _pumpOnMS;
 }
 
 void setup() {
