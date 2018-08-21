@@ -1,5 +1,7 @@
 #include <Wire.h>
 #include <LiquidCrystal_PCF8574.h>
+#include <limits.h>
+#include <stdio.h>
 
 LiquidCrystal_PCF8574 lcd(0x27);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
@@ -83,6 +85,9 @@ SensorAndPump sp[MAX_MODULE_COUNT] = {
   {7, A3, 9},
 };
 
+unsigned long last;
+unsigned long timeout = 0;
+
 void setup() {
   int error;
 
@@ -108,10 +113,40 @@ void setup() {
   } // if
 
   lcd.begin(16, 2); // initialize the lcd
+  lcd.setBacklight(255);
+  lcd.home(); lcd.clear();
+  lcd.print("Water system 0.1");
+
+  last = millis();
+  timeout = 1000;
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  unsigned long now = millis();
 
+  if (
+    ((now > last) && (now - last > timeout))
+    ||
+    ((now < last) && (ULONG_MAX - last + now > timeout))
+  ) {
+    if (timeout == 1000) {
+      last = now;
+      //lcd.noDisplay();
+      lcd.setBacklight(0);
+      timeout = 2000;
+    } else if (timeout = 2000) {
+      lcd.setBacklight(255);lcd.home(); //lcd.clear();
+
+      char buf[51] = ".    .    |    .    |    .    |    .    ";
+      for( int i=0; i<MAX_MODULE_COUNT; i++) {
+        int moist = sp[i].GetCurrentMoisture();
+        sprintf(buf, "S%.1d=%d  ", i, moist);
+        lcd.setCursor((i&0x1) * 8, i>>1);
+        lcd.print(buf);
+        delay(1000);
+      }
+      timeout = 1000;
+    }
+  }
 }
