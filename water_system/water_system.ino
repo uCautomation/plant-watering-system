@@ -6,6 +6,8 @@ LiquidCrystal_PCF8574 lcd(0x27);  // set the LCD address to 0x27 for a 16 chars 
 #define SENSOR_START_DELAY_MS 10
 #define PUMP_ON_MS 200
 
+#define MAX_MODULE_COUNT 4
+
 class SensorAndPump {
   public:
     SensorAndPump
@@ -20,7 +22,7 @@ class SensorAndPump {
       :
       _vSensorPin(VsensorPin),
       _sensorPin(SensorPin),
-      _pumpCmdPin(PumpCmdPin)
+      _pumpCmdPin(PumpCmdPin),
       _dryValue(DryValue),
       _wetValue(WetValue),
       _pumpOnMS(pumpOnMS)
@@ -67,7 +69,15 @@ class SensorAndPump {
     int _vSensorPin, _sensorPin, _pumpCmdPin;
     int _dryValue, _wetValue, _lastMoisture;
     int _pumpOnMS;
-}
+};
+
+// Sensor+Pump modules
+SensorAndPump sp[MAX_MODULE_COUNT] = {
+  {2, 0, 3}, // D2 is Vsens, A0 = Sens, D3 is Valve cmd
+  {4, 1, 5},
+  {6, 2, 7},
+  {7, 3, 9},
+};
 
 void setup() {
   int error;
