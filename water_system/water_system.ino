@@ -26,7 +26,11 @@ class SensorAndPump {
       _dryValue(DryValue),
       _wetValue(WetValue),
       _pumpOnMS(pumpOnMS)
-      {}
+      {
+        pinMode(_vSensorPin, OUTPUT);
+        // analog pins are ready for AnalogRead by default, so _sensorPin works out of the box
+        pinMode(_pumpCmdPin, OUTPUT);
+      }
 
     void SensorOn(void)
     {
