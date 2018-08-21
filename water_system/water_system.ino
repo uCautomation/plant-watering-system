@@ -73,10 +73,10 @@ class SensorAndPump {
 
 // Sensor+Pump modules
 SensorAndPump sp[MAX_MODULE_COUNT] = {
-  {2, 0, 3}, // D2 is Vsens, A0 = Sens, D3 is Valve cmd
-  {4, 1, 5},
-  {6, 2, 7},
-  {7, 3, 9},
+  {2, A0, 3}, // D2 is Vsens, A0 = Sens, D3 is Valve cmd
+  {4, A1, 5},
+  {6, A2, 7},
+  {7, A3, 9},
 };
 
 void setup() {
