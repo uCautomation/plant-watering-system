@@ -42,7 +42,7 @@ class SensorAndPump {
       digitalWrite(_vSensorPin, LOW);//turn sensor "Off"
     }
 
-    int GetCurerntMoisture()
+    int GetCurrentMoisture()
     {
       this->SensorOn();
       delay(SENSOR_START_DELAY_MS);//wait for the sensor to stabilize
