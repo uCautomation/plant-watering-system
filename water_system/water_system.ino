@@ -101,7 +101,7 @@ SensorAndPump sp[MAX_MODULE_COUNT] = {
 
 typedef enum {
   wss_start = 0,
-  wss_active,
+  wss_sleep,
   wss_listing,
   wss_menusel,
   wss_manualwater,
@@ -179,20 +179,20 @@ class WaterSystemSM {
     wss_type _state;
     wss_type _to_next_state[WSS_NOSTATE] = {
       wss_listing, //  wss_start = 0,
-      wss_active, //  wss_active,
-      wss_active, //  wss_listing,
-      wss_active, //  wss_menusel,
+      wss_sleep, //  wss_sleep,
+      wss_sleep, //  wss_listing,
+      wss_sleep, //  wss_menusel,
       wss_manualwater, //  wss_manualwater,
-      wss_active, //  wss_list,
-      wss_active, //  wss_probe,
-      wss_active, //  wss_autowater,
+      wss_sleep, //  wss_list,
+      wss_sleep, //  wss_probe,
+      wss_sleep, //  wss_autowater,
       wss_panic //  wss_panic,
     };
     ulong _timeout = 1000;
 
     ulong _state_to[WSS_NOSTATE] = {
       1000, //  wss_start = 0,
-      5000, //  wss_active,
+      5000, //  wss_sleep,
       2000, //  wss_listing,
       5000, //  wss_menusel,
       5000, //  wss_manualwater,
@@ -220,7 +220,7 @@ class WaterSystemSM {
           break;
           ;;
 
-        case wss_active:
+        case wss_sleep:
           lcd.setBacklight(0);
           lcd.noDisplay();
           break;
