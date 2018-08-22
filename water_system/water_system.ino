@@ -232,7 +232,8 @@ class WaterSystemSM {
 
     void _list()
     {
-      lcd.setBacklight(255);lcd.home(); //lcd.clear();
+      lcd.display();
+      lcd.setBacklight(255);lcd.home(); lcd.clear();
 
       char buf[51] = ".    .    |    .    |    .    |    .    ";
       for( int i=0; i<MAX_MODULE_COUNT; i++) {
