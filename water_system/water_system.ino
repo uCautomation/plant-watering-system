@@ -210,6 +210,8 @@ class WaterSystemSM {
         case wss_panic:
           _panic_led = !_panic_led;
           digitalWrite(LED_BUILTIN, _panic_led);
+          if (_state != wss_start)
+            lcd.setBacklight(0);
           break;
           ;;
 
@@ -220,6 +222,7 @@ class WaterSystemSM {
 
         case wss_active:
           lcd.setBacklight(0);
+          lcd.noDisplay();
           break;
           ;;
       }
