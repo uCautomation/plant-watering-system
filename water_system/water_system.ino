@@ -122,23 +122,19 @@ class WaterSystemSM {
         int error;
 
         Serial.begin(9600);
-        Serial.println("LCD...");
+        DEBUG("Init LCD...");
 
         while (! Serial);
 
-        Serial.println("Dose: check for LCD");
+        DEBUG("Dose: check for LCD");
 
         // See http://playground.arduino.cc/Main/I2cScanner
         Wire.begin();
         Wire.beginTransmission(0x27);
         error = Wire.endTransmission();
-        Serial.print("Error: ");
-        Serial.print(error);
+        DEBUG("Error: %d: LCD %s" "found.", error, 0 == error ? "" : "not ");
 
-        if (error == 0) {
-            Serial.println(": LCD found.");
-        } else {
-            Serial.println(": LCD not found.");
+        if (error != 0) {
             _state = wss_panic;
             _timeout = 0;
             goto exitfn;
@@ -157,18 +153,28 @@ class WaterSystemSM {
 
     bool TOTransition(ulong tdelta)
     {
-      if (tdelta < _timeout)
-        return false;
 
-      if (_to_next_state[_state] == _state)
+      DEBUG("TOTransition: _state=%d tdelta=%lu _timeout=%lu", _state, _timeout, tdelta);
+
+      if (tdelta < _timeout) {
+        DEBUG("no timeout");
         return false;
+      }
+
+      if (_to_next_state[_state] == _state) {
+        DEBUG("same state");
+        return true;
+      }
 
       _to_transition(_to_next_state[_state]);
-
+      DEBUG("TRANSITIONED to %d", _state);
       return true;
     }
 
+    ulong timeout() { return _timeout;}
+
   private:
+
     int _panic_led = 0;
     wss_type _state;
     wss_type _to_next_state[WSS_NOSTATE] = {
@@ -236,7 +242,6 @@ class WaterSystemSM {
 };
 
 ulong last;
-ulong timeout = 0;
 
 WaterSystemSM *pWSSM;
 
@@ -246,7 +251,6 @@ void setup() {
   pWSSM->Init();
 
   last = millis();
-  timeout = 1000;
 
 }
 
@@ -263,7 +267,9 @@ void loop() {
   ulong now = millis();
   ulong td = timedelta(last, now);
 
-  if (td >= timeout) {
+  if (td >= pWSSM->timeout()) {
+    DEBUG("last, now, td = %lu, %lu, %lu", last, now, td);
+
     if (pWSSM->TOTransition(td)) {
       last = now;
     }
