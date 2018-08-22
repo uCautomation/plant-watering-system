@@ -240,7 +240,7 @@ void setup() {
 
 ulong timedelta(ulong refts, ulong now)
 {
-  if (now > refts)
+  if (now >= refts)
     return now - refts;
   else // overflow
     return ULONG_MAX - refts + now;
