@@ -6,9 +6,9 @@
 #define _DEBUG_
 #ifdef _DEBUG_
 #define DEBUG(fmt, args...) do { \
-  char buf[200]; \
-  sprintf(buf, "DBG: " fmt, ##args); \
-  Serial.println(buf); \
+  char dbgbuf[200]; \
+  sprintf(dbgbuf, "DBG: " fmt, ##args); \
+  Serial.println(dbgbuf); \
 } while(0)
 
 #else
@@ -240,6 +240,7 @@ class WaterSystemSM {
         sprintf(buf, "S%.1d=%d  ", i, moist);
         lcd.setCursor((i&0x1) * 8, i>>1);
         lcd.print(buf);
+        DEBUG("_list(): %s", buf);
       }
     }
 };
