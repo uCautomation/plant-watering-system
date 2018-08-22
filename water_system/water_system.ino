@@ -3,6 +3,18 @@
 #include <limits.h>
 #include <stdio.h>
 
+#define _DEBUG_
+#ifdef _DEBUG_
+#define DEBUG(fmt, args...) do { \
+  char buf[200]; \
+  sprintf(buf, "DBG: " fmt, ##args); \
+  Serial.println(buf); \
+} while(0)
+
+#else
+#define DEBUG(fmt, args...)
+#endif
+
 LiquidCrystal_PCF8574 lcd(0x27);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
 #define SENSOR_START_DELAY_MS 10
