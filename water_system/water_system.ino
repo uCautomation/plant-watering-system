@@ -93,10 +93,10 @@ class SensorAndPump {
 
 // Sensor+Pump modules
 SensorAndPump sp[MAX_MODULE_COUNT] = {
-  {2, A0, 3}, // D2 is Vsens, A0 = Sens, D3 is Valve cmd
-  {4, A1, 5},
-  {6, A2, 7},
-  {7, A3, 9},
+  {4, A0, 5}, // D4 is Vsens, A0 = Sens, D5 is Valve cmd
+  {6, A1, 7},
+  {7, A2, 8},
+  {9, A0, 10},
 };
 
 typedef enum {
