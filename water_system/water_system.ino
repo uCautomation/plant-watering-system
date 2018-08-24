@@ -121,7 +121,6 @@ class WaterSystemSM {
     void Init(void) {
         int error;
 
-        Serial.begin(9600);
         DEBUG("Init LCD...");
 
         while (! Serial);
@@ -251,6 +250,7 @@ ulong last;
 WaterSystemSM *pWSSM;
 
 void setup() {
+  Serial.begin(9600);
 
   pWSSM = new WaterSystemSM();
   pWSSM->Init();
