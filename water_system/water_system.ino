@@ -113,11 +113,80 @@ typedef enum {
   WSS_NOSTATE
 } wss_type;
 
+const byte nextButPin = 3;
+const byte okButPin = 2;
+
+void nextButISR(void);
+void okButISR(void);
+typedef void isr(void);
+
+class Button {
+  public:
+    Button(int pin, isr butChISR) : _pin(pin), _debounceDelay(50)
+    {
+      _milli = millis();
+      _lastmilli = _milli;
+      pinMode(_pin, INPUT_PULLUP);
+      delay(100);
+      _state = digitalRead(_pin);
+      DEBUG("Button %d state %d", _pin, _state);
+      attachInterrupt(digitalPinToInterrupt(_pin), butChISR, CHANGE);
+    }
+
+    void changed(void)
+    {
+      _milli = millis();
+    }
+
+    bool isPressed(ulong now)
+    {
+      if (_milli ==_lastmilli) return false;
+      byte s = digitalRead(_pin);
+      //DEBUG("%s", s == LOW ? "LOW" : "HIGH");
+
+      ulong td = timedelta(_milli, now);
+      if (td < _debounceDelay) return false;
+      //DEBUG("Debounced");
+
+      //s = digitalRead(_pin);
+      bool pressed = (s == LOW);
+
+      //DEBUG("B%d (state=%d): Debounced, %spressed and %schanged!", _pin, s, pressed ? "" : "NOT ", s != _state ? "" : "NOT " );
+      //DEBUG("Button %d : _lastmilli=%lu _milli=%lu, now=%lu", _pin, _lastmilli, _milli, now);
+
+      _lastmilli = _milli;
+      _state = s;
+
+      return pressed;
+    }
+
+  private:
+    const byte _pin;
+    byte _state;
+    ulong _lastmilli;
+    volatile ulong _milli;
+    const ulong _debounceDelay;
+};
+
+int g_panic_led = 0;
+
+void panicLEDToggle() {
+  g_panic_led = !g_panic_led;
+  digitalWrite(LED_BUILTIN, g_panic_led);
+}
+
 class WaterSystemSM {
   public:
+    class Button *nextBut, *okBut;
+
     WaterSystemSM() {
       _state = wss_start;
+
+      int m = millis();
+      nextBut = new Button(nextButPin, nextButISR);
+      okBut = new Button(okButPin, okButISR);
     };
+
     void Init(void) {
         int error;
 
@@ -170,11 +239,24 @@ class WaterSystemSM {
       return true;
     }
 
-    ulong timeout() { return _timeout;}
+    ulong timeout() { return _timeout; }
+
+    bool nextChangedTransition() {
+      DEBUG("TODO: Try Next button changed transition: _state=%d", _state);
+      panicLEDToggle();
+
+      return false;
+    }
+
+    bool okChangedTransition() {
+      DEBUG("TODO: Try OK button changed transition: _state=%d", _state);
+      panicLEDToggle();
+
+      return false;
+    }
 
   private:
 
-    int _panic_led = 0;
     wss_type _state;
     wss_type _to_next_state[WSS_NOSTATE] = {
       wss_listing, //  wss_start = 0,
@@ -207,8 +289,7 @@ class WaterSystemSM {
     {
       switch (nextstate) {
         case wss_panic:
-          _panic_led = !_panic_led;
-          digitalWrite(LED_BUILTIN, _panic_led);
+          panicLEDToggle();
           if (_state != wss_start)
             lcd.setBacklight(0);
           break;
@@ -249,8 +330,22 @@ ulong last;
 
 WaterSystemSM *pWSSM;
 
+
+void nextButISR(void)
+{
+  pWSSM->nextBut->changed();
+}
+
+void okButISR(void)
+{
+  pWSSM->okBut->changed();
+}
+
+
 void setup() {
   Serial.begin(9600);
+  panicLEDToggle();
+  delay(500);
 
   pWSSM = new WaterSystemSM();
   pWSSM->Init();
@@ -276,6 +371,20 @@ void loop() {
     DEBUG("last, now, td = %lu, %lu, %lu", last, now, td);
 
     if (pWSSM->TOTransition(td)) {
+      last = now;
+    }
+  }
+
+  if (pWSSM->nextBut->isPressed(now)) {
+    DEBUG("Next pressed");
+    if (pWSSM->nextChangedTransition()) {
+      last = now;
+    }
+  }
+
+  if (pWSSM->okBut->isPressed(now)) {
+    DEBUG("OK pressed");
+    if (pWSSM->okChangedTransition()) {
       last = now;
     }
   }
