@@ -107,6 +107,7 @@ typedef enum {
 const byte nextButPin = 3;
 const byte okButPin = 2;
 
+ulong timedelta(ulong refts, ulong now);
 void nextButISR(void);
 void okButISR(void);
 typedef void isr(void);
