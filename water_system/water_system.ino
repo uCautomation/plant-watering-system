@@ -59,12 +59,12 @@ class SensorAndPump {
       return _lastMoisture;//send current moisture value
     }
 
-    int SetTooDry(int dryValue)
+    void SetTooDry(int dryValue)
     {
       _dryValue = dryValue;
     }
 
-    int SetTooWet(int wetValue)
+    void SetTooWet(int wetValue)
     {
       _wetValue = wetValue;
     }
@@ -296,6 +296,18 @@ class WaterSystemSM {
           lcd.noDisplay();
           break;
           ;;
+        case wss_start:
+        case wss_menusel:
+        case wss_manualwater:
+        case wss_list:
+        case wss_probe:
+        case wss_autowater:
+        case WSS_NOSTATE:
+          panicLEDToggle();
+          DEBUG("Unexpected next timeout state %d", nextstate);
+          break;
+          ;;
+
       }
       _state = nextstate;
       _timeout = _state_to[_state];
