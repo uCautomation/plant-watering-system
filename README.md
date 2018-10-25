@@ -1,6 +1,6 @@
 # plant-watering-system
 
-|Build Status|
+[![Build Status](https://travis-ci.com/uCautomation/plant-watering-system.svg?branch=master)](https://travis-ci.com/uCautomation/plant-watering-system)
 
 An automatic plant watering system with 4 watering modules (sensor+valve).
 
