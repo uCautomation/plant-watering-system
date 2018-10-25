@@ -3,17 +3,8 @@
 #include <limits.h>
 #include <stdio.h>
 
-#define _DEBUG_
-#ifdef _DEBUG_
-#define DEBUG(fmt, args...) do { \
-  char dbgbuf[200]; \
-  sprintf(dbgbuf, "DBG: " fmt, ##args); \
-  Serial.println(dbgbuf); \
-} while(0)
-
-#else
-#define DEBUG(fmt, args...)
-#endif
+#define DEBUG_ON
+#include "DebugWS.h"
 
 LiquidCrystal_PCF8574 lcd(0x27);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
