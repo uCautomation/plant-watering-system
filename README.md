@@ -1,5 +1,7 @@
 # plant-watering-system
 
+|Build Status|
+
 An automatic plant watering system with 4 watering modules (sensor+valve).
 
 The user can interact with the system via the 16x2 LCD display and the user buttons.
