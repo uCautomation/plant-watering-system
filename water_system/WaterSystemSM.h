@@ -24,6 +24,8 @@ const byte okButPin = 2;
 void nextButISR(void);
 void okButISR(void);
 
+void panicLEDToggle(void);
+
 extern LiquidCrystal_PCF8574 lcd;
 
 #define MAX_MODULE_COUNT 4
