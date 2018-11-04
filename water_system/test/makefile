@@ -19,8 +19,8 @@ UT_SRCS    := $(wildcard ../*.cpp)
 run_tests: test
 	./$<
 
-test: $(GTEST_REPO_DIR)/build/lib/libgtest.a
-	g++ $(CXXFLAGS) $(MOCKS_SRCS) $(TEST_SRCS) ${GTEST_DIR}/src/gtest_main.cc $^ $(UT_SRCS) -o $@
+test: $(MOCKS_SRCS) $(TEST_SRCS) $(UT_SRCS) $(GTEST_REPO_DIR)/build/lib/libgtest.a
+	g++ $(CXXFLAGS) ${GTEST_DIR}/src/gtest_main.cc $^ -o $@
 
 $(GTEST_REPO_DIR)/build/lib/libgtest.a: | $(GTEST_REPO_DIR)/build
 	cd $(dir $(@D)) && cmake .. && make
