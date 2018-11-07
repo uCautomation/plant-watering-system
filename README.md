@@ -6,7 +6,12 @@ An automatic plant watering system with 4 watering modules (sensor+valve/pump).
 
 The user can interact with the system via the 16x2 LCD display and the user buttons.
 
-TODO: Save power by going to sleep on timeout.
+## TODO
+ - Save power by going to sleep on timeout.
+ - Test the WaterSystem state machine
+ - Allow the user to calibrate each module
+   - Allow the user to save the calibration data into the EEPROM
+   - Save the calibration data into a sort-of flash/EEPROM filesystem to prevent early death of specific EEPROM memory cells
 
 ## watering modules
 
