@@ -16,7 +16,8 @@ Each watering modules needs has 3 conenctions to the Arduino:
 - Asens - moisture sensor read value; conenctedt to 1 analog input pin
 
 Power:
-Conenctions to V12 and GND are also needed to control. The valve operates at 12V, so each module also needs V12 supply to work.
+Connections to 12V and GND are also needed to control the valves, if used. The valve operates at 12V, so each module also needs 12V supply to work.
+If 5V pumps are used instead, the uC will control the relay that closes the pump 5V supply circuit.
 
 ## Interface
 
