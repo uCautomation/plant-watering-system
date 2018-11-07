@@ -20,7 +20,6 @@ void panicLEDToggle() {
     WaterSystemSM::WaterSystemSM() {
       _state = wss_start;
 
-      int m = millis();
       nextBut = new ButtonWS(nextButPin, nextButISR);
       okBut = new ButtonWS(okButPin, okButISR);
     };
@@ -117,6 +116,9 @@ void panicLEDToggle() {
           lcd.setBacklight(0);
           lcd.noDisplay();
           break;
+          ;;
+        default:
+          /* nothing to do */
           ;;
       }
       _state = nextstate;
