@@ -32,3 +32,4 @@ $(GTEST_REPO_DIR)/build: $(GTEST_DIR)
 
 $(GTEST_DIR):
 	git clone --depth 1 https://github.com/google/googletest.git
+	cd googletest && git show -q --oneline
