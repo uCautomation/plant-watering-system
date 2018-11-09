@@ -29,7 +29,7 @@ void panicLEDToggle() {
 
         DEBUG("Init LCD...");
 
-        while (! Serial);
+        while (! Serial) {};
 
         DEBUG("Dose: check for LCD");
 
