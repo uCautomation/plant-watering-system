@@ -14,7 +14,7 @@ matrix:
       - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
     install:
       - arduino --install-library "LiquidCrystal_PCF8574"
-    script: cd water_system && build_main_platforms
+    script: cd water_system && build_main_platforms && ls -la
   - name: Unit tests g++
     language: cpp
     compiler: g++
