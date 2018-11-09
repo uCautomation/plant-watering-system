@@ -1,4 +1,4 @@
-language: cpp
+language: minimal
 sudo: false
 git:
   depth: false
@@ -16,9 +16,11 @@ matrix:
       - arduino --install-library "LiquidCrystal_PCF8574"
     script: cd water_system && build_main_platforms
   - name: Unit tests g++
+    language: cpp
     compiler: g++
     script: cd water_system/test && make
   - name: Unit tests clang++
+    language: cpp
     compiler: clang++
     script: cd water_system/test && make
 #notifications:
