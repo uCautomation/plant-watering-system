@@ -20,7 +20,7 @@ run_tests: test
 	./$<
 
 test: $(MOCKS_SRCS) $(TEST_SRCS) $(UT_SRCS) $(GTEST_REPO_DIR)/build/lib/libgtest.a
-	g++ $(CXXFLAGS) ${GTEST_DIR}/src/gtest_main.cc $^ -o $@
+	$(CXX) $(CXXFLAGS) ${GTEST_DIR}/src/gtest_main.cc $^ -o $@
 
 $(GTEST_REPO_DIR)/build/lib/libgtest.a: | $(GTEST_REPO_DIR)/build
 	cd $(dir $(@D)) && cmake .. && make

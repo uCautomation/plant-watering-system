@@ -15,7 +15,11 @@ matrix:
     install:
       - arduino --install-library "LiquidCrystal_PCF8574"
     script: cd water_system && build_main_platforms
-  - name: Unit tests
+  - name: Unit tests g++
+    compiler: g++
+    script: cd water_system/test && make
+  - name: Unit tests clang++
+    compiler: clang++
     script: cd water_system/test && make
 #notifications:
 #  email:
