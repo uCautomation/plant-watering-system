@@ -23,6 +23,11 @@ matrix:
     language: cpp
     compiler: clang++
     script: cd water_system/test && make
+  - name: Unit tests clang++ / xenial
+    dist: xenial
+    language: cpp
+    compiler: clang++
+    script: cd water_system/test && make
 #notifications:
 #  email:
 #    on_success: change
