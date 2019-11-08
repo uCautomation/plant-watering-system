@@ -17,15 +17,13 @@ void panicLEDToggle() {
 }
 
 
-    WaterSystemSM::WaterSystemSM() {
-      _state = wss_start;
+    WaterSystemSM::WaterSystemSM(ulong current_milli) {
+        _state = wss_start;
+        _last_transition_milli = current_milli;
 
-      nextBut = new ButtonWS(nextButPin, nextButISR);
-      okBut = new ButtonWS(okButPin, okButISR);
-    };
+        nextBut = new ButtonWS(nextButPin, nextButISR);
+        okBut = new ButtonWS(okButPin, okButISR);
 
-    void WaterSystemSM::Init(void) {
-        int error;
 
         DEBUG("Init LCD...");
 
@@ -36,59 +34,74 @@ void panicLEDToggle() {
         // See http://playground.arduino.cc/Main/I2cScanner
         Wire.begin();
         Wire.beginTransmission(0x27);
-        error = Wire.endTransmission();
+        int error = Wire.endTransmission();
         DEBUG("Error: %d: LCD %s" "found.", error, 0 == error ? "" : "not ");
+
 
         if (error != 0) {
             _state = wss_panic;
             _timeout = 0;
-            goto exitfn;
+
+        } else {
+            lcd.begin(16, 2); // initialize the lcd
+            lcd.setBacklight(255);
+            lcd.home(); lcd.clear();
+            lcd.print("Water system 0.1");
+
+            _timeout = _state_to[_state];
+        }
+    }
+
+    bool stateUpadated(ulong current_milli) {
+
+        if (okBut->isPressed(current_milli)) {
+
+            DEBUG("OK pressed");
+
+            noInterrupts();
+            _state = _okBut_next_state[_state];
+            _last_transition_milli = current_milli;
+            interrupts();
+
+            return true;
         }
 
-        lcd.begin(16, 2); // initialize the lcd
-        lcd.setBacklight(255);
-        lcd.home(); lcd.clear();
-        lcd.print("Water system 0.1");
-        _timeout = _state_to[_state];
+        if (nextBut->isPressed(current_milli)) {
 
-        exitfn:
-            ;
-    }
+            DEBUG("Next pressed");
 
-    bool WaterSystemSM::timeoutTransition(ulong tdelta)
-    {
+            noInterrupts();
+            _state = _nextBut_next_state[_state];
+            _last_transition_milli = current_milli;
+            interrupts();
 
-      DEBUG("timeoutTransition: _state=%d tdelta=%lu _timeout=%lu", _state, _timeout, tdelta);
+            return true;
+        }
 
-      if (tdelta < _timeout) {
-        DEBUG("no timeout");
+        ulong time_delta = timedelta(_last_transition_milli, current_milli);
+        if (time_delta >= _timeout) {
+
+            DEBUG("Timeout from state %u", _state);
+
+            noInterrupts();
+            wss_type _next_state = _to_next_state[_state];
+            bool state_changed = (_next_state != _state);
+
+            if (state_changed) {
+                DEBUG("state changes via timeout");
+                _state = _next_state;
+                _last_transition_milli = current_milli;
+            } else {
+                DEBUG("same state");
+            }
+            interrupts();
+
+            return state_changed;
+        }
+
+        DEBUG("No state change");
+
         return false;
-      }
-
-      if (_to_next_state[_state] == _state) {
-        DEBUG("same state");
-        return true;
-      }
-
-      _to_transition(_to_next_state[_state]);
-      DEBUG("TRANSITIONED to %d", _state);
-      return true;
-    }
-
-    ulong WaterSystemSM::timeout() { return _timeout; }
-
-    bool WaterSystemSM::nextChangedTransition() {
-      DEBUG("TODO: Try Next ButtonWS changed transition: _state=%d", _state);
-      panicLEDToggle();
-
-      return false;
-    }
-
-    bool WaterSystemSM::okChangedTransition() {
-      DEBUG("TODO: Try OK ButtonWS changed transition: _state=%d", _state);
-      panicLEDToggle();
-
-      return false;
     }
 
     wss_type WaterSystemSM::State() {
@@ -97,45 +110,3 @@ void panicLEDToggle() {
 
   //private:
 
-    void WaterSystemSM::_to_transition(wss_type nextstate)
-    {
-      switch (nextstate) {
-        case wss_panic:
-          panicLEDToggle();
-          if (_state != wss_start)
-            lcd.setBacklight(0);
-          break;
-          ;;
-
-        case wss_listing:
-          _list();
-          break;
-          ;;
-
-        case wss_sleep:
-          lcd.setBacklight(0);
-          lcd.noDisplay();
-          break;
-          ;;
-        default:
-          /* nothing to do */
-          ;;
-      }
-      _state = nextstate;
-      _timeout = _state_to[_state];
-    }
-
-    void WaterSystemSM::_list()
-    {
-      lcd.display();
-      lcd.setBacklight(255);lcd.home(); lcd.clear();
-
-      char buf[51] = ".    .    |    .    |    .    |    .    ";
-      for( int i=0; i<MAX_MODULE_COUNT; i++) {
-        int moist = sp[i].GetCurrentMoisture();
-        sprintf(buf, "S%.1d=%d  ", i, moist);
-        lcd.setCursor((i&0x1) * 8, i>>1);
-        lcd.print(buf);
-        DEBUG("_list(): %s", buf);
-      }
-    }

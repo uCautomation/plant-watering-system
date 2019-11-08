@@ -34,20 +34,17 @@ class WaterSystemSM {
   public:
     class ButtonWS *nextBut, *okBut;
 
-    WaterSystemSM();
-
-    void Init(void);
-
-    bool timeoutTransition(ulong tdelta);
-
-    ulong timeout();
-
-    bool nextChangedTransition();
-    bool okChangedTransition();
+    WaterSystemSM(ulong current_milli);
 
     wss_type State();
+    bool stateUpadated(ulong current_milli);
 
   private:
+
+    bool okChangedTransition();
+
+
+    volatile ulong _last_transition_milli;
     wss_type _state;
     wss_type _to_next_state[WSS_NOSTATE] = {
       wss_listing, //  wss_start = 0,
@@ -76,8 +73,6 @@ class WaterSystemSM {
 
     bool _lcd = false;
 
-    void _to_transition(wss_type nextstate);
-    void _list();
 };
 
 #endif

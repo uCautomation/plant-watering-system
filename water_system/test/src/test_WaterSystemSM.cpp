@@ -8,9 +8,8 @@ TEST(WaterSystemSM, Initial) {
 };
 
 TEST(WaterSystemSM, TimeoutFromInitial) {
-  WaterSystemSM *t = new WaterSystemSM();
-  t->Init(); // wss_start - why?
-  t->timeoutTransition(10000);
+  WaterSystemSM *t = new WaterSystemSM(0ul);
+  t->timeoutTransition(10000ul);
 
   EXPECT_EQ(wss_listing, t->State());
 

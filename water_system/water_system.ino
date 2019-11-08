@@ -86,6 +86,9 @@ class SensorAndPump {
 };
 
 
+void system_list();
+
+
 ulong timedelta(ulong refts, ulong now);
 
     ButtonWS::ButtonWS(int pin, isr butChISR) : _pin(pin), _debounceDelay(50)
@@ -107,12 +110,13 @@ ulong timedelta(ulong refts, ulong now);
     bool ButtonWS::isPressed(ulong now)
     {
       if (_milli ==_lastmilli) return false;
-      byte s = digitalRead(_pin);
-      //DEBUG("%s", s == LOW ? "LOW" : "HIGH");
 
       ulong td = timedelta(_milli, now);
       if (td < _debounceDelay) return false;
       //DEBUG("Debounced");
+
+      byte s = digitalRead(_pin);
+      //DEBUG("%s", s == LOW ? "LOW" : "HIGH");
 
       //s = digitalRead(_pin);
       bool pressed = (s == LOW);
@@ -134,24 +138,36 @@ WaterSystemSM *pWSSM;
 
 void nextButISR(void)
 {
-  pWSSM->nextBut->changed();
+    pWSSM->nextBut->changed();
 }
 
 void okButISR(void)
 {
-  pWSSM->okBut->changed();
+    pWSSM->okBut->changed();
 }
 
+void system_panic()
+{
+    DEBUG("PANIC!!!!");
+    lcd.setBacklight(0);
+    while(true) {
+        panicLEDToggle();
+        delay(200);
+    }
+}
 
 void setup() {
-  Serial.begin(9600);
-  panicLEDToggle();
-  delay(500);
+    Serial.begin(9600);
+    panicLEDToggle();
+    delay(500);
 
-  pWSSM = new WaterSystemSM();
-  pWSSM->Init();
+    last = millis();
 
-  last = millis();
+    pWSSM = new WaterSystemSM(last);
+
+    if (pWSSM->State() == wss_panic) {
+        system_panic(); // never returns
+    }
 
 }
 
@@ -166,27 +182,48 @@ ulong timedelta(ulong refts, ulong now)
 void loop() {
 
   ulong now = millis();
-  ulong td = timedelta(last, now);
 
-  if (td >= pWSSM->timeout()) {
-    DEBUG("last, now, td = %lu, %lu, %lu", last, now, td);
-
-    if (pWSSM->timeoutTransition(td)) {
-      last = now;
-    }
+  if (pWSSM->stateUpadated(now)) {
+    set_system_state(pWSSM->State());
   }
 
-  if (pWSSM->nextBut->isPressed(now)) {
-    DEBUG("Next pressed");
-    if (pWSSM->nextChangedTransition()) {
-      last = now;
-    }
-  }
+}
 
-  if (pWSSM->okBut->isPressed(now)) {
-    DEBUG("OK pressed");
-    if (pWSSM->okChangedTransition()) {
-      last = now;
+void set_system_state(wss_type nextstate)
+{
+    switch (nextstate) {
+        case wss_panic:
+            system_panic() // never returns
+            break;
+            ;;
+
+        case wss_listing:
+            system_list();
+            break;
+            ;;
+
+        case wss_sleep:
+            lcd.setBacklight(0);
+            lcd.noDisplay();
+            break;
+            ;;
+        default:
+            /* nothing to do */
+            ;;
     }
-  }
+}
+
+void system_list()
+{
+    lcd.display();
+    lcd.setBacklight(255);lcd.home(); lcd.clear();
+
+    char buf[51] = ".    .    |    .    |    .    |    .    ";
+    for( int i=0; i<MAX_MODULE_COUNT; i++) {
+        int moist = sp[i].GetCurrentMoisture();
+        sprintf(buf, "S%.1d=%d  ", i, moist);
+        lcd.setCursor((i&0x1) * 8, i>>1);
+        lcd.print(buf);
+        DEBUG("system_list(): %s", buf);
+    }
 }
