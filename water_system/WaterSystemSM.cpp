@@ -5,7 +5,6 @@
 
 #include "ButtonWS.h"
 #include "WaterSystemSM.h"
-#include "SensorAndPump.h"
 
 LiquidCrystal_PCF8574 lcd(0x27);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
@@ -52,7 +51,7 @@ void panicLEDToggle() {
         }
     }
 
-    bool stateUpadated(ulong current_milli) {
+    bool WaterSystemSM::stateUpadated(ulong current_milli) {
 
         if (okBut->isPressed(current_milli)) {
 

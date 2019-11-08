@@ -30,6 +30,8 @@ extern LiquidCrystal_PCF8574 lcd;
 
 #define MAX_MODULE_COUNT 4
 
+extern ulong timedelta(ulong refts, ulong now);
+
 class WaterSystemSM {
   public:
     class ButtonWS *nextBut, *okBut;
@@ -41,11 +43,35 @@ class WaterSystemSM {
 
   private:
 
-    bool okChangedTransition();
-
 
     volatile ulong _last_transition_milli;
     wss_type _state;
+
+    wss_type _okBut_next_state[WSS_NOSTATE] = {
+        wss_sleep, //  wss_start = 0,
+        wss_list, //  wss_sleep,
+        wss_sleep, //  wss_listing,
+        wss_menusel, //  wss_menusel,
+        wss_manualwater, //  wss_manualwater,
+        wss_probe, //  wss_list,
+        wss_list, //  wss_probe,
+        wss_sleep, //  wss_autowater,
+        wss_panic //  wss_panic,
+    };
+
+    wss_type _nextBut_next_state[WSS_NOSTATE] = {
+        wss_sleep, //  wss_start = 0,
+        wss_list, //  wss_sleep,
+        wss_sleep, //  wss_listing,
+        wss_menusel, //  wss_menusel,
+        wss_manualwater, //  wss_manualwater,
+        wss_probe, //  wss_list,
+        wss_list, //  wss_probe,
+        wss_sleep, //  wss_autowater,
+        wss_panic //  wss_panic,
+    };
+
+
     wss_type _to_next_state[WSS_NOSTATE] = {
       wss_listing, //  wss_start = 0,
       wss_listing, //  wss_sleep,
