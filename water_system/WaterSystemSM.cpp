@@ -55,10 +55,10 @@ void panicLEDToggle() {
             ;
     }
 
-    bool WaterSystemSM::TOTransition(ulong tdelta)
+    bool WaterSystemSM::timeoutTransition(ulong tdelta)
     {
 
-      DEBUG("TOTransition: _state=%d tdelta=%lu _timeout=%lu", _state, _timeout, tdelta);
+      DEBUG("timeoutTransition: _state=%d tdelta=%lu _timeout=%lu", _state, _timeout, tdelta);
 
       if (tdelta < _timeout) {
         DEBUG("no timeout");

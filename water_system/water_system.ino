@@ -171,7 +171,7 @@ void loop() {
   if (td >= pWSSM->timeout()) {
     DEBUG("last, now, td = %lu, %lu, %lu", last, now, td);
 
-    if (pWSSM->TOTransition(td)) {
+    if (pWSSM->timeoutTransition(td)) {
       last = now;
     }
   }

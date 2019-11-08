@@ -38,7 +38,7 @@ class WaterSystemSM {
 
     void Init(void);
 
-    bool TOTransition(ulong tdelta);
+    bool timeoutTransition(ulong tdelta);
 
     ulong timeout();
 
