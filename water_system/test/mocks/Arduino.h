@@ -35,10 +35,14 @@ extern bool Serial; //mock
 
 typedef uint8_t byte;
 
+#define INPUT 0
 #define OUTPUT 1
-#define INPUT 2
+#define INPUT_PULLUP 2
+
 #define HIGH 1
 #define LOW 0
+
+#define CHANGE 1
 
 #define A0 0
 #define A1 1
@@ -50,8 +54,20 @@ typedef uint8_t byte;
 int millis();
 void delay(int delay_ms);
 void pinMode(int pin, int mode);
+int digitalRead(int pin);
 void digitalWrite(int pin, int level);
 int analogRead(int anpin);
 void panicLEDToggle();
+void interrupts();
+void noInterrupts();
+
+#define digitalPinToInterrupt(x)
+#define attachInterrupt(interupt,isr,mode)
+
+#ifndef digitalPinToInterrupt
+#define digitalPinToInterrupt(isr,isrno,evt) 0
+#endif
+
+#define DEBUG(fmt, args...)
 
 #endif

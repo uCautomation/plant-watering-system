@@ -10,6 +10,7 @@ int analogRead(int anpin) {return 0;};
 //void panicLEDToggle() {};
 
 void nextButISR(void) {};
-
 void okButISR(void) {};
 
+void interrupts() {};
+void noInterrupts() {};
