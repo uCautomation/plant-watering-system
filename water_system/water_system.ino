@@ -60,7 +60,7 @@ void setup() {
 void loop() {
   ulong now = millis();
 
-  if (pWSSM->stateUpadated(now)) {
+  if (pWSSM->stateUpdated(now)) {
     set_system_state(pWSSM->State());
   }
 }

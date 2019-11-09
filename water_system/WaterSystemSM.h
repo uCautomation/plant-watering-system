@@ -39,7 +39,7 @@ class WaterSystemSM {
     WaterSystemSM(ulong current_milli);
 
     wss_type State();
-    bool stateUpadated(ulong current_milli);
+    bool stateUpdated(ulong current_milli);
 
   private:
 

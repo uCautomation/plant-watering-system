@@ -51,7 +51,7 @@ void panicLEDToggle() {
         }
     }
 
-    bool WaterSystemSM::stateUpadated(ulong current_milli) {
+    bool WaterSystemSM::stateUpdated(ulong current_milli) {
 
         if (okBut->isPressed(current_milli)) {
 
