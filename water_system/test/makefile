@@ -12,7 +12,8 @@ CXXFLAGS += -I.. -Imocks -I$(GTEST_DIR)
 MOCKS_SRCS := $(wildcard mocks/*_mock.cpp)
 TEST_SRCS  := $(wildcard src/test_*.cpp)
 
-UT_SRCS    := $(wildcard ../*.cpp)
+# UT_SRCS    := $(wildcard ../*.cpp)
+UT_SRCS    := $(wildcard ../WaterSystem*.cpp)
 
 .PHONY: test
 
