@@ -79,6 +79,15 @@ void set_system_state(wss_type nextstate)
             break;
             ;;
 
+        case wss_manualwater:
+            byte idx;
+            if (pWaterSystem->hasActiveModule(&idx)) {
+                sp[idx].ManualGiveWaterAndAdjustDry();
+            }
+            delay(MIN_REWATER_INTERVAL_MS);
+            break;
+            ;;
+
         default:
             /* nothing to do */
             ;;
