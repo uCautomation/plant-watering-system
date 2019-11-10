@@ -3,9 +3,10 @@
 
 #include <Arduino.h>
 
+#include "ws_defs.h"
+
 #define SENSOR_START_DELAY_MS 10
 #define PUMP_ON_MS 200
-#define MAX_MODULE_COUNT 4
 
 class SensorAndPump {
   public:

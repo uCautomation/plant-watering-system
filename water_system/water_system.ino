@@ -3,6 +3,7 @@
 #include <limits.h>
 #include <stdio.h>
 
+#include "ws_defs.h"
 #include "ws_types.h"
 
 #include "ButtonWS.h"
