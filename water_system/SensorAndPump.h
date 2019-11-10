@@ -69,6 +69,18 @@ class SensorAndPump {
       digitalWrite(_pumpCmdPin, LOW); // close valve
     }
 
+    void ManualGiveWaterAndAdjustDry()
+    {
+      // Audo-adjust
+      noInterrupts();
+      int moistureNow = GetCurrentMoisture();
+      // TODO: store more (3?) than 1 value and average all
+      SetTooDry( (_dryValue + moistureNow) / 2);
+      interrupts();
+
+      GiveWater();
+    }
+
   private:
     int _vSensorPin, _sensorPin, _pumpCmdPin;
     int _dryValue, _wetValue, _lastMoisture;
