@@ -12,6 +12,7 @@
 #include "WaterSystemSM.h"
 
 
+WaterSystem *pWaterSystem;
 WaterSystemSM *pWSSM;
 
 
@@ -42,6 +43,7 @@ void setup() {
 
     ulong last = millis();
 
+    pWaterSystem = new WaterSystem();
     pWSSM = new WaterSystemSM(last);
 
     if (pWSSM->State() == wss_panic) {

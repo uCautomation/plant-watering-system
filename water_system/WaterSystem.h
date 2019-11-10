@@ -9,6 +9,25 @@
 #include "ws_types.h"
 
 
+
+class WaterSystem
+{
+private:
+    /* data */
+    bool _some_module_selected;
+    byte _selected_module = 0;
+
+    byte saneModuleIndex();
+public:
+    WaterSystem();
+    void activateSelection();
+    void deactivateSelection();
+
+    bool selectNextModule();
+    bool hasActiveModule(byte *pModuleIdx);
+};
+
+
 extern ulong timedelta(ulong refts, ulong now);
 
 
