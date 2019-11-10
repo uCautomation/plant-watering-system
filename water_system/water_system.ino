@@ -34,14 +34,6 @@ void system_panic()
     }
 }
 
-ulong timedelta(ulong refts, ulong now)
-{
-  if (now >= refts)
-    return now - refts;
-  else // overflow
-    return ULONG_MAX - refts + now;
-}
-
 void setup() {
     Serial.begin(9600);
     panicLEDToggle();

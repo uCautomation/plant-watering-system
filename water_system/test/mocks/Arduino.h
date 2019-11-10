@@ -30,6 +30,12 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include <limits.h>
+
+#ifndef ULONG_MAX
+#define ULONG_MAX UINT_MAX
+#endif
+
 
 extern bool Serial; //mock
 
