@@ -28,7 +28,7 @@ public:
 };
 
 
-extern ulong timedelta(ulong refts, ulong now);
+ulong timedelta(ulong ref_timestamp, ulong now);
 
 
 #endif // WATERSYSTEM_H

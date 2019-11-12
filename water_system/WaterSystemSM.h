@@ -30,7 +30,7 @@ extern LiquidCrystal_PCF8574 lcd;
 
 #define MAX_MODULE_COUNT 4
 
-extern ulong timedelta(ulong refts, ulong now);
+ulong timedelta(ulong ref_timestamp, ulong now);
 
 class WaterSystemSM {
   public:

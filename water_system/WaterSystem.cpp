@@ -40,10 +40,10 @@ bool WaterSystem::selectNextModule()
 }
 
 
-ulong timedelta(ulong refts, ulong now)
+ulong timedelta(ulong ref_timestamp, ulong now)
 {
-  if (now >= refts)
-    return now - refts;
+  if (now >= ref_timestamp)
+    return now - ref_timestamp;
   else // overflow
-    return ULONG_MAX - refts + now;
+    return ULONG_MAX - ref_timestamp + now;
 }
