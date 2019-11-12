@@ -12,6 +12,7 @@ class LiquidCrystal_PCF8574 {
 		void clear() {};
 		void print(const char *) {};
 		void noDisplay() {};
+		void createChar(int location, int charmap[]) {};
 };
 
 #endif // LIQUIDCRYSTAL_PCF8574_H

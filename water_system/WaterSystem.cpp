@@ -7,6 +7,20 @@
 
 LiquidCrystal_PCF8574 lcd(LCD_I2C_ADDRESS);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
+void WaterSystem::initGlyphs(LiquidCrystal_PCF8574 &lcd)
+{
+    int i=0;
+
+    _plant = new LCDGlyph(lcd, i++, plant);
+    _rain_plant = new LCDGlyph(lcd, i++, rain_plant);
+    _right_arrow = new LCDGlyph(lcd, i++, right_arrow);
+    _level_up = new LCDGlyph(lcd, i++, level_up);
+    _level_mid = new LCDGlyph(lcd, i++, level_mid);
+    _level_low = new LCDGlyph(lcd, i++, level_low);
+    _burger_menu = new LCDGlyph(lcd, i++, burger_menu);
+    _skull = new LCDGlyph(lcd, i++, skull);
+
+}
 
 WaterSystem::WaterSystem(/* args */)
 {
@@ -28,6 +42,7 @@ WaterSystem::WaterSystem(/* args */)
         system_panic_no_return();
 
     } else {
+        initGlyphs(lcd);
         lcd.begin(16, 2); // initialize the lcd
         lcd.setBacklight(255);
         lcd.home(); lcd.clear();
