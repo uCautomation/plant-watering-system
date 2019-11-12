@@ -2,10 +2,38 @@
 
 #include "ws_defs.h"
 #include "WaterSystem.h"
+#include "WSRuntime.h"
+
+
+LiquidCrystal_PCF8574 lcd(LCD_I2C_ADDRESS);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+
 
 WaterSystem::WaterSystem(/* args */)
 {
     _some_module_selected = false;
+
+    DEBUG("Init LCD...");
+
+    while (! Serial) {};
+
+    DEBUG("Dose: check for LCD");
+
+    // See http://playground.arduino.cc/Main/I2cScanner
+    Wire.begin();
+    Wire.beginTransmission(LCD_I2C_ADDRESS);
+    int error = Wire.endTransmission();
+    DEBUG("Error: %d: LCD %s" "found.", error, 0 == error ? "" : "not ");
+
+    if (error != 0) {
+        system_panic_no_return();
+
+    } else {
+        lcd.begin(16, 2); // initialize the lcd
+        lcd.setBacklight(255);
+        lcd.home(); lcd.clear();
+        lcd.print("Water system 0.1");
+    }
+
 }
 
 inline void WaterSystem::activateSelection()

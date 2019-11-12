@@ -63,7 +63,6 @@ void pinMode(int pin, int mode);
 int digitalRead(int pin);
 void digitalWrite(int pin, int level);
 int analogRead(int anpin);
-void panicLEDToggle();
 void interrupts();
 void noInterrupts();
 

@@ -1,5 +1,3 @@
-#include <Wire.h>
-#include <LiquidCrystal_PCF8574.h>
 #include <limits.h>
 #include <stdio.h>
 
@@ -10,6 +8,7 @@
 #include "SensorAndPump.h"
 #include "WaterSystem.h"
 #include "WaterSystemSM.h"
+#include "WSRuntime.h"
 
 
 WaterSystem *pWaterSystem;
@@ -26,16 +25,6 @@ void okButISR(void)
     pWSSM->okBut->changed();
 }
 
-void system_panic()
-{
-    DEBUG("PANIC!!!!");
-    lcd.setBacklight(0);
-    while(true) {
-        panicLEDToggle();
-        delay(200);
-    }
-}
-
 void setup() {
     Serial.begin(9600);
     panicLEDToggle();
@@ -47,7 +36,7 @@ void setup() {
     pWSSM = new WaterSystemSM(last);
 
     if (pWSSM->State() == wss_panic) {
-        system_panic(); // never returns
+        system_panic_no_return();
     }
 
 }
@@ -64,7 +53,7 @@ void set_system_state(wss_type nextstate)
 {
     switch (nextstate) {
         case wss_panic:
-            system_panic(); // never returns
+            system_panic_no_return(); // never returns
             break;
             ;;
 
