@@ -48,7 +48,6 @@ WaterSystem::WaterSystem(/* args */)
         lcd.home(); lcd.clear();
         lcd.print("Water system 0.1");
     }
-
 }
 
 inline void WaterSystem::activateSelection()

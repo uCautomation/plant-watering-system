@@ -54,7 +54,7 @@ class SensorAndPump {
       _lastMoisture = analogRead(_sensorPin);//Read the SIG value form sensor
       this->SensorOff();
 
-      return _lastMoisture;//send current moisture value
+      return _lastMoisture; //send current moisture value
     }
 
     void SetTooDry(int dryValue)
