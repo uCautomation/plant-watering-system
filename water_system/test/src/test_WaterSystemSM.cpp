@@ -11,7 +11,7 @@ TEST(WaterSystemSM, TimeoutFromInitial) {
   WaterSystemSM *t = new WaterSystemSM(0ul);
   t->stateUpdated(10000ul);
 
-  EXPECT_EQ(wss_listing, t->State());
+  EXPECT_EQ(wss_list_all, t->State());
 
   //EXPECT_EQ(wss_sleep, t->State());
 };

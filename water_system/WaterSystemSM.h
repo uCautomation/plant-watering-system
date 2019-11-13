@@ -7,7 +7,7 @@
 typedef enum {
     wss_start = 0,
     wss_sleep,
-    wss_listing,
+    wss_list_all,
     wss_menusel,
     wss_manualwater,
     wss_list,
@@ -46,7 +46,7 @@ class WaterSystemSM {
         wss_type _okBut_next_state[WSS_NOSTATE] = {
             wss_sleep, //  wss_start = 0,
             wss_list, //  wss_sleep,
-            wss_sleep, //  wss_listing,
+            wss_sleep, //  wss_list_all,
             wss_menusel, //  wss_menusel,
             wss_manualwater, //  wss_manualwater,
             wss_probe, //  wss_list,
@@ -58,7 +58,7 @@ class WaterSystemSM {
         wss_type _nextBut_next_state[WSS_NOSTATE] = {
             wss_sleep, //  wss_start = 0,
             wss_list, //  wss_sleep,
-            wss_sleep, //  wss_listing,
+            wss_sleep, //  wss_list_all,
             wss_menusel, //  wss_menusel,
             wss_manualwater, //  wss_manualwater,
             wss_probe, //  wss_list,
@@ -68,9 +68,9 @@ class WaterSystemSM {
         };
 
         wss_type _to_next_state[WSS_NOSTATE] = {
-            wss_listing, //  wss_start = 0,
-            wss_listing, //  wss_sleep,
-            wss_sleep, //  wss_listing,
+            wss_list_all, //  wss_start = 0,
+            wss_list_all, //  wss_sleep,
+            wss_sleep, //  wss_list_all,
             wss_sleep, //  wss_menusel,
             wss_manualwater, //  wss_manualwater,
             wss_sleep, //  wss_list,
@@ -83,7 +83,7 @@ class WaterSystemSM {
         ulong _state_to[WSS_NOSTATE] = {
             2000, //  wss_start = 0,
             30000, //  wss_sleep,
-            2000, //  wss_listing,
+            2000, //  wss_list_all,
             5000, //  wss_menusel,
             5000, //  wss_manualwater,
             2000, //  wss_list,

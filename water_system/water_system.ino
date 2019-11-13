@@ -57,7 +57,7 @@ void set_system_state(wss_type nextstate)
             break;
             ;;
 
-        case wss_listing:
+        case wss_list_all:
             system_list();
             break;
             ;;
