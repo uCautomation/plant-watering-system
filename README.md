@@ -81,7 +81,11 @@ TODO: Next and OK buttons allow selecting the menu options:
     1|WET(d:+2)  ☔ > X|
      +----------------+
 
-#### Confirm watering one
+Next: moves 2 positions at a time (wrap around jumps to b)
+Cursor default position: (1, f).
+
+
+#### Confirm watering one plant
 
       0123456789abcdef
      +----------------+
