@@ -37,3 +37,37 @@ TODO: Next and OK buttons allow selecting the menu options:
   - this might be unnecessary, with auto-learning on manual watering
 - Water now(?) - select a module and water it under manual command - maybe should use to auto-calibrate dry, wet(?) and watering duration values?
 - Exit/Sleep
+
+### Screens
+
+#### List all / main screen
+
+      0123456789abcdef
+     +----------------+
+    0|P1 P2 P3 P4 == X|
+    1|+2 -3 +5 -9     |
+     +----------------+
+
+#### Status
+
+      0123456789abcdef
+     +----------------+
+    0|P1 Now:52 Ref:50|
+    1|WET(d:+2)  ☔ > X|
+     +----------------+
+
+#### Confirm watering one
+
+      0123456789abcdef
+     +----------------+
+    0|P1 Now:52 Ref:50|
+    1|Water now? Y/N/X|
+     +----------------+
+
+#### References screen
+
+      0123456789abcdef
+     +----------------+
+    0|P1 Refs 47 53 51|
+    1|ResetAll?    Y/X|
+     +----------------+
