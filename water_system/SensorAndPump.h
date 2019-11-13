@@ -9,6 +9,11 @@
 #define PUMP_ON_MS 200
 
 class SensorAndPump {
+  private:
+    int _vSensorPin, _sensorPin, _pumpCmdPin;
+    int _dryValue, _wetValue, _lastMoisture;
+    int _pumpOnMS;
+
   public:
     SensorAndPump
     (
@@ -80,11 +85,6 @@ class SensorAndPump {
 
       GiveWater();
     }
-
-  private:
-    int _vSensorPin, _sensorPin, _pumpCmdPin;
-    int _dryValue, _wetValue, _lastMoisture;
-    int _pumpOnMS;
 };
 
 // Sensor+Pump modules
