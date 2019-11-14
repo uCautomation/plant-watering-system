@@ -11,7 +11,7 @@
 class SensorAndPump {
   private:
     int _vSensorPin, _sensorPin, _pumpCmdPin;
-    int _dryValue, _wetValue, _lastMoisture;
+    int _dryValue, _lastMoisture;
     int _pumpOnMS;
 
   public:
@@ -20,8 +20,7 @@ class SensorAndPump {
       int VsensorPin,
       int SensorPin,
       int PumpCmdPin,
-      int DryValue=0,
-      int WetValue=1024,
+      int DryValue=511,
       int pumpOnMS=PUMP_ON_MS
     )
       :
@@ -29,7 +28,6 @@ class SensorAndPump {
       _sensorPin(SensorPin),
       _pumpCmdPin(PumpCmdPin),
       _dryValue(DryValue),
-      _wetValue(WetValue),
       _pumpOnMS(pumpOnMS)
       {
         pinMode(_vSensorPin, OUTPUT);
@@ -60,11 +58,6 @@ class SensorAndPump {
     void SetTooDry(int dryValue)
     {
       _dryValue = dryValue;
-    }
-
-    void SetTooWet(int wetValue)
-    {
-      _wetValue = wetValue;
     }
 
     void GiveWater()
