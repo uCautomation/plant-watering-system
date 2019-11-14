@@ -33,6 +33,8 @@ class SensorAndPump {
         pinMode(_vSensorPin, OUTPUT);
         // analog pins are ready for AnalogRead by default, so _sensorPin works out of the box
         pinMode(_pumpCmdPin, OUTPUT);
+
+        _lastMoisture = _dryValue; // Assume on start the plant is watered; initialize the value
       }
 
     void SensorOn(void)
@@ -53,6 +55,11 @@ class SensorAndPump {
       this->SensorOff();
 
       return _lastMoisture; //send current moisture value
+    }
+
+    int GetLastMoisture()
+    {
+      return _lastMoisture;
     }
 
     void SetTooDry(int dryValue)
