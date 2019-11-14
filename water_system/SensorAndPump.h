@@ -62,6 +62,26 @@ class SensorAndPump {
       return _lastMoisture;
     }
 
+    int GetNormalizedDeltaToThreshold()
+    {
+      // We want to get a -9 to +9 range for the entire spectrum
+      int delta = _lastMoisture - _dryValue;
+
+      if (delta == 0) {
+        return 0;
+
+      } else if (delta < 0) {
+        // normalize in the interval [0, _dryValue),
+        // result must be negative
+        return (delta * 9) / _dryValue;
+
+      } else {
+        // normalize in the interval (_dryValue, MAX_ADC_VAL)
+        return (delta * 9) / (MAX_ADC_VALUE - _dryValue);
+
+      }
+    }
+
     void SetTooDry(int dryValue)
     {
       _dryValue = dryValue;
