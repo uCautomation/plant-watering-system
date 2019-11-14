@@ -25,6 +25,7 @@ void WaterSystem::initGlyphs(LiquidCrystal_PCF8574 &lcd)
 WaterSystem::WaterSystem(/* args */)
 {
     _some_module_selected = false;
+    _internal_error = false;
 
     DEBUG("Init LCD...");
 
@@ -48,6 +49,16 @@ WaterSystem::WaterSystem(/* args */)
         lcd.home(); lcd.clear();
         lcd.print("Water system 0.1");
     }
+}
+
+void WaterSystem::setSystemInternalError()
+{
+    _internal_error = true;
+}
+
+bool WaterSystem::hasInternalError()
+{
+    return _internal_error;
 }
 
 inline void WaterSystem::activateSelection()

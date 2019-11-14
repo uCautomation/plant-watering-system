@@ -21,6 +21,8 @@ class WaterSystem
 {
 private:
     /* data */
+    bool _internal_error = false;
+
     bool _some_module_selected;
     byte _selected_module = 0;
 
@@ -38,6 +40,10 @@ private:
     byte saneModuleIndex();
 public:
     WaterSystem();
+
+    void setSystemInternalError();
+    bool hasInternalError();
+
     void activateSelection();
     void deactivateSelection();
 
