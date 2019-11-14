@@ -97,7 +97,7 @@ LCDGlyph::LCDGlyph(LiquidCrystal_PCF8574 &lcd, int location, const int charmap[]
     _custom_glyph_location = location;
 }
 
-inline int LCDGlyph::location()
+int LCDGlyph::location()
 {
     return _custom_glyph_location;
 }

@@ -61,18 +61,18 @@ bool WaterSystem::hasInternalError()
     return _internal_error;
 }
 
-inline void WaterSystem::activateSelection()
+void WaterSystem::activateSelection()
 {
     _selected_module = saneModuleIndex();
     _some_module_selected = true;
 }
 
-inline byte WaterSystem::saneModuleIndex()
+byte WaterSystem::saneModuleIndex()
 {
     return _selected_module % MAX_MODULE_COUNT;
 }
 
-inline void WaterSystem::deactivateSelection()
+void WaterSystem::deactivateSelection()
 {
     _some_module_selected = false;
 }

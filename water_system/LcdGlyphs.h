@@ -17,5 +17,5 @@ class LCDGlyph {
         int _custom_glyph_location;
     public:
         LCDGlyph(LiquidCrystal_PCF8574 &lcd, int location, const int charmap[]);
-        inline int location();
+        int location();
 };
