@@ -5,7 +5,6 @@
 #include "ws_types.h"
 
 #include "ButtonWS.h"
-#include "SensorAndPump.h"
 #include "WaterSystem.h"
 #include "WaterSystemSM.h"
 #include "WSRuntime.h"
@@ -58,7 +57,7 @@ void set_system_state(wss_type nextstate)
             ;;
 
         case wss_list_all:
-            system_list();
+            pWaterSystem->system_list();
             break;
             ;;
 
@@ -71,7 +70,7 @@ void set_system_state(wss_type nextstate)
         case wss_manualwater:
             byte idx;
             if (pWaterSystem->hasActiveModule(&idx)) {
-                sp[idx].ManualGiveWaterAndAdjustDry();
+                pWaterSystem->sp[idx].ManualGiveWaterAndAdjustDry();
             }
             delay(MIN_REWATER_INTERVAL_MS);
             break;
@@ -81,39 +80,4 @@ void set_system_state(wss_type nextstate)
             /* nothing to do */
             ;;
     }
-}
-
-void system_list()
-{
-    lcd.display();
-    lcd.setBacklight(255);lcd.home(); lcd.clear();
-
-    char buf[51] = ".    .    |    .    |    .    |    .    ";
-    char line2[17] = { 0U };
-    for( int i=0; i<MAX_MODULE_COUNT; i++) {
-
-        const int x = i * 3;
-        lcd.setCursor(x, 0);
-        // TODO: use the WaterSystem::_plant glyph
-        sprintf(buf, "P%.1d ", i);
-        lcd.print(buf);
-
-        lcd.setCursor(x, 1);
-        int delta = sp[i].GetNormalizedDeltaToThreshold();
-        sprintf(line2, "%.2d ", delta);
-        lcd.print(line2);
-
-
-        DEBUG("system_list(): %s %s", buf, line2);
-    }
-
-    // the menu item
-    lcd.setCursor(12, 0);
-    sprintf(buf, "== X");
-    lcd.print(buf);
-
-    lcd.setCursor(15, 1);
-    sprintf(line2, "%c", pWaterSystem->hasInternalError() ? '!' : ' ');
-    lcd.print(line2);
-
 }

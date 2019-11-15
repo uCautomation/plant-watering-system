@@ -92,6 +92,42 @@ bool WaterSystem::selectNextModule()
     return _some_module_selected;
 }
 
+void WaterSystem::system_list()
+{
+    lcd.display();
+    lcd.setBacklight(255);lcd.home(); lcd.clear();
+
+    char buf[51] = ".    .    |    .    |    .    |    .    ";
+    char line2[17] = { 0U };
+    for( int i=0; i<MAX_MODULE_COUNT; i++) {
+
+        const int x = i * 3;
+        lcd.setCursor(x, 0);
+        // TODO: use the WaterSystem::_plant glyph
+        sprintf(buf, "P%.1d ", i);
+        lcd.print(buf);
+
+        lcd.setCursor(x, 1);
+        int delta = sp[i].GetNormalizedDeltaToThreshold();
+        sprintf(line2, "%.2d ", delta);
+        lcd.print(line2);
+
+
+        DEBUG("system_list(): %s %s", buf, line2);
+    }
+
+    // the menu item
+    lcd.setCursor(12, 0);
+    sprintf(buf, "== X");
+    lcd.print(buf);
+
+    lcd.setCursor(15, 1);
+    if (hasInternalError())
+        lcd.write(_skull->location());
+
+}
+
+
 
 ulong timedelta(ulong ref_timestamp, ulong now)
 {

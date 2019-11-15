@@ -10,6 +10,7 @@
 #include "DebugWS.h"
 
 #include "LcdGlyphs.h"
+#include "SensorAndPump.h"
 #include "ws_types.h"
 
 
@@ -39,6 +40,16 @@ private:
 
     byte saneModuleIndex();
 public:
+
+    // Sensor+Pump modules
+    SensorAndPump sp[MAX_MODULE_COUNT] = {
+        {4, A0, 5}, // D4 is Vsens, A0 = Sens, D5 is Valve cmd
+        {6, A1, 7},
+        {8, A2, 9},
+        {10, A3, 11},
+    };
+
+
     WaterSystem();
 
     void setSystemInternalError();
@@ -49,6 +60,8 @@ public:
 
     bool selectNextModule();
     bool hasActiveModule(byte *pModuleIdx);
+
+    void system_list();
 };
 
 
