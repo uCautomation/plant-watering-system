@@ -45,7 +45,7 @@ class WaterSystemSM {
 
         wss_type _okBut_next_state[WSS_NOSTATE] = {
             wss_sleep, //  wss_start = 0,
-            wss_list, //  wss_sleep,
+            wss_list_all, //  wss_sleep,
             wss_sleep, //  wss_list_all,
             wss_menusel, //  wss_menusel,
             wss_manualwater, //  wss_manualwater,
@@ -57,7 +57,7 @@ class WaterSystemSM {
 
         wss_type _nextBut_next_state[WSS_NOSTATE] = {
             wss_sleep, //  wss_start = 0,
-            wss_list, //  wss_sleep,
+            wss_list_all, //  wss_sleep,
             wss_sleep, //  wss_list_all,
             wss_menusel, //  wss_menusel,
             wss_manualwater, //  wss_manualwater,
@@ -69,7 +69,7 @@ class WaterSystemSM {
 
         wss_type _to_next_state[WSS_NOSTATE] = {
             wss_list_all, //  wss_start = 0,
-            wss_list_all, //  wss_sleep,
+            wss_sleep, //  wss_sleep,
             wss_sleep, //  wss_list_all,
             wss_sleep, //  wss_menusel,
             wss_manualwater, //  wss_manualwater,
