@@ -24,6 +24,13 @@ const byte okButPin = 2;
 void nextButISR(void);
 void okButISR(void);
 
+typedef enum {
+    reason_init,
+    reason_timeout,
+    reason_ok_button,
+    reason_next_button,
+} transition_reason;
+
 
 #define MAX_MODULE_COUNT 4
 
