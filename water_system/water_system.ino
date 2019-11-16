@@ -5,6 +5,7 @@
 #include "ws_types.h"
 
 #include "ButtonWS.h"
+#include "WSMenu.h"
 #include "WaterSystem.h"
 #include "WaterSystemSM.h"
 #include "WSRuntime.h"
@@ -12,6 +13,22 @@
 
 WaterSystem *pWaterSystem;
 WaterSystemSM *pWSSM;
+
+#define LIST_ALL_MENU_STEP 3
+#define LIST_ALL_MENU_ENTRIES 6
+WSMenu list_all_menu(LIST_ALL_MENU_STEP, LIST_ALL_MENU_ENTRIES);
+// Next states on OK on menu entry
+// wss_list_one, wss_list_one, wss_list_one, wss_list_one, wss_logs, wss_sleep
+
+#define LIST_ONE_MENU_STEP 2
+#define LIST_ONE_MENU_ENTRIES 3
+#define LIST_ONE_MENU_LINE 1
+#define LIST_ONE_MENU_START_COLUMN 0xb
+WSMenu list_one_menu(LIST_ONE_MENU_STEP, LIST_ONE_MENU_ENTRIES, LIST_ONE_MENU_LINE, LIST_ONE_MENU_START_COLUMN);
+// Next states on OK on menu entry
+// wss_manualwater, wss_logs (reset calibration?), wss_sleep
+
+
 
 
 void nextButISR(void)
