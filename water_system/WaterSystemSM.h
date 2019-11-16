@@ -43,12 +43,14 @@ class WaterSystemSM {
         WaterSystemSM(ulong current_milli);
 
         wss_type State();
+        transition_reason lastTransitionReason();
         bool stateUpdated(ulong current_milli);
 
     private:
 
         volatile ulong _last_transition_milli;
         wss_type _state;
+        transition_reason _last_reason = reason_init;
 
         wss_type _okBut_next_state[WSS_NOSTATE] = {
             wss_sleep, //  wss_start = 0,
