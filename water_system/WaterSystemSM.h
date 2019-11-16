@@ -14,6 +14,7 @@ typedef enum {
     wss_probe,
     wss_autowater,
     wss_panic,
+    wss_logs,
 
     WSS_NOSTATE
 } wss_type;
@@ -61,7 +62,8 @@ class WaterSystemSM {
             wss_probe, //  wss_list_one,
             wss_list_one, //  wss_probe,
             wss_sleep, //  wss_autowater,
-            wss_panic //  wss_panic,
+            wss_panic, //  wss_panic,
+            wss_list_all, // wss_logs
         };
 
         wss_type _nextBut_next_state[WSS_NOSTATE] = {
@@ -73,7 +75,8 @@ class WaterSystemSM {
             wss_probe, //  wss_list_one,
             wss_list_one, //  wss_probe,
             wss_sleep, //  wss_autowater,
-            wss_panic //  wss_panic,
+            wss_panic, //  wss_panic,
+            wss_sleep, // wss_logs
         };
 
         wss_type _to_next_state[WSS_NOSTATE] = {
@@ -85,20 +88,22 @@ class WaterSystemSM {
             wss_sleep, //  wss_list_one,
             wss_sleep, //  wss_probe,
             wss_sleep, //  wss_autowater,
-            wss_panic //  wss_panic,
+            wss_panic, //  wss_panic,
+            wss_sleep, // wss_logs
         };
         ulong _timeout = 1000;
 
         ulong _state_to[WSS_NOSTATE] = {
             5000, //  wss_start = 0,
-            30000, //  wss_sleep,
+            30000, // wss_sleep,
             2000, //  wss_list_all,
             5000, //  wss_menusel,
             5000, //  wss_manualwater,
             2000, //  wss_list_one,
             1000, //  wss_probe,
             1000, //  wss_autowater,
-            1000  //  wss_panic,
+            1000, //  wss_panic,
+            5000, //  wss_logs
         };
 
 };
