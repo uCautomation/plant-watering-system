@@ -76,6 +76,27 @@ void set_system_state(wss_type nextstate)
             break;
             ;;
 
+        case wss_logs:
+            {
+                transition_reason reason = pWSSM->lastTransitionReason();
+
+                lcd.clear();
+                lcd.setBacklight(255);
+                lcd.setCursor(0,0);
+                char msg[17] = {0};
+                byte module_index;
+                if (pWaterSystem->hasActiveModule(&module_index)) {
+                    snprintf(msg, 16, "Logs: module %d", module_index);
+                } else {
+                    snprintf(msg, 16, "Logs: [NoSelect]");
+                }
+                lcd.print(msg);
+                lcd.setCursor(1,0);
+                lcd.print("TODO:Sys/Mod Log");
+            };
+            break;
+            ;;
+
         default:
             /* nothing to do */
             ;;
