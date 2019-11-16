@@ -81,8 +81,12 @@ TODO: Next and OK buttons allow selecting the menu options:
     1|WET(d:+2)  ☔ > X|
      +----------------+
 
-Next: moves 2 positions at a time (wrap around jumps to b)
-Cursor default position: (1, f).
+- Next: moves 2 positions at a time (wrap around jumps to b)
+- Cursor default position: (1, f).
+- Menu items:
+  - Water Now: manual watering of the selected plant
+  - Calibration details
+  - Exit / Sleep
 
 
 #### Confirm watering one plant
@@ -93,6 +97,8 @@ Cursor default position: (1, f).
     1|Water now? Y/N/X|
      +----------------+
 
+Do we need this? Maybe later? Probably we're over-engineering at this point.
+
 #### References screen
 
       0123456789abcdef
@@ -100,3 +106,6 @@ Cursor default position: (1, f).
     0|P1 Refs 47 53 51|
     1|ResetAll?    Y/X|
      +----------------+
+
+How do we get to this screen? Maybe we need to show this for
+single-plant status '>' menu item?
