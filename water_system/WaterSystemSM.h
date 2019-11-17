@@ -106,6 +106,10 @@ class WaterSystemSM {
             5000, //  wss_logs
         };
 
+        wss_type stateAfterOKButton();
+        wss_type stateAfterNextButton();
+        wss_type stateAfterTimeout();
+
 };
 
 #endif

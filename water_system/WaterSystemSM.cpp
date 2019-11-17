@@ -18,6 +18,21 @@ WaterSystemSM::WaterSystemSM(ulong current_milli) {
     _timeout = _state_to[_state];
 }
 
+wss_type WaterSystemSM::stateAfterOKButton()
+{
+    return _okBut_next_state[_state];
+}
+
+wss_type WaterSystemSM::stateAfterNextButton()
+{
+    return _nextBut_next_state[_state];
+}
+
+wss_type WaterSystemSM::stateAfterTimeout()
+{
+    return _to_next_state[_state];
+}
+
 bool WaterSystemSM::stateUpdated(ulong current_milli) {
 
     if (okBut->isPressed(current_milli)) {
@@ -25,7 +40,7 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
         DEBUG("OK pressed");
 
         noInterrupts();
-        _state = _okBut_next_state[_state];
+        _state = stateAfterOKButton();
         _last_transition_milli = current_milli;
         _last_reason = reason_ok_button;
         interrupts();
@@ -38,7 +53,7 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
         DEBUG("Next pressed");
 
         noInterrupts();
-        _state = _nextBut_next_state[_state];
+        _state = stateAfterNextButton();
         _last_transition_milli = current_milli;
         _last_reason = reason_next_button;
         interrupts();
@@ -52,7 +67,7 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
         DEBUG("Timeout from state %u", _state);
 
         noInterrupts();
-        wss_type _next_state = _to_next_state[_state];
+        wss_type _next_state = stateAfterTimeout();
         bool state_changed = (_next_state != _state);
 
         if (state_changed) {
