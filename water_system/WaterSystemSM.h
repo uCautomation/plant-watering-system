@@ -69,7 +69,7 @@ class WaterSystemSM {
             [wss_logs] = wss_list_all
         };
 
-        wss_type _nextBut_next_state[WSS_NOSTATE+1u] = {
+        wss_type _nextBut_next_state[WSS_NOSTATE+1u] {
             [wss_start] = wss_sleep,
             [wss_sleep] = wss_list_all,
             [wss_list_all] = wss_sleep,
@@ -82,7 +82,7 @@ class WaterSystemSM {
             [wss_logs] = wss_sleep
         };
 
-        wss_type _to_next_state[WSS_NOSTATE+1u] = {
+        wss_type _to_next_state[WSS_NOSTATE+1u] {
             [wss_start] = wss_list_all,
             [wss_sleep] = wss_sleep,
             [wss_list_all] = wss_sleep,
