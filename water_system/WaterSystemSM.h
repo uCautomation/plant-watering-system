@@ -53,57 +53,57 @@ class WaterSystemSM {
         wss_type _state;
         transition_reason _last_reason = reason_init;
 
-        wss_type _okBut_next_state[WSS_NOSTATE] = {
-            [wss_start] = wss_sleep, //  wss_start = 0,
-            [wss_sleep] = wss_list_all, //  wss_sleep,
-            [wss_list_all] = wss_sleep, //  wss_list_all,
-            [wss_menusel] = wss_menusel, //  wss_menusel,
-            [wss_manualwater] = wss_manualwater, //  wss_manualwater,
-            [wss_list_one] = wss_probe, //  wss_list_one,
-            [wss_probe] = wss_list_one, //  wss_probe,
-            [wss_autowater] = wss_sleep, //  wss_autowater,
-            [wss_panic] = wss_panic, //  wss_panic,
-            [wss_logs] = wss_list_all, // wss_logs
+        wss_type _okBut_next_state[WSS_NOSTATE] {
+            [wss_start] = wss_sleep,
+            [wss_sleep] = wss_list_all,
+            [wss_list_all] = wss_sleep,
+            [wss_menusel] = wss_menusel,
+            [wss_manualwater] = wss_manualwater,
+            [wss_list_one] = wss_probe,
+            [wss_probe] = wss_list_one,
+            [wss_autowater] = wss_sleep,
+            [wss_panic] = wss_panic,
+            [wss_logs] = wss_list_all
         };
 
-        wss_type _nextBut_next_state[WSS_NOSTATE] = {
-            [wss_start] = wss_sleep, //  wss_start = 0,
-            [wss_sleep] = wss_list_all, //  wss_sleep,
-            [wss_list_all] = wss_sleep, //  wss_list_all,
-            [wss_menusel] = wss_list_one, //  wss_menusel,
-            [wss_manualwater] = wss_manualwater, //  wss_manualwater,
-            [wss_list_one] = wss_probe, //  wss_list_one,
-            [wss_probe] = wss_list_one, //  wss_probe,
-            [wss_autowater] = wss_sleep, //  wss_autowater,
-            [wss_panic] = wss_panic, //  wss_panic,
-            [wss_logs] = wss_sleep, //  wss_logs,
+        wss_type _nextBut_next_state[WSS_NOSTATE] {
+            [wss_start] = wss_sleep,
+            [wss_sleep] = wss_list_all,
+            [wss_list_all] = wss_sleep,
+            [wss_menusel] = wss_list_one,
+            [wss_manualwater] = wss_manualwater,
+            [wss_list_one] = wss_probe,
+            [wss_probe] = wss_list_one,
+            [wss_autowater] = wss_sleep,
+            [wss_panic] = wss_panic,
+            [wss_logs] = wss_sleep
         };
 
-        wss_type _to_next_state[WSS_NOSTATE] = {
-            [wss_start] = wss_list_all, //  wss_start = 0,,
-            [wss_sleep] = wss_sleep, //  wss_sleep,
-            [wss_list_all] = wss_sleep, //  wss_list_all,
-            [wss_menusel] = wss_sleep, //  wss_menusel,
-            [wss_manualwater] = wss_manualwater, //  wss_manualwater,
-            [wss_list_one] = wss_sleep, //  wss_list_one,
-            [wss_probe] = wss_sleep, //  wss_probe,
-            [wss_autowater] = wss_sleep, //  wss_autowater,
-            [wss_panic] = wss_panic, //  wss_panic,
-            [wss_logs] = wss_sleep, //  wss_logs,
+        wss_type _to_next_state[WSS_NOSTATE] {
+            [wss_start] = wss_list_all,
+            [wss_sleep] = wss_sleep,
+            [wss_list_all] = wss_sleep,
+            [wss_menusel] = wss_sleep,
+            [wss_manualwater] = wss_manualwater,
+            [wss_list_one] = wss_sleep,
+            [wss_probe] = wss_sleep,
+            [wss_autowater] = wss_sleep,
+            [wss_panic] = wss_panic,
+            [wss_logs] = wss_sleep
         };
         ulong _timeout = 1000;
 
-        ulong _state_to[WSS_NOSTATE] = {
-            [wss_start] = 5000, //  wss_start = 0,
-            [wss_sleep] = 30000, //  wss_sleep,
-            [wss_list_all] = 2000, //  wss_list_all,
-            [wss_menusel] = 5000, //  wss_menusel,
-            [wss_manualwater] = 5000, //  wss_manualwater,
-            [wss_list_one] = 2000, //  wss_list_one,
-            [wss_probe] = 1000, //  wss_probe,
-            [wss_autowater] = 1000, //  wss_autowater,
-            [wss_panic] = 1000, //  wss_panic,
-            [wss_logs] = 5000, //  wss_logs,
+        ulong _state_to[WSS_NOSTATE] {
+            [wss_start] = 5000,
+            [wss_sleep] = 30000,
+            [wss_list_all] = 2000,
+            [wss_menusel] = 5000,
+            [wss_manualwater] = 5000,
+            [wss_list_one] = 2000,
+            [wss_probe] = 1000,
+            [wss_autowater] = 1000,
+            [wss_panic] = 1000,
+            [wss_logs] = 5000
         };
 
         wss_type stateAfterOKButton();
