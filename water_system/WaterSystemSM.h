@@ -5,8 +5,11 @@
 #include <LiquidCrystal_PCF8574.h>
 
 typedef enum {
-    wss_start = 0,
-    wss_sleep,
+
+    // will be default transition state in arrays with designated initalizers
+    wss_sleep = 0,
+
+    wss_start,
     wss_list_all,
     wss_menusel,
     wss_manualwater,
