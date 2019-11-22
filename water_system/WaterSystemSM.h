@@ -96,7 +96,7 @@ class WaterSystemSM {
         };
         ulong _timeout = 1000;
 
-        ulong _state_to[WSS_NOSTATE] = {
+        ulong _state_to[WSS_NOSTATE+1u] {
             [wss_start] = 5000,
             [wss_sleep] = 30000,
             [wss_list_all] = 2000,
