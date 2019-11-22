@@ -57,42 +57,29 @@ class WaterSystemSM {
         transition_reason _last_reason = reason_init;
 
         wss_type _okBut_next_state[WSS_NOSTATE] = {
-            [wss_start] = wss_sleep,
             [wss_sleep] = wss_list_all,
-            [wss_list_all] = wss_sleep,
             [wss_menusel] = wss_menusel,
             [wss_manualwater] = wss_manualwater,
             [wss_list_one] = wss_probe,
             [wss_probe] = wss_list_one,
-            [wss_autowater] = wss_sleep,
             [wss_panic] = wss_panic,
             [wss_logs] = wss_list_all
         };
 
         wss_type _nextBut_next_state[WSS_NOSTATE] = {
-            [wss_start] = wss_sleep,
             [wss_sleep] = wss_list_all,
-            [wss_list_all] = wss_sleep,
             [wss_menusel] = wss_list_one,
             [wss_manualwater] = wss_manualwater,
             [wss_list_one] = wss_probe,
             [wss_probe] = wss_list_one,
             [wss_autowater] = wss_sleep,
-            [wss_panic] = wss_panic,
-            [wss_logs] = wss_sleep
+            [wss_panic] = wss_panic
         };
 
         wss_type _to_next_state[WSS_NOSTATE] = {
             [wss_start] = wss_list_all,
-            [wss_sleep] = wss_sleep,
-            [wss_list_all] = wss_sleep,
-            [wss_menusel] = wss_sleep,
             [wss_manualwater] = wss_manualwater,
-            [wss_list_one] = wss_sleep,
-            [wss_probe] = wss_sleep,
-            [wss_autowater] = wss_sleep,
-            [wss_panic] = wss_panic,
-            [wss_logs] = wss_sleep
+            [wss_panic] = wss_panic
         };
         ulong _timeout = 1000;
 
