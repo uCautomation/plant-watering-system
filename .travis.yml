@@ -12,6 +12,7 @@ addons:
 matrix:
   include:
   - name: Arduino tests
+    dist: bionic
     cache:
       directories:
         - ~/arduino_ide
@@ -22,10 +23,12 @@ matrix:
       - arduino --install-library "LiquidCrystal_PCF8574"
     script: cd water_system && build_main_platforms && ls -la
   - name: Unit tests g++
+    dist: bionic
     language: cpp
     compiler: g++
     script: cd water_system/test && make
   - name: Unit tests clang++
+    dist: bionic
     language: cpp
     compiler: clang++
     script: cd water_system/test && make
