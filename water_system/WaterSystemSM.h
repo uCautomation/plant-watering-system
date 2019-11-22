@@ -56,7 +56,7 @@ class WaterSystemSM {
         wss_type _state;
         transition_reason _last_reason = reason_init;
 
-        wss_type _okBut_next_state[WSS_NOSTATE+1u] = {
+        wss_type _okBut_next_state[WSS_NOSTATE+1u] {
             [wss_start] = wss_sleep,
             [wss_sleep] = wss_list_all,
             [wss_list_all] = wss_sleep,
