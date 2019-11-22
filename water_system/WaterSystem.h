@@ -20,48 +20,49 @@ extern LiquidCrystal_PCF8574 lcd;  // set the LCD address to 0x27 for a 16 chars
 
 class WaterSystem
 {
-private:
-    /* data */
-    bool _internal_error = false;
+    private:
+        /* data */
+        bool _internal_error = false;
 
-    bool _some_module_selected;
-    byte _selected_module = 0;
+        bool _some_module_selected;
+        byte _selected_module = 0;
 
-    LCDGlyph *_plant;
-    LCDGlyph *_rain_plant;
-    LCDGlyph *_right_arrow;
-    LCDGlyph *_level_up;
-    LCDGlyph *_level_mid;
-    LCDGlyph *_level_low;
-    LCDGlyph *_burger_menu;
-    LCDGlyph *_skull;
+        LCDGlyph *_plant;
+        LCDGlyph *_rain_plant;
+        LCDGlyph *_right_arrow;
+        LCDGlyph *_level_up;
+        LCDGlyph *_level_mid;
+        LCDGlyph *_level_low;
+        LCDGlyph *_burger_menu;
+        LCDGlyph *_skull;
 
-    void initGlyphs(LiquidCrystal_PCF8574 &lcd);
+        void initGlyphs(LiquidCrystal_PCF8574 &lcd);
 
-    byte saneModuleIndex();
-public:
+        byte saneModuleIndex();
 
-    // Sensor+Pump modules
-    SensorAndPump sp[MAX_MODULE_COUNT] = {
-        {4, A0, 5}, // D4 is Vsens, A0 = Sens, D5 is Valve cmd
-        {6, A1, 7},
-        {8, A2, 9},
-        {10, A3, 11},
-    };
+    public:
+
+        // Sensor+Pump modules
+        SensorAndPump sp[MAX_MODULE_COUNT] = {
+            {4, A0, 5}, // D4 is Vsens, A0 = Sens, D5 is Valve cmd
+            {6, A1, 7},
+            {8, A2, 9},
+            {10, A3, 11},
+        };
 
 
-    WaterSystem();
+        WaterSystem();
 
-    void setSystemInternalError();
-    bool hasInternalError();
+        void setSystemInternalError();
+        bool hasInternalError();
 
-    void activateSelection();
-    void deactivateSelection();
+        void activateSelection();
+        void deactivateSelection();
 
-    bool selectNextModule();
-    bool hasActiveModule(byte *pModuleIdx);
+        bool selectNextModule();
+        bool hasActiveModule(byte *pModuleIdx);
 
-    void system_list();
+        void system_list();
 };
 
 
