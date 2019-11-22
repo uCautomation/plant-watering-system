@@ -13,6 +13,7 @@ class WSMenu {
         int _0th_item_column; // the column number on which the first menu item is on
 
         int _selected_item; // the currently selected item in menu
+
     public:
         WSMenu
         (
@@ -62,6 +63,7 @@ class WSMenuItem
     private:
         /* data */
         wss_type _state_at_ok;
+
     public:
         WSMenuItem(wss_type onOkState);
         wss_type OnOKState();

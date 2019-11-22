@@ -15,6 +15,7 @@ extern const int skull[LCD_LINES_PER_GLYPH];
 class LCDGlyph {
     private:
         int _custom_glyph_location;
+
     public:
         LCDGlyph(LiquidCrystal_PCF8574 &lcd, int location, const int charmap[]);
         int location();

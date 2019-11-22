@@ -58,11 +58,11 @@ void setup() {
 }
 
 void loop() {
-  ulong now = millis();
+    ulong now = millis();
 
-  if (pWSSM->stateUpdated(now)) {
-    set_system_state(pWSSM->State());
-  }
+    if (pWSSM->stateUpdated(now)) {
+        set_system_state(pWSSM->State());
+    }
 }
 
 void set_system_state(wss_type nextstate)

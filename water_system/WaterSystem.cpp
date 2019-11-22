@@ -29,7 +29,7 @@ WaterSystem::WaterSystem(/* args */)
 
     DEBUG("Init LCD...");
 
-    while (! Serial) {};
+    while (!Serial) {};
 
     DEBUG("Dose: check for LCD");
 
@@ -95,7 +95,7 @@ bool WaterSystem::selectNextModule()
 void WaterSystem::system_list()
 {
     lcd.display();
-    lcd.setBacklight(255);lcd.home(); lcd.clear();
+    lcd.setBacklight(255); lcd.home(); lcd.clear();
 
     char buf[51] = ".    .    |    .    |    .    |    .    ";
     char line2[17] = { 0U };
@@ -131,8 +131,8 @@ void WaterSystem::system_list()
 
 ulong timedelta(ulong ref_timestamp, ulong now)
 {
-  if (now >= ref_timestamp)
-    return now - ref_timestamp;
-  else // overflow
-    return ULONG_MAX - ref_timestamp + now;
+    if (now >= ref_timestamp)
+        return now - ref_timestamp;
+    else // overflow
+        return ULONG_MAX - ref_timestamp + now;
 }
