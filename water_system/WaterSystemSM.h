@@ -63,7 +63,7 @@ class WaterSystemSM {
             [wss_probe] = wss_list_one, //  wss_probe,
             [wss_autowater] = wss_sleep, //  wss_autowater,
             [wss_panic] = wss_panic, //  wss_panic,
-            [wss_logs] = wss_list_all, // wss_logs
+            [wss_logs] = wss_list_all // wss_logs
         };
 
         wss_type _nextBut_next_state[WSS_NOSTATE] = {
@@ -76,7 +76,7 @@ class WaterSystemSM {
             [wss_probe] = wss_list_one, //  wss_probe,
             [wss_autowater] = wss_sleep, //  wss_autowater,
             [wss_panic] = wss_panic, //  wss_panic,
-            [wss_logs] = wss_sleep, //  wss_logs,
+            [wss_logs] = wss_sleep //  wss_logs,
         };
 
         wss_type _to_next_state[WSS_NOSTATE] = {
@@ -89,7 +89,7 @@ class WaterSystemSM {
             [wss_probe] = wss_sleep, //  wss_probe,
             [wss_autowater] = wss_sleep, //  wss_autowater,
             [wss_panic] = wss_panic, //  wss_panic,
-            [wss_logs] = wss_sleep, //  wss_logs,
+            [wss_logs] = wss_sleep //  wss_logs,
         };
         ulong _timeout = 1000;
 
@@ -103,7 +103,7 @@ class WaterSystemSM {
             [wss_probe] = 1000, //  wss_probe,
             [wss_autowater] = 1000, //  wss_autowater,
             [wss_panic] = 1000, //  wss_panic,
-            [wss_logs] = 5000, //  wss_logs,
+            [wss_logs] = 5000 //  wss_logs,
         };
 
         wss_type stateAfterOKButton();
