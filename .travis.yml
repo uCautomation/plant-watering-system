@@ -11,8 +11,7 @@ addons:
       - python3-setuptools
 matrix:
   include:
-  - name: Arduino tests
-    dist: bionic
+  - name: Arduino tests (on Linux default)
     cache:
       directories:
         - ~/arduino_ide
@@ -22,12 +21,12 @@ matrix:
     install:
       - arduino --install-library "LiquidCrystal_PCF8574"
     script: cd water_system && build_main_platforms && ls -la
-  - name: Unit tests g++
+  - name: Unit tests g++ / bionic
     dist: bionic
     language: cpp
     compiler: g++
     script: cd water_system/test && make
-  - name: Unit tests clang++
+  - name: Unit tests clang++ / bionic
     dist: bionic
     language: cpp
     compiler: clang++
