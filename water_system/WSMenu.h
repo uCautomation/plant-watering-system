@@ -19,13 +19,13 @@ class WSMenu {
         (
             int MenuColumnStep,
             int NoOfMenuItems,
-            int MenuLine=0,
-            int MenuStartsAtColumn=0
+            int MenuStartsAtColumn=0,
+            int MenuLine=0
         ) :
             _cursor_columns_step(MenuColumnStep),
             _no_of_menu_entries(NoOfMenuItems),
-            _active_lcd_line(MenuLine),
-            _0th_item_column(MenuStartsAtColumn)
+            _0th_item_column(MenuStartsAtColumn),
+            _active_lcd_line(MenuLine)
         {
             _selected_item = _no_of_menu_entries - 1; // default is rightmost on screen (typically 'X'/Exit/Sleep)
             // TODO: map each menu item with a next state (with parameter)
@@ -65,14 +65,9 @@ class WSMenuItem
         wss_type _state_at_ok;
 
     public:
-        WSMenuItem(wss_type onOkState);
+        WSMenuItem(wss_type onOkState=wss_sleep) : _state_at_ok(onOkState) {};
         wss_type OnOKState();
-        ~WSMenuItem();
+        ~WSMenuItem() {};
 };
-
-WSMenuItem::WSMenuItem (wss_type onOkState=wss_sleep)
-    : _state_at_ok(onOkState) { }
-
-WSMenuItem::~WSMenuItem() { }
 
 #endif // WSMENU_H

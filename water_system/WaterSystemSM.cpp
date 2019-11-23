@@ -3,8 +3,41 @@
 #include "DebugWS.h"
 
 #include "ButtonWS.h"
+#include "WSMenu.h"
 #include "WaterSystemSM.h"
 #include "WSRuntime.h"
+
+#define NON_INTERACTIVEMENU_STEP         1
+#define NON_INTERACTIVEMENU_ENTRIES      1
+#define NON_INTERACTIVEMENU_START_COLUMN 0xf
+WSMenu non_interactive_menu(
+    NON_INTERACTIVEMENU_STEP,
+    NON_INTERACTIVEMENU_ENTRIES,
+    NON_INTERACTIVEMENU_START_COLUMN
+    );
+// on OK next state is always the current state or wss_sleep(?)
+
+#define LIST_ALL_MENU_STEP    3
+#define LIST_ALL_MENU_ENTRIES 6
+WSMenu list_all_menu(
+    LIST_ALL_MENU_STEP,
+    LIST_ALL_MENU_ENTRIES
+    );
+// Next states on OK on menu entry
+// wss_list_one, wss_list_one, wss_list_one, wss_list_one, wss_logs, wss_sleep
+
+#define LIST_ONE_MENU_STEP         2
+#define LIST_ONE_MENU_ENTRIES      3
+#define LIST_ONE_MENU_START_COLUMN 0xb
+#define LIST_ONE_MENU_LINE         1
+WSMenu list_one_menu(
+    LIST_ONE_MENU_STEP,
+    LIST_ONE_MENU_ENTRIES,
+    LIST_ONE_MENU_START_COLUMN,
+    LIST_ONE_MENU_LINE
+    );
+// Next states on OK on menu entry
+// wss_manualwater, wss_logs (reset calibration?), wss_sleep
 
 
 WaterSystemSM::WaterSystemSM(ulong current_milli) {
@@ -14,6 +47,7 @@ WaterSystemSM::WaterSystemSM(ulong current_milli) {
 
     nextBut = new ButtonWS(nextButPin, nextButISR);
     okBut = new ButtonWS(okButPin, okButISR);
+    _pCurrentScreenMenu = &non_interactive_menu;
 
     _timeout = _state_to[_state];
 }

@@ -101,6 +101,8 @@ class WaterSystemSM {
         wss_type stateAfterNextButton();
         wss_type stateAfterTimeout();
 
+        class WSMenu *_pCurrentScreenMenu;
+
 };
 
 #endif
