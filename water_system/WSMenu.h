@@ -9,8 +9,8 @@ class WSMenu {
     private:
         int _cursor_columns_step; // Each menu has items are at constant offset
         int _no_of_menu_entries; // note, last item is default
-        int _active_lcd_line; // Only one LCD line can contain menu items
         int _0th_item_column; // the column number on which the first menu item is on
+        int _active_lcd_line; // Only one LCD line can contain menu items
 
         int _selected_item; // the currently selected item in menu
 
