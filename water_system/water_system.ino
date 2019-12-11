@@ -84,7 +84,7 @@ void set_system_state(wss_type nextstate)
 
         case wss_logs:
             {
-                transition_reason reason = pWSSM->lastTransitionReason();
+                /*transition_reason reason = */(void)pWSSM->lastTransitionReason();
 
                 lcd.clear();
                 lcd.setBacklight(255);
