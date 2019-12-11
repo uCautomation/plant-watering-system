@@ -1,5 +1,6 @@
 GTEST_REPO_DIR := googletest
 GTEST_DIR := googletest/googletest
+GMOCK_DIR := googletest/googlemock/include
 
 #TEST_SRCS := src/wssm-test.cc
 #TEST_BIN  := ./wssm-test
@@ -7,7 +8,7 @@ GTEST_DIR := googletest/googletest
 SRCS := ../WateringSystemSM.cc
 
 CXXFLAGS := -std=c++11 -isystem ${GTEST_DIR}/include -pthread
-CXXFLAGS += -I.. -Imocks -I$(GTEST_DIR)
+CXXFLAGS += -I.. -Imocks -I$(GTEST_DIR) -I$(GMOCK_DIR)
 
 MOCKS_SRCS := $(wildcard mocks/*_mock.cpp)
 TEST_SRCS  := $(wildcard src/test_*.cpp)
