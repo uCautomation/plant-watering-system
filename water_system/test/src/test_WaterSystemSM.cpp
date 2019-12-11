@@ -3,16 +3,15 @@
 #include "WaterSystemSM.h"
 
 TEST(WaterSystemSM, Initial) {
-  WaterSystemSM *t = new WaterSystemSM(1ul);
 
-  EXPECT_EQ(wss_start, t->State());
+    WaterSystemSM *t = new WaterSystemSM(1ul);
+
+    EXPECT_EQ(wss_start, t->State());
 };
 
 TEST(WaterSystemSM, TimeoutFromInitial) {
-  WaterSystemSM *t = new WaterSystemSM(0ul);
-  t->stateUpdated(10000ul);
+    WaterSystemSM *t = new WaterSystemSM(0ul);
+    t->stateUpdated(10000ul);
 
-  EXPECT_EQ(wss_list_all, t->State());
-
-  //EXPECT_EQ(wss_sleep, t->State());
+    EXPECT_EQ(wss_list_all, t->State());
 };
