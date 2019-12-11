@@ -11,17 +11,17 @@
 #define NON_INTERACTIVEMENU_ENTRIES      1
 #define NON_INTERACTIVEMENU_START_COLUMN 0xf
 WSMenu non_interactive_menu(
-    NON_INTERACTIVEMENU_STEP,
-    NON_INTERACTIVEMENU_ENTRIES,
-    NON_INTERACTIVEMENU_START_COLUMN
+    /* .MenuColumnStep = */ NON_INTERACTIVEMENU_STEP,
+    /* .NoOfMenuItems = */ NON_INTERACTIVEMENU_ENTRIES,
+    /* .MenuStartsAtColumn = */ NON_INTERACTIVEMENU_START_COLUMN
     );
 // on OK next state is always the current state or wss_sleep(?)
 
 #define LIST_ALL_MENU_STEP    3
 #define LIST_ALL_MENU_ENTRIES 6
 WSMenu list_all_menu(
-    LIST_ALL_MENU_STEP,
-    LIST_ALL_MENU_ENTRIES
+    /* .MenuColumnStep = */ LIST_ALL_MENU_STEP,
+    /* .NoOfMenuItems = */ LIST_ALL_MENU_ENTRIES
     );
 // Next states on OK on menu entry
 // wss_list_one, wss_list_one, wss_list_one, wss_list_one, wss_logs, wss_sleep
@@ -31,10 +31,10 @@ WSMenu list_all_menu(
 #define LIST_ONE_MENU_START_COLUMN 0xb
 #define LIST_ONE_MENU_LINE         1
 WSMenu list_one_menu(
-    LIST_ONE_MENU_STEP,
-    LIST_ONE_MENU_ENTRIES,
-    LIST_ONE_MENU_START_COLUMN,
-    LIST_ONE_MENU_LINE
+    /* .MenuColumnStep = */ LIST_ONE_MENU_STEP,
+    /* .NoOfMenuItems = */ LIST_ONE_MENU_ENTRIES,
+    /* .MenuStartsAtColumn = */ LIST_ONE_MENU_START_COLUMN,
+    /* .MenuLine = */ LIST_ONE_MENU_LINE
     );
 // Next states on OK on menu entry
 // wss_manualwater, wss_logs (reset calibration?), wss_sleep
