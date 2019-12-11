@@ -40,13 +40,26 @@ WSMenu list_one_menu(
 // wss_manualwater, wss_logs (reset calibration?), wss_sleep
 
 
-WaterSystemSM::WaterSystemSM(ulong current_milli) {
+WaterSystemSM::WaterSystemSM(ulong current_milli)
+    : WaterSystemSM(
+        current_milli,
+        new ButtonWS(nextButPin, nextButISR),
+        new ButtonWS(okButPin, okButISR)
+        ) {}
+
+WaterSystemSM::WaterSystemSM(
+    ulong current_milli,
+    ButtonWS *okBut,
+    ButtonWS *nextBut
+    )
+    :
+    okBut(okBut),
+    nextBut(nextBut)
+{
     _state = wss_start;
     _last_transition_milli = current_milli;
     _last_reason = reason_init;
 
-    nextBut = new ButtonWS(nextButPin, nextButISR);
-    okBut = new ButtonWS(okButPin, okButISR);
     _pCurrentScreenMenu = &non_interactive_menu;
 
     _timeout = _state_to[_state];

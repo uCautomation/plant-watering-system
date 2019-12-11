@@ -34,7 +34,11 @@ void setup() {
     ulong last = millis();
 
     pWaterSystem = new WaterSystem();
-    pWSSM = new WaterSystemSM(last);
+    pWSSM = new WaterSystemSM(
+                    last,
+                    new ButtonWS(okButPin, okButISR),
+                    new ButtonWS(nextButPin, nextButISR)
+                );
 
     if (pWSSM->State() == wss_panic) {
         system_panic_no_return();

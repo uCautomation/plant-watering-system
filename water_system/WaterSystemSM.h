@@ -39,9 +39,10 @@ ulong timedelta(ulong ref_timestamp, ulong now);
 
 class WaterSystemSM {
     public:
-        class ButtonWS *nextBut, *okBut;
+        class ButtonWS  *okBut, *nextBut;
 
         WaterSystemSM(ulong current_milli);
+        WaterSystemSM(ulong current_milli, ButtonWS *okBut, ButtonWS *nextBut);
 
         wss_type State();
         transition_reason lastTransitionReason();
