@@ -56,7 +56,7 @@ class WaterSystemSM {
 
         wss_type _okBut_next_state[WSS_NOSTATE] {
             [wss_sleep] = wss_list_all,
-            [wss_start] = wss_sleep,
+            [wss_start] = wss_list_all,
             [wss_panic] = wss_panic,
             [wss_menusel] = wss_menusel,
             [wss_list_all] = wss_sleep,

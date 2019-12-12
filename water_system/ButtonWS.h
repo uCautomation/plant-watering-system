@@ -11,7 +11,7 @@ class ButtonWS {
 
         void changed(void);
 
-        bool isPressed(ulong now);
+        virtual bool isPressed(ulong now);
 
     private:
         const byte _pin;
