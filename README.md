@@ -52,6 +52,10 @@ TODO: Next and OK buttons allow selecting the menu options:
 
 ### Screens
 
+All screens' menus are activated with OK.
+When the menu is active, the current active menu position is highlighted with
+the cursor, and selected with OK.
+
 #### List all / main screen
 
       0123456789abcdef
@@ -60,7 +64,10 @@ TODO: Next and OK buttons allow selecting the menu options:
     1|+2 -3 +5 -9    S|
      +----------------+
 
-- Next: moves 3 positions at a time (wrap around jumps to 0)
+In this menu, when active:
+
+- OK: selects the active item
+- Next: moves 3 positions(characters on LCD) at a time (wrap around jumps to 0)
 - Cursor default position: (0, f).
 - Menu items:
   - = (burger menu) - accesses menu (what's in the menu? logs? 'Reset all'
@@ -79,6 +86,9 @@ TODO: Next and OK buttons allow selecting the menu options:
     1|WET(d:+2)  ☔ > X|
      +----------------+
 
+When this manu is active:
+
+- OK: Selects active menu item
 - Next: moves 2 positions at a time (wrap around jumps to b)
 - Cursor default position: (1, f).
 - Menu items:
