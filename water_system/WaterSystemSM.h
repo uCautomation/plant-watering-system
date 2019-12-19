@@ -56,10 +56,10 @@ class WaterSystemSM {
 
         wss_type _okBut_next_state[WSS_NOSTATE] {
             [wss_sleep] = wss_list_all,
-            [wss_start] = wss_list_all,
+            [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
             [wss_menusel] = wss_menusel,
-            [wss_list_all] = wss_sleep,
+            [wss_list_all] = wss_menusel,
             [wss_list_one] = wss_probe,
             [wss_manualwater] = wss_manualwater,
             [wss_probe] = wss_list_one,
@@ -86,16 +86,16 @@ class WaterSystemSM {
         ulong _timeout = 1000;
 
         ulong _state_to[WSS_NOSTATE] {
-            [wss_sleep] = 30000,
-            [wss_start] = 5000,
-            [wss_panic] = 1000,
-            [wss_menusel] = 5000,
-            [wss_list_all] = 2000,
-            [wss_list_one] = 2000,
-            [wss_manualwater] = 5000,
-            [wss_probe] = 1000,
-            [wss_autowater] = 1000,
-            [wss_logs] = 5000
+            [wss_sleep] = 30000UL,
+            [wss_start] = 1UL,
+            [wss_panic] = 1000UL,
+            [wss_menusel] = 5000UL,
+            [wss_list_all] = 5000UL,
+            [wss_list_one] = 2000UL,
+            [wss_manualwater] = 5000UL,
+            [wss_probe] = 1000UL,
+            [wss_autowater] = 1000UL,
+            [wss_logs] = 5000UL
         };
 
         wss_type stateAfterOKButton();

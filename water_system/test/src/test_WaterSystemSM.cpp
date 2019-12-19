@@ -47,14 +47,14 @@ class MockButtonWS : public ButtonWS
 
 TEST(WaterSystemSM, Initial) {
 
-    WaterSystemSM *t = new WaterSystemSM(1UL);
+    WaterSystemSM *t = new WaterSystemSM(0UL);
 
     EXPECT_EQ(wss_start, t->State());
 };
 
 TEST(WaterSystemSM, TimeoutFromInitial) {
     WaterSystemSM *t = new WaterSystemSM(0UL);
-    t->stateUpdated(10000UL);
+    t->stateUpdated(1UL);
 
     EXPECT_EQ(wss_list_all, t->State());
 };
