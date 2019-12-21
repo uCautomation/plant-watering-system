@@ -90,6 +90,7 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
         _state = stateAfterOKButton();
         _last_transition_milli = current_milli;
         _last_reason = reason_ok_button;
+        _timeout = _state_to[_state];
         interrupts();
 
         return true;
@@ -103,6 +104,7 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
         _state = stateAfterNextButton();
         _last_transition_milli = current_milli;
         _last_reason = reason_next_button;
+        _timeout = _state_to[_state];
         interrupts();
 
         return true;
@@ -122,6 +124,7 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
             _state = _next_state;
             _last_transition_milli = current_milli;
             _last_reason = reason_timeout;
+            _timeout = _state_to[_state];
         } else {
             DEBUG("same state");
         }
