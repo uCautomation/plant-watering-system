@@ -54,8 +54,9 @@ TEST(WaterSystemSM, Initial) {
 
 TEST(WaterSystemSM, TimeoutFromInitial) {
     WaterSystemSM *t = new WaterSystemSM(0UL);
-    t->stateUpdated(1UL);
 
+    // immediately time-out from start into wss_list_all
+    EXPECT_EQ(true, t->stateUpdated(1UL));
     EXPECT_EQ(wss_list_all, t->State());
 };
 
