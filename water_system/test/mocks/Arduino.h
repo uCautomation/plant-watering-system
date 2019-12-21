@@ -1,6 +1,6 @@
 /* MIT License
 
-   Copyright (c) 2018 Eddy Petrișor
+   Copyright (c) 2018-2019 Eddy Petrișor
 
    Permission is hereby granted, free of charge, to any person obtaining a copy
    of this software and associated documentation files (the "Software"), to deal
@@ -73,6 +73,10 @@ void noInterrupts();
 #define digitalPinToInterrupt(isr,isrno,evt) 0
 #endif
 
-#define DEBUG(fmt, args...)
+#ifdef USE_DEBUG
+    #define DEBUG(fmt, ...) printf(fmt "\n" , ##__VA_ARGS__)
+#else
+    #define DEBUG(fmt, ...)
+#endif
 
 #endif

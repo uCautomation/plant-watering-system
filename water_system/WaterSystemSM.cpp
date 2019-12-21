@@ -120,7 +120,7 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
         bool state_changed = (_next_state != _state);
 
         if (state_changed) {
-            DEBUG("state changes via timeout");
+            DEBUG("state changes via timeout (old = %d, new = %d, delta = %d, _to = %d", _state, _next_state, time_delta, _timeout);
             _state = _next_state;
             _last_transition_milli = current_milli;
             _last_reason = reason_timeout;
