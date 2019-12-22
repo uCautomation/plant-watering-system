@@ -24,7 +24,7 @@ WSMenu list_all_menu(
     /* .NoOfMenuItems = */ LIST_ALL_MENU_ENTRIES
     );
 // Next states on OK on menu entry
-// wss_list_one, wss_list_one, wss_list_one, wss_list_one, wss_logs, wss_sleep
+// wss_list_one, wss_list_one, wss_list_one, wss_list_one, wss_sys_status, wss_sleep
 
 #define LIST_ONE_MENU_STEP         2
 #define LIST_ONE_MENU_ENTRIES      3
@@ -37,7 +37,7 @@ WSMenu list_one_menu(
     /* .MenuLine = */ LIST_ONE_MENU_LINE
     );
 // Next states on OK on menu entry
-// wss_manualwater, wss_logs (reset calibration?), wss_sleep
+// wss_manualwater, wss_sys_status (reset calibration?), wss_sleep
 
 
 WaterSystemSM::WaterSystemSM(ulong current_milli)

@@ -14,7 +14,7 @@ typedef enum {
     wss_manualwater,
     wss_probe,
     wss_autowater,
-    wss_logs,
+    wss_sys_status,
 
     WSS_NOSTATE
 } wss_type;
@@ -64,7 +64,7 @@ class WaterSystemSM {
             [wss_manualwater] = wss_manualwater,
             [wss_probe] = wss_list_one,
             [wss_autowater] = wss_sleep,
-            [wss_logs] = wss_list_all
+            [wss_sys_status] = wss_list_all
         };
 
         wss_type _nextBut_next_state[WSS_NOSTATE] {
@@ -95,7 +95,7 @@ class WaterSystemSM {
             [wss_manualwater] = 5000UL,
             [wss_probe] = 1000UL,
             [wss_autowater] = 1000UL,
-            [wss_logs] = 5000UL
+            [wss_sys_status] = 5000UL
         };
 
         wss_type stateAfterOKButton();

@@ -82,7 +82,7 @@ void set_system_state(wss_type nextstate)
             break;
             ;;
 
-        case wss_logs:
+        case wss_sys_status:
             {
                 /*transition_reason reason = */(void)pWSSM->lastTransitionReason();
 
