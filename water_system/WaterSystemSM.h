@@ -10,10 +10,10 @@ typedef enum {
     wss_panic,
     wss_menusel,
     wss_list_all,
-    wss_list_one,
-    wss_manualwater,
-    wss_probe,
-    wss_autowater,
+    wss_list_one, // indirectly reached via wss_list_all menu
+    wss_manualwater, // indirectly reached via wss_list_one menu
+    wss_probe, //  ???
+    wss_autowater, // Used by automatic watering
     wss_sys_status,
 
     WSS_NOSTATE
