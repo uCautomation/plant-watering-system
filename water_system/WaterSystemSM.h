@@ -72,7 +72,7 @@ class WaterSystemSM {
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
             [wss_menusel] = wss_list_one,
-            [wss_list_all] = wss_sleep,
+            [wss_list_all] = wss_sys_status,
             [wss_list_one] = wss_probe,
             [wss_manualwater] = wss_manualwater,
             [wss_probe] = wss_list_one,
