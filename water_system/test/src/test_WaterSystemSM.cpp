@@ -53,6 +53,7 @@ TEST(WaterSystemSM, Initial) {
 };
 
 TEST(WaterSystemSM, TimeoutFromInitial) {
+
     WaterSystemSM *t = new WaterSystemSM(0UL);
 
     // immediately time-out from start into wss_list_all
@@ -61,29 +62,20 @@ TEST(WaterSystemSM, TimeoutFromInitial) {
 };
 
 TEST(WaterSystemSM, ListAllRemainsWithoutTimeout) {
-    WaterSystemSM *t = new WaterSystemSM(0UL);
 
-    // immediately time-out from start into wss_list_all
-    (void)t->stateUpdated(1UL);
+    WaterSystemSM *t = new WaterSystemSM(0UL);
+    (void)t->stateUpdated(1UL); // immediately time-out from start into wss_list_all
 
     EXPECT_EQ(false, t->stateUpdated(5000UL)); // timeout is at 5001
     EXPECT_EQ(wss_list_all, t->State());
 };
 
 TEST(WaterSystemSM, SleepOnListAllTimeOut) {
-    MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
-    MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
-    WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    t->stateUpdated(1UL); // going from start into list_all
-    (void)t->State();
-
+    WaterSystemSM *t = new WaterSystemSM(0UL);
+    (void)t->stateUpdated(1UL); // going from start into list_all
     // still in list_all before initial timeout
-    {
-        EXPECT_EQ(false, t->stateUpdated(5000UL)); // timeout should be at 5001
-        wss_type c_state = t->State();
-        EXPECT_EQ(wss_list_all, c_state);
-    }
+    (void)t->stateUpdated(5000UL); // timeout should be at 5001
 
     // check we're in sleep after timeout
     EXPECT_EQ(true, t->stateUpdated(5001UL));
@@ -95,10 +87,8 @@ TEST(WaterSystemSM, OnOkInSleepGoesToListAll) {
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    t->stateUpdated(1UL); // going from start into list_all
-    (void)t->State();
-    // still in list_all before initial timeout
-    (void)t->stateUpdated(5001UL); // timeout should be at 5001, go to sleep
+    (void)t->stateUpdated(1UL); // going from start into list_all
+    (void)t->stateUpdated(5001UL); // timeout, go to sleep
 
     mockOkBut.tAppendExpectPush(true); // simulate button pressed
     // .. when in sleep
@@ -111,10 +101,8 @@ TEST(WaterSystemSM, OnNextInSleepGoesToListAll) {
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    t->stateUpdated(1UL); // going from start into list_all
-    (void)t->State();
-    // still in list_all before initial timeout
-    (void)t->stateUpdated(5001UL); // timeout should be at 5001, go to sleep
+    (void)t->stateUpdated(1UL); // going from start into list_all
+    (void)t->stateUpdated(5001UL); // timeout, go to sleep
 
     mockNextBut.tAppendExpectPush(true); // simulate button pressed
     // .. when in sleep
