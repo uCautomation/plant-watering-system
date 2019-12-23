@@ -9,10 +9,10 @@ typedef enum {
     wss_start,
     wss_panic,
     wss_menusel,
-    wss_list_all,
+    wss_list_all, // summary of all modules
     wss_list_one, // indirectly reached via wss_list_all menu
     wss_manualwater, // indirectly reached via wss_list_one menu
-    wss_probe, //  ???
+    wss_probe, // check the current sensor reading(?)
     wss_autowater, // Used by automatic watering
 
     wss_sys_status, // reservoir water level, dump logs, battery level, error/panic/watchdog reset count
