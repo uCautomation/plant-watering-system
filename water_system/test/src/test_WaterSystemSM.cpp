@@ -66,7 +66,7 @@ TEST(WaterSystemSM, ListAllRemainsWithoutTimeout) {
     WaterSystemSM *t = new WaterSystemSM(0UL);
     (void)t->stateUpdated(1UL); // immediately time-out from start into wss_list_all
 
-    EXPECT_EQ(false, t->stateUpdated(5000UL)); // timeout is at 5001
+    EXPECT_EQ(false, t->stateUpdated(SleepTimeOut)); // timeout is at 5001
     EXPECT_EQ(wss_list_all, t->State());
 };
 
@@ -75,10 +75,10 @@ TEST(WaterSystemSM, SleepOnListAllTimeOut) {
     WaterSystemSM *t = new WaterSystemSM(0UL);
     (void)t->stateUpdated(1UL); // going from start into list_all
     // still in list_all before initial timeout
-    (void)t->stateUpdated(5000UL); // timeout should be at 5001
+    (void)t->stateUpdated(SleepTimeOut); // timeout should be at 5001
 
     // check we're in sleep after timeout
-    EXPECT_EQ(true, t->stateUpdated(5001UL));
+    EXPECT_EQ(true, t->stateUpdated(SleepTimeOut + 1UL));
     EXPECT_EQ(wss_sleep, t->State());
 };
 
@@ -88,11 +88,11 @@ TEST(WaterSystemSM, OnOkInSleepGoesToListAll) {
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
     (void)t->stateUpdated(1UL); // going from start into list_all
-    (void)t->stateUpdated(5001UL); // timeout, go to sleep
+    (void)t->stateUpdated(SleepTimeOut + 1UL); // timeout, go to sleep
 
     mockOkBut.tAppendExpectPush(true); // simulate button pressed
     // .. when in sleep
-    EXPECT_EQ(true, t->stateUpdated(5002UL));
+    EXPECT_EQ(true, t->stateUpdated(SleepTimeOut + 2UL));
     EXPECT_EQ(wss_list_all, t->State()); // ... sends us in list_all
 };
 
@@ -102,11 +102,11 @@ TEST(WaterSystemSM, OnNextInSleepGoesToListAll) {
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
     (void)t->stateUpdated(1UL); // going from start into list_all
-    (void)t->stateUpdated(5001UL); // timeout, go to sleep
+    (void)t->stateUpdated(SleepTimeOut + 1UL); // timeout, go to sleep
 
     mockNextBut.tAppendExpectPush(true); // simulate button pressed
     // .. when in sleep
-    EXPECT_EQ(true, t->stateUpdated(5002UL));
+    EXPECT_EQ(true, t->stateUpdated(SleepTimeOut + 2UL));
     EXPECT_EQ(wss_list_all, t->State()); // ... sends us in list_all
 };
 
@@ -117,7 +117,7 @@ TEST(WaterSystemSM, OnNextInListAllGoesToSysStatus) {
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
     (void)t->stateUpdated(1UL); // going from start into list_all
 
-    mockNextBut.tAppendExpectPush(true); // simulate button pressed
-    EXPECT_EQ(true, t->stateUpdated(1000UL));
+    mockNextBut.tAppendExpectPush(true); // simulate Next pressed before sleep
+    EXPECT_EQ(true, t->stateUpdated(SleepTimeOut >> 2));
     EXPECT_EQ(wss_sys_status, t->State()); // ... sends us in sys status
 };

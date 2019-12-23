@@ -35,6 +35,8 @@ typedef enum {
 
 #define MAX_MODULE_COUNT 4
 
+const ulong SleepTimeOut = 5000UL;
+
 ulong timedelta(ulong ref_timestamp, ulong now);
 
 class WaterSystemSM {
@@ -89,13 +91,13 @@ class WaterSystemSM {
             [wss_sleep] = 30000UL,
             [wss_start] = 1UL,
             [wss_panic] = 1000UL,
-            [wss_menusel] = 5000UL,
+            [wss_menusel] = SleepTimeOut,
             [wss_list_all] = 5000UL,
             [wss_list_one] = 2000UL,
-            [wss_manualwater] = 5000UL,
+            [wss_manualwater] = SleepTimeOut,
             [wss_probe] = 1000UL,
             [wss_autowater] = 1000UL,
-            [wss_sys_status] = 5000UL
+            [wss_sys_status] = SleepTimeOut
         };
 
         wss_type stateAfterOKButton();
