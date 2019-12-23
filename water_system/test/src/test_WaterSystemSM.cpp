@@ -121,3 +121,17 @@ TEST(WaterSystemSM, OnNextInListAllGoesToSysStatus) {
     EXPECT_EQ(true, t->stateUpdated(SleepTimeOut >> 2));
     EXPECT_EQ(wss_sys_status, t->State()); // ... sends us in sys status
 };
+
+TEST(WaterSystemSM, OnNextInSysStatusGoesToCtrlAll) {
+    MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
+    MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
+
+    WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
+    (void)t->stateUpdated(1UL); // going from start into list_all
+    mockNextBut.tAppendExpectPush(true); // simulate Next pressed in list all
+    (void)t->stateUpdated(SleepTimeOut >> 2);
+    mockNextBut.tAppendExpectPush(true); // simulate Next pressed in sys status
+
+    EXPECT_EQ(true, t->stateUpdated(SleepTimeOut >> 2));
+    EXPECT_EQ(wss_ctrl_all, t->State()); // ... sends us in ctrl all
+};

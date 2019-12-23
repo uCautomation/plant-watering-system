@@ -14,7 +14,9 @@ typedef enum {
     wss_manualwater, // indirectly reached via wss_list_one menu
     wss_probe, //  ???
     wss_autowater, // Used by automatic watering
-    wss_sys_status,
+
+    wss_sys_status, // reservoir water level, dump logs, battery level, error/panic/watchdog reset count
+    wss_ctrl_all, // system level control menu (forget calibration, forget+recalibrate, clear system logs, etc.)
 
     WSS_NOSTATE
 } wss_type;
@@ -78,6 +80,10 @@ class WaterSystemSM {
             [wss_list_one] = wss_probe,
             [wss_manualwater] = wss_manualwater,
             [wss_probe] = wss_list_one,
+            [wss_autowater] = wss_autowater, // ignore key press
+
+            [wss_sys_status] = wss_ctrl_all,
+            [wss_ctrl_all] = wss_list_all,
         };
 
         wss_type _to_next_state[WSS_NOSTATE] {
@@ -97,7 +103,9 @@ class WaterSystemSM {
             [wss_manualwater] = SleepTimeOut,
             [wss_probe] = 1000UL,
             [wss_autowater] = 1000UL,
-            [wss_sys_status] = SleepTimeOut
+
+            [wss_sys_status] = SleepTimeOut,
+            [wss_ctrl_all] = SleepTimeOut,
         };
 
         wss_type stateAfterOKButton();
