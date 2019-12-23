@@ -67,8 +67,6 @@ class WaterSystemSM {
             [wss_list_one] = wss_probe,
             [wss_manualwater] = wss_manualwater,
             [wss_probe] = wss_list_one,
-            [wss_autowater] = wss_sleep,
-            [wss_sys_status] = wss_list_all
         };
 
         wss_type _nextBut_next_state[WSS_NOSTATE] {
