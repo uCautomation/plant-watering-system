@@ -86,7 +86,7 @@ In this menu, when active:
     1|WET(d:+2)  ☔ > X|
      +----------------+
 
-When this manu is active:
+When this menu is active:
 
 - OK: Selects active menu item
 - Next: moves 2 positions at a time (wrap around jumps to b)
