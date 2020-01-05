@@ -14,6 +14,8 @@ class WSMenu {
 
         int _selected_item; // the currently selected item in menu
 
+        wss_type _parentState = wss_panic;
+
     public:
         WSMenu
         (
@@ -53,6 +55,16 @@ class WSMenu {
         int getSelectedMenuEntryColumn()
         {
             return _0th_item_column + _selected_item * _cursor_columns_step;
+        }
+
+        void setParentState(wss_type parentState)
+        {
+            _parentState = parentState;
+        }
+
+        wss_type stateAfterOKButton()
+        {
+            return _parentState;
         }
 
 };

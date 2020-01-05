@@ -73,7 +73,7 @@ class WaterSystemSM {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
-            [wss_menusel] = wss_list_one,
+            [wss_menusel] = wss_menusel,
             [wss_list_all] = wss_sys_status,
             [wss_list_one] = wss_probe,
             [wss_manualwater] = wss_manualwater,
@@ -110,8 +110,11 @@ class WaterSystemSM {
         wss_type stateAfterNextButton();
         wss_type stateAfterTimeout();
 
+        // will be initialized in constructor
+        class WSMenu *_pStateMenus[WSS_NOSTATE] = { NULL };
         class WSMenu *_pCurrentScreenMenu;
 
+        wss_type _current_menu_of_state = WSS_NOSTATE;
 };
 
 #endif
