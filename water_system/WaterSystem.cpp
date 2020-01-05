@@ -99,7 +99,7 @@ void WaterSystem::system_list()
 
     char buf[51] = ".    .    |    .    |    .    |    .    ";
     char line2[17] = { 0U };
-    for( int i=0; i<MAX_MODULE_COUNT; i++) {
+    for (int i=0; i<MAX_MODULE_COUNT; i++) {
 
         const int x = i * 3;
         lcd.setCursor(x, 0);
