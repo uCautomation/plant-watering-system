@@ -111,7 +111,7 @@ class WaterSystemSM {
         wss_type stateAfterTimeout();
 
         // will be initialized in constructor
-        class WSMenu *_pStateMenus[WSS_NOSTATE] = { NULL };
+        class WSMenu *_pStateMenus[WSS_NOSTATE] = { nullptr };
         class WSMenu *_pCurrentScreenMenu;
 
         wss_type _current_menu_of_state = WSS_NOSTATE;
