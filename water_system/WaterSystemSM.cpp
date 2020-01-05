@@ -37,7 +37,7 @@ WSMenu list_one_menu(
     /* .MenuLine = */ LIST_ONE_MENU_LINE
     );
 // Next states on OK on menu entry
-// wss_manualwater, wss_sys_status (reset calibration?), wss_sleep
+// wss_manualwater, wss_sys_status (reset calibration?), wss_list_all
 
 
 WaterSystemSM::WaterSystemSM(ulong current_milli)
