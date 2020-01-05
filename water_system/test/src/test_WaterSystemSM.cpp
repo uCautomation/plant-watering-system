@@ -179,3 +179,19 @@ TEST(WaterSystemSM, OnOkInListAllMenuGoesToListAll) {
     EXPECT_EQ(true, t->stateUpdated(SleepTimeOut >> 1));
     EXPECT_EQ(wss_list_all, t->State()); // ... sends us back in list_all state
 };
+
+TEST(WaterSystemSM, OnNextOkInListAllMenuGoesToListOne) {
+    MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
+    MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
+
+    WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
+    (void)t->stateUpdated(1UL); // going from start into list_all
+    mockOkBut.tAppendExpectPush(true); // Ok -> go in menu
+    (void)t->stateUpdated(SleepTimeOut >> 2); // going from list_all to menusel
+    mockNextBut.tAppendExpectPush(true); // simulate Next pressed (goto first)
+    (void)t->stateUpdated(SleepTimeOut >> 1); // move in menu listall
+    mockOkBut.tAppendExpectPush(true); // simulate Ok pressed on 'X'
+
+    EXPECT_EQ(true, t->stateUpdated(3 * (SleepTimeOut >> 2)));
+    EXPECT_EQ(wss_list_one, t->State()); // ... sends us into list one (first sensor) state
+};
