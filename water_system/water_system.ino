@@ -8,11 +8,43 @@
 #include "WaterSystem.h"
 #include "WaterSystemSM.h"
 #include "WSRuntime.h"
+#include "WSMenu.h"
+
 
 
 WaterSystem *pWaterSystem;
 WaterSystemSM *pWSSM;
 
+
+
+//   0123456789abcdef
+//  +----------------+
+// 0|P1 P2 P3 P4 == X|
+// 1|+2 -3 +5 -9    S|
+//  +----------------+
+#define LIST_ALL_MENU_STEP    3
+#define LIST_ALL_MENU_ENTRIES 6
+WSMenu list_all_menu(
+    /* .MenuColumnStep = */ LIST_ALL_MENU_STEP,
+    /* .NoOfMenuItems = */ LIST_ALL_MENU_ENTRIES
+    );
+
+
+//   0123456789abcdef
+//  +----------------+
+// 0|P1 Now:52 Ref:50|
+// 1|WET(d:+2)  ☔ > X|
+//  +----------------+
+#define LIST_ONE_MENU_STEP         2
+#define LIST_ONE_MENU_ENTRIES      3
+#define LIST_ONE_MENU_START_COLUMN 0xb
+#define LIST_ONE_MENU_LINE         1
+WSMenu list_one_menu(
+    /* .MenuColumnStep = */ LIST_ONE_MENU_STEP,
+    /* .NoOfMenuItems = */ LIST_ONE_MENU_ENTRIES,
+    /* .MenuStartsAtColumn = */ LIST_ONE_MENU_START_COLUMN,
+    /* .MenuLine = */ LIST_ONE_MENU_LINE
+    );
 
 
 
