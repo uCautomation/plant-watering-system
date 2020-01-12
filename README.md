@@ -107,7 +107,7 @@ When this menu is active:
 
 Do we need this? Maybe later? Probably we're over-engineering at this point.
 
-#### Calibration derails and control (one plant) screen
+#### Calibration details and control (one plant) screen
 
       0123456789abcdef
      +----------------+
