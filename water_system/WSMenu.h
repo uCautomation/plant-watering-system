@@ -14,8 +14,6 @@ class WSMenu {
 
         int _selected_item; // the currently selected item in menu
 
-        wss_type _parentState = wss_panic;
-
     public:
         WSMenu
         (
@@ -57,29 +55,6 @@ class WSMenu {
             return _0th_item_column + _selected_item * _cursor_columns_step;
         }
 
-        void setParentState(wss_type parentState)
-        {
-            _parentState = parentState;
-        }
-
-        wss_type stateAfterOKButton()
-        {
-            return _parentState;
-        }
-
-};
-
-// Represents a single menu entry
-class WSMenuItem
-{
-    private:
-        /* data */
-        wss_type _state_at_ok;
-
-    public:
-        WSMenuItem(wss_type onOkState=wss_sleep) : _state_at_ok(onOkState) {};
-        wss_type OnOKState();
-        ~WSMenuItem() {};
 };
 
 #endif // WSMENU_H

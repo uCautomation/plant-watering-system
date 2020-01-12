@@ -153,7 +153,7 @@ TEST(WaterSystemSM, OnNextInCtrlAllGoesToListAll) {
 };
 
 // Menus testing
-TEST(WaterSystemSM, OnOkInListAllGoesToMenuSel) {
+TEST(WaterSystemSM, OnOkInListAllGoesToMenuAllX) {
     MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
@@ -162,18 +162,17 @@ TEST(WaterSystemSM, OnOkInListAllGoesToMenuSel) {
     mockOkBut.tAppendExpectPush(true); // simulate Ok pressed before sleep
 
     EXPECT_EQ(true, t->stateUpdated(SleepTimeOut >> 2));
-    EXPECT_EQ(wss_menusel, t->State()); // ... sends us in menusel state
-    // TODO: test menu is ListAll's menu
+    EXPECT_EQ(wss_menu_all_x, t->State()); // ... sends us in MenuAllCLose state
 };
 
-TEST(WaterSystemSM, OnOkInListAllMenuGoesToListAll) {
+TEST(WaterSystemSM, OnOkInMenuAllXGoesToListAll) {
     MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
     (void)t->stateUpdated(1UL); // going from start into list_all
     mockOkBut.tAppendExpectPush(true); // simulate Ok pressed before sleep
-    (void)t->stateUpdated(SleepTimeOut >> 2); // going from list_all to menusel
+    (void)t->stateUpdated(SleepTimeOut >> 2); // going from list_all to MenuAllX
     mockOkBut.tAppendExpectPush(true); // simulate Ok pressed on 'X'
 
     EXPECT_EQ(true, t->stateUpdated(SleepTimeOut >> 1));
@@ -187,7 +186,7 @@ TEST(WaterSystemSM, OnNextOkInListAllMenuGoesToListOne) {
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
     (void)t->stateUpdated(1UL); // going from start into list_all
     mockOkBut.tAppendExpectPush(true); // Ok -> go in menu
-    (void)t->stateUpdated(SleepTimeOut >> 2); // going from list_all to menusel
+    (void)t->stateUpdated(SleepTimeOut >> 2); // going from list_all to MenuAllX
     mockNextBut.tAppendExpectPush(true); // simulate Next pressed (goto first)
     (void)t->stateUpdated(SleepTimeOut >> 1); // move in menu listall
     mockOkBut.tAppendExpectPush(true); // simulate Ok pressed on 'X'

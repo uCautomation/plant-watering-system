@@ -8,11 +8,20 @@ typedef enum {
     wss_sleep = 0,
     wss_start,
     wss_panic,
-    wss_menusel,
+
     wss_list_all, // summary of all modules
+
+    // states of the ListAll Menu
+    wss_menu_all_x,
+    wss_menu_all_p1,
+    wss_menu_all_p2,
+    wss_menu_all_p3,
+    wss_menu_all_p4,
+    wss_menu_all_ctrl,
+
     wss_list_one, // indirectly reached via wss_list_all menu
     wss_manualwater, // indirectly reached via wss_list_one menu
-    wss_probe, // check the current sensor reading(?)
+    wss_probe, // check the current sensor reading (on demand)
     wss_autowater, // Used by automatic watering
 
     wss_sys_status, // reservoir water level, dump logs, battery level, error/panic/watchdog reset count
@@ -62,8 +71,15 @@ class WaterSystemSM {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
-            [wss_menusel] = wss_menusel,
-            [wss_list_all] = wss_menusel,
+            [wss_list_all] = wss_menu_all_x,
+
+            [wss_menu_all_x] = wss_list_all,
+            [wss_menu_all_p1] = wss_list_one,
+            [wss_menu_all_p2] = wss_list_one,
+            [wss_menu_all_p3] = wss_list_one,
+            [wss_menu_all_p4] = wss_list_one,
+            [wss_menu_all_ctrl] = wss_ctrl_all,
+
             [wss_list_one] = wss_probe,
             [wss_manualwater] = wss_manualwater,
             [wss_probe] = wss_list_one,
@@ -73,8 +89,16 @@ class WaterSystemSM {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
-            [wss_menusel] = wss_menusel,
+
             [wss_list_all] = wss_sys_status,
+
+            [wss_menu_all_x] = wss_menu_all_p1,
+            [wss_menu_all_p1] = wss_menu_all_p2,
+            [wss_menu_all_p2] = wss_menu_all_p3,
+            [wss_menu_all_p3] = wss_menu_all_p4,
+            [wss_menu_all_p4] = wss_menu_all_ctrl,
+            [wss_menu_all_ctrl] = wss_menu_all_x,
+
             [wss_list_one] = wss_probe,
             [wss_manualwater] = wss_manualwater,
             [wss_probe] = wss_list_one,
@@ -95,8 +119,16 @@ class WaterSystemSM {
             [wss_sleep] = 30000UL,
             [wss_start] = 1UL,
             [wss_panic] = 1000UL,
-            [wss_menusel] = SleepTimeOut,
+
             [wss_list_all] = 5000UL,
+
+            [wss_menu_all_x] = SleepTimeOut,
+            [wss_menu_all_p1] = SleepTimeOut,
+            [wss_menu_all_p2] = SleepTimeOut,
+            [wss_menu_all_p3] = SleepTimeOut,
+            [wss_menu_all_p4] = SleepTimeOut,
+            [wss_menu_all_ctrl] =SleepTimeOut,
+
             [wss_list_one] = 2000UL,
             [wss_manualwater] = SleepTimeOut,
             [wss_probe] = 1000UL,
@@ -109,10 +141,6 @@ class WaterSystemSM {
         wss_type stateAfterOKButton();
         wss_type stateAfterNextButton();
         wss_type stateAfterTimeout();
-
-        // will be initialized in constructor
-        class WSMenu *_pStateMenus[WSS_NOSTATE] = { nullptr };
-        class WSMenu *_pCurrentScreenMenu;
 
         wss_type _current_menu_of_state = WSS_NOSTATE;
 };

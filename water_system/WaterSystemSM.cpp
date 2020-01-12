@@ -60,33 +60,13 @@ WaterSystemSM::WaterSystemSM(
     _last_transition_milli = current_milli;
     _last_reason = reason_init;
 
-    _pCurrentScreenMenu = &non_interactive_menu;
-
     _timeout = _state_to[_state];
 
-    for (uint32_t i = 0; i < WSS_NOSTATE; i++) {
-        _pStateMenus[i] = &non_interactive_menu;
-    }
-    _pStateMenus[wss_list_all] = &list_all_menu;
-    _pStateMenus[wss_list_one] = &list_one_menu;
 }
 
 wss_type WaterSystemSM::stateAfterOKButton()
 {
     wss_type ret_state = _okBut_next_state[_state];
-
-    if (ret_state == wss_menusel) {
-        // we're going to be in a menu, or we're already there
-        if (_state != wss_menusel) {
-            // we just entered the menu
-            _pCurrentScreenMenu = _pStateMenus[_state];
-            _pCurrentScreenMenu->setParentState(_state);
-            _current_menu_of_state = _state;
-        } else {
-            // an item of the menu was selected
-            ret_state = _pCurrentScreenMenu->stateAfterOKButton();
-        }
-    }
 
     return ret_state;
 }
