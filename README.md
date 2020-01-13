@@ -14,8 +14,8 @@ The user can interact with the system via the 16x2 LCD display and the user butt
   - Allow the user to save the calibration data into the EEPROM
   - Save the calibration data into a sort-of flash/EEPROM filesystem to prevent
     early death of specific EEPROM memory cells - see Generational EEPROM storage
-  - is this still necessary if calibration happens automatically when plants
-    are manually watered?
+  - **is this still necessary if calibration happens automatically when plants
+    are manually watered?**
 - Proportional watering - the system will keep the valve/pump open for a time
   proportional to the difference from the reference value (to allow checking
   up with the reference value)
@@ -93,7 +93,7 @@ When this menu is active:
 - Cursor default position: (1, f).
 - Menu items:
   - Water Now: manual watering of the selected plant
-  - Calibration details
+  - Calibration details and control (one plant)
   - Exit / Sleep
 
 
@@ -107,16 +107,25 @@ When this menu is active:
 
 Do we need this? Maybe later? Probably we're over-engineering at this point.
 
-#### References screen
+#### Calibration details and control (one plant) screen
 
       0123456789abcdef
      +----------------+
     0|P1 Refs 47 53 51|
-    1|ResetAll?    Y/X|
+    1|>  NoUse Reset X|
      +----------------+
 
-How do we get to this screen? Maybe we need to show this for
-single-plant status '>' menu item?
+- **Menu is active immediately (no display mode)**
+- Cursor: default (1,f), step=6, wrap around jumps to 3
+- Menu items:
+  - NoUse - disables module (no plant exists for this module)
+    - this entry will need to be "Enable/Use" if currently the module has no plant, i.e. was previously disabled
+  - Reset - forget all calibration data and set threshold to default (middle of the range?)
+    - could this be better named instead a "new plant" menu item? What is the string here? "New (plant_icon)"?
+
+
+How do we get to this screen?
+Show this for single-plant status '>' menu item?
 
 ## Generational EEPROM storage (GeneROMst)
 
