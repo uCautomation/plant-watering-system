@@ -37,6 +37,11 @@ class WSMenu {
             }
         }
 
+        void openMenu()
+        {
+            _selected_item = _no_of_menu_entries - 1;
+        }
+
         int nextMenuEntry()
         {
             noInterrupts();
