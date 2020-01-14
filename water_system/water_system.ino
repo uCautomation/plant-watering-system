@@ -46,7 +46,17 @@ WSMenu list_one_menu(
     /* .MenuLine = */ LIST_ONE_MENU_LINE
     );
 
-
+//   0123456789abcdef
+//  +----------------+
+// 0|P1 Refs 47 53 51|
+// 1|>  NoUse Reset X|
+//  +----------------+
+WSMenu ctrl_one_menu(
+    /* .MenuColumnStep = */ 6,
+    /* .NoOfMenuItems = */ 3,
+    /* .MenuStartsAtColumn = */ 3,
+    /* .MenuLine = */ 1
+    );
 
 void nextButISR(void)
 {
