@@ -10,6 +10,8 @@
 
 class SensorAndPump {
     private:
+        bool _moduleIsUsed = true;
+
         int _vSensorPin, _sensorPin, _pumpCmdPin;
         int _dryValue, _lastMoisture;
         int _pumpOnMS;
@@ -104,6 +106,15 @@ class SensorAndPump {
             interrupts();
 
             GiveWater();
+        }
+
+        inline void setModuleUsed() { _moduleIsUsed = true; }
+
+        inline void setModuleUnused() { _moduleIsUsed = false; }
+
+        inline bool isModuleUsed()
+        {
+            return _moduleIsUsed;
         }
 };
 
