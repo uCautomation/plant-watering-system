@@ -14,6 +14,16 @@ class SensorAndPump {
         int _dryValue, _lastMoisture;
         int _pumpOnMS;
 
+        void _sensorOn(void)
+        {
+            digitalWrite(_vSensorPin, HIGH);//turn sensor "On"
+        }
+
+        void _sensorOff(void)
+        {
+            digitalWrite(_vSensorPin, LOW);//turn sensor "Off"
+        }
+
     public:
         SensorAndPump
         (
@@ -37,22 +47,12 @@ class SensorAndPump {
             _lastMoisture = _dryValue; // Assume on start the plant is watered; initialize the value
         }
 
-        void SensorOn(void)
-        {
-            digitalWrite(_vSensorPin, HIGH);//turn sensor "On"
-        }
-
-        void SensorOff(void)
-        {
-            digitalWrite(_vSensorPin, LOW);//turn sensor "Off"
-        }
-
         int GetCurrentMoisture()
         {
-            this->SensorOn();
+            this->_sensorOn();
             delay(SENSOR_START_DELAY_MS);//wait for the sensor to stabilize
             _lastMoisture = analogRead(_sensorPin);//Read the SIG value form sensor
-            this->SensorOff();
+            _sensorOff();
 
             return _lastMoisture; //send current moisture value
         }
