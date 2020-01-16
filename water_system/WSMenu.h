@@ -38,7 +38,9 @@ class WSMenu {
 
         void openMenu()
         {
+            noInterrupts();
             _selected_item = _no_of_menu_entries - 1;
+            interrupts();
         }
 
         int nextMenuEntry()
