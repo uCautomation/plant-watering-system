@@ -12,6 +12,7 @@
 #include "LcdGlyphs.h"
 #include "SensorAndPump.h"
 #include "ws_types.h"
+#include "WSMenu.h"
 
 
 #define LCD_I2C_ADDRESS 0x27
@@ -37,6 +38,8 @@ class WaterSystem
         LCDGlyph *_skull;
 
         void initGlyphs(LiquidCrystal_PCF8574 &lcd);
+
+        WSMenu *_p_current_menu;
 
         byte saneModuleIndex();
 

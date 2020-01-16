@@ -26,6 +26,7 @@ WaterSystem::WaterSystem(/* args */)
 {
     _some_module_selected = false;
     _internal_error = false;
+    _p_current_menu = nullptr;
 
     DEBUG("Init LCD...");
 
