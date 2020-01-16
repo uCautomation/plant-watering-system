@@ -6,12 +6,16 @@ class LiquidCrystal_PCF8574 {
 		LiquidCrystal_PCF8574(int addr) {};
 		void begin(int x, int y) {};
 		void display() {};
+		void noDisplay() {};
 		void setBacklight(int level) {};
 		void setCursor(int x, int y) {};
 		void home() {};
 		void clear() {};
 		void print(const char *) {};
-		void noDisplay() {};
+		void cursor() {};
+		void noCursor() {};
+		void blink() {};
+		void noBlink() {};
 		void createChar(int location, int charmap[]) {};
 		void write(int c) {};
 };
