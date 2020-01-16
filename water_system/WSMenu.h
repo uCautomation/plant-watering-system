@@ -2,7 +2,6 @@
 #define WSMENU_H
 
 #include "ws_types.h"
-#include "WaterSystemSM.h"
 #include "WSRuntime.h"
 
 class WSMenu {
