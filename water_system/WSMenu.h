@@ -46,6 +46,11 @@ class WSMenu {
             }
         }
 
+        byte setSelectedItem(byte itemIndex)
+        {
+            return _setSaneSelectedItem(itemIndex);
+        }
+
         void openMenu()
         {
             (void)_setSaneSelectedItem(_no_of_menu_entries - 1);
