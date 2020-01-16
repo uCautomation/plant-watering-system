@@ -61,6 +61,12 @@ bool WaterSystem::hasInternalError()
     return _internal_error;
 }
 
+byte WaterSystem::selectSaneModuleIndex(byte moduleIndex)
+{
+    _selected_module = moduleIndex % MAX_MODULE_COUNT;
+    return _selected_module;
+}
+
 void WaterSystem::activateSelection()
 {
     _selected_module = saneModuleIndex();
