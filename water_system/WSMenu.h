@@ -60,7 +60,7 @@ class WSMenu {
             return _0th_item_column + _selected_item * _cursor_columns_step;
         }
 
-        constexpr inline int getLcdCursorLine()
+        inline int getLcdCursorLine()
         {
             return _active_lcd_line;
         }
