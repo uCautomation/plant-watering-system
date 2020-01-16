@@ -179,6 +179,7 @@ TEST(WaterSystemSM, OnOkInMenuAllXGoesToListAll) {
     EXPECT_EQ(wss_list_all, t->State()); // ... sends us back in list_all state
 };
 
+/// start -> list_all -OK-> wss_menu_all_x -Next-> wss_menu_all_p1 -OK-> wss_list_one(_p1)
 TEST(WaterSystemSM, OnNextOkInListAllMenuGoesToListOne) {
     MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
