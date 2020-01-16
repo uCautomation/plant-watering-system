@@ -190,6 +190,44 @@ void WaterSystem::system_list()
 
 }
 
+#if 0
+void WaterSystem::showScreen()
+{
+    lcd.display();
+    lcd.setBacklight(255);
+    lcd.clear();
+    lcd.home();
+    lcd.print(_lcd_line0);
+    lcd.setCursor(0, 1);
+    lcd.print(_lcd_line1);
+    lcd.noCursor();
+    lcd.noBlink();
+}
+
+void WaterSystem::_resetMenu()
+{
+    if (_p_current_menu != nullptr) {
+        _p_current_menu->resetMenu();
+    }
+}
+
+void WaterSystem::_showMenuCursor()
+{
+    if (_p_current_menu != nullptr) {
+        lcd.setCursor(getLcdCursorColumn(), getLcdCursorLine());
+        lcd.blink();
+    }
+}
+
+void WaterSystem::openMenu()
+{
+    this->_resetMenu();
+    // showScreen(); // probably not needed
+    this->_showMenuCursor();
+}
+
+
+#endif
 
 
 ulong timedelta(ulong ref_timestamp, ulong now)
