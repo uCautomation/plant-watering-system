@@ -8,6 +8,7 @@
 
 LiquidCrystal_PCF8574 lcd(LCD_I2C_ADDRESS);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
+const byte lcdLineBufLen = 17;
 
 //   0123456789abcdef
 //  +----------------+
@@ -16,6 +17,9 @@ LiquidCrystal_PCF8574 lcd(LCD_I2C_ADDRESS);  // set the LCD address to 0x27 for 
 //  +----------------+
 #define LIST_ALL_MENU_STEP    3
 #define LIST_ALL_MENU_ENTRIES 6
+char menuAll0[lcdLineBufLen] = { "P1 P2 P3 P4 == X" };
+char menuAll1[lcdLineBufLen] = { ".. .. .. ..    ." };
+// const char menuAllFmt1[] = { "%+.1d %+.1d %+.1d %+.1d    %c" };
 WSMenu list_all_menu(
     /* .MenuColumnStep = */ LIST_ALL_MENU_STEP,
     /* .NoOfMenuItems = */ LIST_ALL_MENU_ENTRIES
@@ -31,6 +35,10 @@ WSMenu list_all_menu(
 #define LIST_ONE_MENU_ENTRIES      3
 #define LIST_ONE_MENU_START_COLUMN 0xb
 #define LIST_ONE_MENU_LINE         1
+char menuOne0[lcdLineBufLen] = { "P1 Now:.. Ref:.." };
+char menuOne1[lcdLineBufLen] = { "WET(d:..)  W > X" };
+// char menuOne0Fmt[] = { "P1 Now:%.2d Ref:%.2d" };
+// char menuOne1Fmt[] = { "WET(d:%+.1d)  W > X" };
 WSMenu list_one_menu(
     /* .MenuColumnStep = */ LIST_ONE_MENU_STEP,
     /* .NoOfMenuItems = */ LIST_ONE_MENU_ENTRIES,
@@ -43,6 +51,10 @@ WSMenu list_one_menu(
 // 0|P1 Refs 47 53 51|
 // 1|>  NoUse Reset X|
 //  +----------------+
+char menuCtrlOne0[lcdLineBufLen] = "P1 Refs .. .. ..";
+char menuCtrlOne1[lcdLineBufLen] = ">  ..Use Reset X";
+// const char menuCtrlOne0[] = "P1 Refs %.2d %.2d %.2d";
+// const char menuCtrlOne1[] = ">  %.2sUse Reset X";
 WSMenu ctrl_one_menu(
     /* .MenuColumnStep = */ 6,
     /* .NoOfMenuItems = */ 3,
