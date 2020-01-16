@@ -11,7 +11,17 @@ class WSMenu {
         int _0th_item_column; // the column number on which the first menu item is on
         int _active_lcd_line; // Only one LCD line can contain menu items
 
-        int _selected_item; // the currently selected item in menu
+        byte _selected_item; // the currently selected item in menu
+
+        inline byte _setSaneSelectedItem(byte itemIndex)
+        {
+            byte saneIndex = itemIndex % _no_of_menu_entries;
+            noInterrupts();
+            _selected_item = saneIndex;
+            interrupts();
+
+            return saneIndex;
+        }
 
     public:
         WSMenu
@@ -38,17 +48,12 @@ class WSMenu {
 
         void openMenu()
         {
-            noInterrupts();
-            _selected_item = _no_of_menu_entries - 1;
-            interrupts();
+            (void)_setSaneSelectedItem(_no_of_menu_entries - 1);
         }
 
-        int nextMenuEntry()
+        byte nextMenuEntry()
         {
-            noInterrupts();
-            _selected_item = (_selected_item + 1) % _no_of_menu_entries;
-            interrupts();
-            return _selected_item;
+            return _setSaneSelectedItem(_selected_item + 1);
         }
 
         int getSelectedMenuEntry()
