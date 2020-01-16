@@ -3,9 +3,53 @@
 #include "ws_defs.h"
 #include "WaterSystem.h"
 #include "WSRuntime.h"
+#include "WSMenu.h"
 
 
 LiquidCrystal_PCF8574 lcd(LCD_I2C_ADDRESS);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+
+
+//   0123456789abcdef
+//  +----------------+
+// 0|P1 P2 P3 P4 == X|
+// 1|+2 -3 +5 -9    S|
+//  +----------------+
+#define LIST_ALL_MENU_STEP    3
+#define LIST_ALL_MENU_ENTRIES 6
+WSMenu list_all_menu(
+    /* .MenuColumnStep = */ LIST_ALL_MENU_STEP,
+    /* .NoOfMenuItems = */ LIST_ALL_MENU_ENTRIES
+    );
+
+
+//   0123456789abcdef
+//  +----------------+
+// 0|P1 Now:52 Ref:50|
+// 1|WET(d:+2)  ☔ > X|
+//  +----------------+
+#define LIST_ONE_MENU_STEP         2
+#define LIST_ONE_MENU_ENTRIES      3
+#define LIST_ONE_MENU_START_COLUMN 0xb
+#define LIST_ONE_MENU_LINE         1
+WSMenu list_one_menu(
+    /* .MenuColumnStep = */ LIST_ONE_MENU_STEP,
+    /* .NoOfMenuItems = */ LIST_ONE_MENU_ENTRIES,
+    /* .MenuStartsAtColumn = */ LIST_ONE_MENU_START_COLUMN,
+    /* .MenuLine = */ LIST_ONE_MENU_LINE
+    );
+
+//   0123456789abcdef
+//  +----------------+
+// 0|P1 Refs 47 53 51|
+// 1|>  NoUse Reset X|
+//  +----------------+
+WSMenu ctrl_one_menu(
+    /* .MenuColumnStep = */ 6,
+    /* .NoOfMenuItems = */ 3,
+    /* .MenuStartsAtColumn = */ 3,
+    /* .MenuLine = */ 1
+    );
+
 
 void WaterSystem::initGlyphs(LiquidCrystal_PCF8574 &lcd)
 {
