@@ -13,7 +13,7 @@ void system_panic_no_return()
 {
     DEBUG("PANIC!!!!");
 
-    lcd.setBacklight(0);
+    lcd.setBacklight(127);
     while(true) {
         panicLEDToggle();
         delay(200);

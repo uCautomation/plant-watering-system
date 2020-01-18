@@ -4,9 +4,12 @@
 #include <Arduino.h>
 
 #include "ws_defs.h"
+#include "WSRuntime.h"
 
 #define SENSOR_START_DELAY_MS 10
 #define PUMP_ON_MS            200
+
+static const char *noPercent = "-- ";
 
 class SensorAndPump {
     private:
@@ -15,6 +18,11 @@ class SensorAndPump {
         int _vSensorPin, _sensorPin, _pumpCmdPin;
         int _dryValue, _lastMoisture;
         int _pumpOnMS;
+
+        static const byte _maxDryValues = 1;
+        static const byte _maxPercentStrLen = 4;
+        constexpr static const byte _bufLen = _maxDryValues * _maxPercentStrLen + 1;
+        char _buf[_bufLen] = { 0 };
 
         void _sensorOn(void)
         {
@@ -47,6 +55,7 @@ class SensorAndPump {
             pinMode(_pumpCmdPin, OUTPUT);
 
             _lastMoisture = _dryValue; // Assume on start the plant is watered; initialize the value
+
         }
 
         int GetCurrentMoisture()
@@ -82,6 +91,30 @@ class SensorAndPump {
                 return (delta * 9) / (MAX_ADC_VALUE - _dryValue);
 
             }
+        }
+
+        byte _dryPercent(byte saneDryValue) {
+            // not used for now
+            (void)saneDryValue;
+
+            // maximum ADC representable value is (2^n - 1),
+            // so the result below is always slightly < 100%
+            return (byte)(100 * _dryValue / (2 << systemAnalogReadBits()));
+        }
+
+        char *GetTooDryPercent(byte dryValueRefIndex)
+        {
+            if (dryValueRefIndex >= _maxDryValues) {
+                return (char *)noPercent;
+            }
+
+            // TODO: workaround the fact we can't guarantee lifetimes?
+            snprintf(_buf, _bufLen, "%.2d", _dryPercent(dryValueRefIndex));
+
+            // this should be safe since we have one buffer per SensorAndPump instance
+            DEBUG(" Too dry percent >%s<", _buf);
+
+            return _buf;
         }
 
         void SetTooDry(int dryValue)

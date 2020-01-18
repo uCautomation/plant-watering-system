@@ -8,8 +8,6 @@
 
 LiquidCrystal_PCF8574 lcd(LCD_I2C_ADDRESS);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
-const byte lcdLineBufLen = 17;
-
 //   0123456789abcdef
 //  +----------------+
 // 0|P1 P2 P3 P4 == X|
@@ -51,10 +49,6 @@ WSMenu list_one_menu(
 // 0|P1 Refs 47 53 51|
 // 1|>  NoUse Reset X|
 //  +----------------+
-char menuCtrlOne0[lcdLineBufLen] = "P1 Refs .. .. ..";
-char menuCtrlOne1[lcdLineBufLen] = ">  ..Use Reset X";
-// const char menuCtrlOne0[] = "P1 Refs %.2d %.2d %.2d";
-// const char menuCtrlOne1[] = ">  %.2sUse Reset X";
 WSMenu ctrl_one_menu(
     /* .MenuColumnStep = */ 6,
     /* .NoOfMenuItems = */ 3,
@@ -97,6 +91,7 @@ WaterSystem::WaterSystem(/* args */)
     DEBUG("Error: %d: LCD %s" "found.", error, 0 == error ? "" : "not ");
 
     if (error != 0) {
+        setSystemInternalError();
         system_panic_no_return();
 
     } else {
@@ -104,7 +99,11 @@ WaterSystem::WaterSystem(/* args */)
         lcd.begin(16, 2); // initialize the lcd
         lcd.setBacklight(255);
         lcd.home(); lcd.clear();
-        lcd.print("Water system 0.1");
+        lcd.print("Water system 0.1\n");
+
+        lcd.setCursor(0, 1);
+        for (int i=0; i<8; i++)
+            lcd.write(i);
     }
 }
 
@@ -118,21 +117,34 @@ bool WaterSystem::hasInternalError()
     return _internal_error;
 }
 
+
+inline saneModuleIndex_t WaterSystem::_saneModuleIndex(byte moduleIndex)
+{
+    return saneModuleIndex_t { (byte)(moduleIndex % MAX_MODULE_COUNT) };
+}
+
+void WaterSystem::selectModuleIndex(saneModuleIndex_t saneIndex)
+{
+    byte index = saneIndex.moduleIndex;
+    if (_saneModuleIndex(index).moduleIndex != saneIndex.moduleIndex) {
+        DEBUG("Internal error: received unsanitized index wrapped as sane %d", index);
+        setSystemInternalError();
+        system_panic_no_return();
+    };
+
+    noInterrupts();
+    _selected_module = saneIndex;
+    _some_module_selected = true;
+    interrupts();
+}
+
 byte WaterSystem::selectSaneModuleIndex(byte moduleIndex)
 {
-    _selected_module = moduleIndex % MAX_MODULE_COUNT;
-    return _selected_module;
-}
-
-void WaterSystem::activateSelection()
-{
-    _selected_module = saneModuleIndex();
+    noInterrupts();
+    _selected_module = _saneModuleIndex(moduleIndex);
     _some_module_selected = true;
-}
-
-byte WaterSystem::saneModuleIndex()
-{
-    return _selected_module % MAX_MODULE_COUNT;
+    interrupts();
+    return _selected_module.moduleIndex;
 }
 
 void WaterSystem::deactivateSelection()
@@ -140,43 +152,42 @@ void WaterSystem::deactivateSelection()
     _some_module_selected = false;
 }
 
-bool WaterSystem::hasActiveModule(byte *pModuleIdx)
+bool WaterSystem::hasActiveModule(saneModuleIndex_t *pModuleIdx)
 {
-    *pModuleIdx = saneModuleIndex();
-    return _some_module_selected;
-}
+    if (!_some_module_selected) {
+        return false;
+    };
 
-bool WaterSystem::selectNextModule()
-{
     noInterrupts();
-    _selected_module++;
-    _selected_module = saneModuleIndex();
+    pModuleIdx->moduleIndex = _selected_module.moduleIndex;
     interrupts();
-    return _some_module_selected;
+    return true;
 }
 
-void WaterSystem::system_list()
+void WaterSystem::listAll()
 {
     lcd.display();
     lcd.setBacklight(255); lcd.home(); lcd.clear();
 
+    // TODO: use _lcd_line0
     char buf[51] = ".    .    |    .    |    .    |    .    ";
-    char line2[17] = { 0U };
-    for (int i=0; i<MAX_MODULE_COUNT; i++) {
+    // TODO: populate _lcd_line1
+    char line2[lcdLineBufLen] = { 0U };
+    for (byte i=0; i<MAX_MODULE_COUNT; i++) {
 
         const int x = i * 3;
         lcd.setCursor(x, 0);
         // TODO: use the WaterSystem::_plant glyph
-        sprintf(buf, "P%.1d ", i);
-        lcd.print(buf);
+        sprintf(buf, "%.1d", i);
+        lcd.write(_plant->location()); lcd.print(buf);
 
         lcd.setCursor(x, 1);
         int delta = sp[i].GetNormalizedDeltaToThreshold();
-        sprintf(line2, "%.2d ", delta);
+        sprintf(line2, "%.2d", delta);
         lcd.print(line2);
 
 
-        DEBUG("system_list(): %s %s", buf, line2);
+        DEBUG("list all lines: %s %s", buf, line2);
     }
 
     // the menu item
@@ -203,6 +214,7 @@ void WaterSystem::showScreen()
     lcd.noCursor();
     lcd.noBlink();
 }
+#endif
 
 void WaterSystem::_resetMenu()
 {
@@ -211,23 +223,96 @@ void WaterSystem::_resetMenu()
     }
 }
 
-void WaterSystem::_showMenuCursor()
+void WaterSystem::showMenuCursor()
 {
     if (_p_current_menu != nullptr) {
-        lcd.setCursor(getLcdCursorColumn(), getLcdCursorLine());
+        int column = _p_current_menu->getLcdCursorColumn();
+        int line = _p_current_menu->getLcdCursorLine();
+
+        DEBUG("showMenuCursor: %.4x column = %.2d, line = %.2d ", (uintptr_t)_p_current_menu, column, line);
+        lcd.setCursor(column, line);
         lcd.blink();
     }
 }
 
-void WaterSystem::openMenu()
+bool WaterSystem::listCtrlOne(byte currentModule)
 {
-    this->_resetMenu();
-    // showScreen(); // probably not needed
-    this->_showMenuCursor();
+    saneModuleIndex_t saneIndex = _saneModuleIndex(currentModule);
+    if (currentModule != saneIndex.moduleIndex) {
+        DEBUG("Ctrl one screen function: called but no active module!");
+        setSystemInternalError();
+
+        return false;
+    };
+
+    selectModuleIndex(saneIndex);
+    listCurrentCtrlOne();
+    return true;
 }
 
+void WaterSystem::listCurrentCtrlOne()
+{
+    lcd.clear();
+    lcd.home();
+    if (!_some_module_selected) {
+        DEBUG("listCurrentCtrlOne: no selected module to list");
+        lcd.write(_plant->location());
+        lcd.write('?');
+        return;
+    }
+    byte saneIdx = _selected_module.moduleIndex;
 
-#endif
+    char listCtrlOne0[lcdLineBufLen] = "P. Refs .. .. ..";
+    char listCtrlOne1[lcdLineBufLen] = ">  ..Use Reset X";
+
+    static const char listCtrlOne0Fmt[] = "%.1d Refs %.2s %.2s %.2s";
+    static const char listCtrlOne1Fmt[] = ">  %.2sUse Reset X";
+
+    snprintf(listCtrlOne0, lcdLineBufLen - 1, listCtrlOne0Fmt,
+             saneIdx,
+             sp[saneIdx].GetTooDryPercent(0),
+             sp[saneIdx].GetTooDryPercent(1),
+             sp[saneIdx].GetTooDryPercent(2)
+             );
+
+    snprintf(listCtrlOne1, lcdLineBufLen - 1, listCtrlOne1Fmt,
+        sp[saneIdx].isModuleUsed() ? "In" : "No");
+
+    // print to screen
+    DEBUG("%s", listCtrlOne0);
+    DEBUG("%s", listCtrlOne1);
+
+    lcd.setBacklight(255); lcd.home(); lcd.clear(); lcd.noCursor();
+    int ploc = _plant->location();
+    DEBUG("Plant location >%d<\n", ploc);
+    lcd.write(_plant->location());
+    lcd.print(listCtrlOne0);
+    lcd.setCursor(0, 1);
+    lcd.print(listCtrlOne1);
+
+}
+
+void WaterSystem::setLcdLines()
+{
+    if (_p_current_menu == &list_all_menu) {
+        listAll();
+    } else if (_p_current_menu == &ctrl_one_menu) {
+        listCurrentCtrlOne();
+    } else {
+        DEBUG("Unhandled menu pointer %p in setLcdLines", _p_current_menu);
+    }
+
+}
+
+void WaterSystem::openMenu(WSMenu *pMenu)
+{
+    _p_current_menu = pMenu;
+    setLcdLines();
+    _resetMenu();
+    // showScreen(); // probably not needed
+    showMenuCursor();
+}
+
 
 
 ulong timedelta(ulong ref_timestamp, ulong now)

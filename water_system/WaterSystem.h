@@ -18,7 +18,15 @@
 #define LCD_I2C_ADDRESS 0x27
 extern LiquidCrystal_PCF8574 lcd;  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
+extern WSMenu ctrl_one_menu;
+extern WSMenu list_all_menu;
+extern WSMenu list_one_menu;
 
+const byte lcdLineBufLen = 18; //TODo: there seems to be a buffer overrun
+
+struct saneModuleIndex_t {
+    byte moduleIndex;
+};
 class WaterSystem
 {
     private:
@@ -26,7 +34,7 @@ class WaterSystem
         bool _internal_error = false;
 
         bool _some_module_selected;
-        byte _selected_module = 0;
+        saneModuleIndex_t _selected_module = { 0 };
 
         LCDGlyph *_plant;
         LCDGlyph *_rain_plant;
@@ -40,8 +48,12 @@ class WaterSystem
         void initGlyphs(LiquidCrystal_PCF8574 &lcd);
 
         WSMenu *_p_current_menu;
+        char _lcd_line0[lcdLineBufLen] = {0};
+        char _lcd_line1[lcdLineBufLen] = {0};
 
-        byte saneModuleIndex();
+        void _resetMenu();
+        inline saneModuleIndex_t _saneModuleIndex(byte moduleIndex);
+        // void listCtrlOne(saneModuleIndex_t currentModule);
 
     public:
 
@@ -53,20 +65,27 @@ class WaterSystem
             {10, A3, 11},
         };
 
-
         WaterSystem();
 
         void setSystemInternalError();
         bool hasInternalError();
 
         byte selectSaneModuleIndex(byte moduleIndex);
-        void activateSelection();
+        void selectModuleIndex(saneModuleIndex_t saneIndex);
         void deactivateSelection();
+        bool hasActiveModule(saneModuleIndex_t *pModuleIdx);
 
-        bool selectNextModule();
-        bool hasActiveModule(byte *pModuleIdx);
+        void listAll();
+        bool listCtrlOne(byte moduleIndex);
+        void listCurrentCtrlOne();
 
-        void system_list();
+
+        // void showScreen();
+
+        void showMenuCursor();
+        void openMenu(WSMenu *pMenu);
+        void setLcdLines();
+
 };
 
 

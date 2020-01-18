@@ -6,8 +6,8 @@
 #ifdef DEBUG_ON
 #define DEBUG(fmt, args ...)                   \
     do {                                       \
-        char dbgbuf[200];                      \
-        sprintf(dbgbuf, "DBG: " fmt, ## args); \
+        char dbgbuf[201];                      \
+        snprintf(dbgbuf, 200, "DBG: " fmt, ## args); \
         Serial.println(dbgbuf);                \
     } while(0)
 

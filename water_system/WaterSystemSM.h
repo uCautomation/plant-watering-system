@@ -3,11 +3,12 @@
 
 #include <Arduino.h>
 #include <LiquidCrystal_PCF8574.h>
+#include "ws_defs.h"
 
 typedef enum {
     wss_sleep = 0,
     wss_start,
-    wss_panic,
+    wss_panic, // TBD: is this necessary?
 
     wss_list_all, // summary of all modules
 
@@ -44,8 +45,6 @@ typedef enum {
 } transition_reason;
 
 
-#define MAX_MODULE_COUNT 4
-
 const ulong SleepTimeOut = 5000UL;
 
 ulong timedelta(ulong ref_timestamp, ulong now);
@@ -63,11 +62,13 @@ class WaterSystemSM {
 
     private:
 
+        friend void dumpWSTables();
+
         volatile ulong _last_transition_milli;
         wss_type _state;
         transition_reason _last_reason = reason_init;
 
-        wss_type _okBut_next_state[WSS_NOSTATE] {
+        constexpr static wss_type _okBut_next_state[WSS_NOSTATE] {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
@@ -85,7 +86,7 @@ class WaterSystemSM {
             [wss_probe] = wss_list_one,
         };
 
-        wss_type _nextBut_next_state[WSS_NOSTATE] {
+        constexpr static wss_type _nextBut_next_state[WSS_NOSTATE] {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
@@ -108,16 +109,16 @@ class WaterSystemSM {
             [wss_ctrl_all] = wss_list_all,
         };
 
-        wss_type _to_next_state[WSS_NOSTATE] {
+        constexpr static wss_type _to_next_state[WSS_NOSTATE] {
             [wss_sleep] = wss_sleep,
             [wss_start] = wss_list_all,
             [wss_panic] = wss_panic,
         };
         ulong _timeout = 1000;
 
-        ulong _state_to[WSS_NOSTATE] {
+        constexpr static ulong _state_to[WSS_NOSTATE] {
             [wss_sleep] = 30000UL,
-            [wss_start] = 1UL,
+            [wss_start] = 10000UL,
             [wss_panic] = 1000UL,
 
             [wss_list_all] = 5000UL,
@@ -141,6 +142,8 @@ class WaterSystemSM {
         wss_type stateAfterOKButton();
         wss_type stateAfterNextButton();
         wss_type stateAfterTimeout();
+
+        void setPanicState();
 
         wss_type _current_menu_of_state = WSS_NOSTATE;
 };

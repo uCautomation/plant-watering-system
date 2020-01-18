@@ -33,19 +33,19 @@ WaterSystemSM::WaterSystemSM(
 
 wss_type WaterSystemSM::stateAfterOKButton()
 {
-    wss_type ret_state = _okBut_next_state[_state];
+    wss_type ret_state = WaterSystemSM::_okBut_next_state[_state];
 
     return ret_state;
 }
 
 wss_type WaterSystemSM::stateAfterNextButton()
 {
-    return _nextBut_next_state[_state];
+    return WaterSystemSM::_nextBut_next_state[_state];
 }
 
 wss_type WaterSystemSM::stateAfterTimeout()
 {
-    return _to_next_state[_state];
+    return WaterSystemSM::_to_next_state[_state];
 }
 
 bool WaterSystemSM::stateUpdated(ulong current_milli) {
@@ -92,7 +92,7 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
             _state = _next_state;
             _last_transition_milli = current_milli;
             _last_reason = reason_timeout;
-            _timeout = _state_to[_state];
+            _timeout = WaterSystemSM::_state_to[_state];
         } else {
             DEBUG("same state");
         }
@@ -104,6 +104,10 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
     DEBUG("No state change");
 
     return false;
+}
+
+void WaterSystemSM::setPanicState() {
+    _state = wss_panic;
 }
 
 wss_type WaterSystemSM::State() {

@@ -51,7 +51,7 @@ class WSMenu {
             return _setSaneSelectedItem(itemIndex);
         }
 
-        void openMenu()
+        void resetMenu()
         {
             (void)_setSaneSelectedItem(_no_of_menu_entries - 1);
         }
