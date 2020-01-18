@@ -38,3 +38,7 @@ Variabilele globale folosesc 1206 bytes (58%) din memoria dinamică, lăsând 84
 # change direct accessing of _state_to into a static member function call to _timeoutForState
 Schiţa foloseşte 11544 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
 Variabilele globale folosesc 1206 bytes (58%) din memoria dinamică, lăsând 842 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# Change _state_to to be listed in seconds on uint16_t
+Schiţa foloseşte 11550 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1174 bytes (57%) din memoria dinamică, lăsând 874 bytes pentru variabilele locale. Maximul este de 2048 bytes.

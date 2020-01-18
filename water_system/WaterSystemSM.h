@@ -44,8 +44,12 @@ typedef enum {
     reason_next_button,
 } transition_reason;
 
+constexpr ulong timeInSeconds(uint16_t seconds)
+{
+    return 1000UL * seconds;
+}
 
-const ulong SleepTimeOut = 5000UL;
+constexpr const ulong SleepTimeOut = 5U;
 
 ulong timedelta(ulong ref_timestamp, ulong now);
 
@@ -118,14 +122,15 @@ class WaterSystemSM {
 
         // TODO: represent on a single byte
         //
-        // rangeof valid values 1s - 3 hours
+        // rangeof valid values 1s - 3 hours (maybe more? 12h?)
 
-        constexpr static const ulong _state_to[WSS_NOSTATE] {
-            [wss_sleep] = 30000UL,
-            [wss_start] = 10000UL,
-            [wss_panic] = 1000UL,
+        // values in seconds
+        constexpr static const uint16_t _state_to[WSS_NOSTATE] {
+            [wss_sleep] = 30U,
+            [wss_start] = 10U,
+            [wss_panic] = 1U,
 
-            [wss_list_all] = 5000UL,
+            [wss_list_all] = 5U,
 
             [wss_menu_all_x] = SleepTimeOut,
             [wss_menu_all_p1] = SleepTimeOut,
@@ -134,10 +139,10 @@ class WaterSystemSM {
             [wss_menu_all_p4] = SleepTimeOut,
             [wss_menu_all_ctrl] =SleepTimeOut,
 
-            [wss_list_one] = 2000UL,
+            [wss_list_one] = 2U,
             [wss_manualwater] = SleepTimeOut,
-            [wss_probe] = 1000UL,
-            [wss_autowater] = 1000UL,
+            [wss_probe] = 1U,
+            [wss_autowater] = 1U,
 
             [wss_sys_status] = SleepTimeOut,
             [wss_ctrl_all] = SleepTimeOut,

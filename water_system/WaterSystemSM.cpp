@@ -9,7 +9,7 @@
 constexpr const wss_type WaterSystemSM::_okBut_next_state[WSS_NOSTATE];
 constexpr const wss_type WaterSystemSM::_nextBut_next_state[WSS_NOSTATE];
 constexpr const wss_type WaterSystemSM::_to_next_state[WSS_NOSTATE];
-constexpr const ulong WaterSystemSM::_state_to[WSS_NOSTATE];
+constexpr const uint16_t WaterSystemSM::_state_to[WSS_NOSTATE];
 
 ulong WaterSystemSM::_timeoutForState(wss_type state)
 {
