@@ -68,7 +68,7 @@ class WaterSystemSM {
         wss_type _state;
         transition_reason _last_reason = reason_init;
 
-        constexpr static wss_type _okBut_next_state[WSS_NOSTATE] {
+        const wss_type _okBut_next_state[WSS_NOSTATE] {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
@@ -86,7 +86,7 @@ class WaterSystemSM {
             [wss_probe] = wss_list_one,
         };
 
-        constexpr static wss_type _nextBut_next_state[WSS_NOSTATE] {
+        const wss_type _nextBut_next_state[WSS_NOSTATE] {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
@@ -109,14 +109,14 @@ class WaterSystemSM {
             [wss_ctrl_all] = wss_list_all,
         };
 
-        constexpr static wss_type _to_next_state[WSS_NOSTATE] {
+        const wss_type _to_next_state[WSS_NOSTATE] {
             [wss_sleep] = wss_sleep,
             [wss_start] = wss_list_all,
             [wss_panic] = wss_panic,
         };
         ulong _timeout = 1000;
 
-        constexpr static ulong _state_to[WSS_NOSTATE] {
+        const ulong _state_to[WSS_NOSTATE] {
             [wss_sleep] = 30000UL,
             [wss_start] = 10000UL,
             [wss_panic] = 1000UL,

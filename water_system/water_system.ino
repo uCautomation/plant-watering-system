@@ -33,19 +33,19 @@ void printHex(byte b)
 
 void dumpWSTables(WaterSystem *pWS)
 {
-    Serial.print("Sizeof(wss_type) = ");
-    Serial.println(sizeof(wss_type));
+//     Serial.print("Sizeof(wss_type) = ");
+//     Serial.println(sizeof(wss_type));
 
-    byte *pStateByte = (byte *)&(WaterSystemSM::_okBut_next_state);
-    for (uintptr_t i = 0; i < sizeof(WaterSystemSM::_okBut_next_state); i++)
-    {
-        if (i % 16 == 0) {
-            Serial.println(' ');
-            Serial.print(i, HEX);
-            Serial.print(": ");
-        }
-        printHex(*(pStateByte + i));
-    }
+//     byte *pStateByte = (byte *)&(WaterSystemSM::_okBut_next_state);
+//     for (uintptr_t i = 0; i < sizeof(WaterSystemSM::_okBut_next_state); i++)
+//     {
+//         if (i % 16 == 0) {
+//             Serial.println(' ');
+//             Serial.print(i, HEX);
+//             Serial.print(": ");
+//         }
+//         printHex(*(pStateByte + i));
+//     }
 }
 
 void setup() {
