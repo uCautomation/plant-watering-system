@@ -4,11 +4,13 @@
 #ifndef DEBUG
 
 #ifdef DEBUG_ON
-#define DEBUG(fmt, args ...)                   \
-    do {                                       \
-        char dbgbuf[201];                      \
-        snprintf(dbgbuf, 200, "DBG: " fmt, ## args); \
-        Serial.println(dbgbuf);                \
+#define MAX_DEBUG_MSG_LEN 80
+
+#define DEBUG(fmt, args ...)                    \
+    do {                                        \
+        char dbgbuf[MAX_DEBUG_MSG_LEN + 1];     \
+        snprintf(dbgbuf, MAX_DEBUG_MSG_LEN, "DBG: " fmt, ## args); \
+        Serial.println(dbgbuf);                 \
     } while(0)
 
 #else

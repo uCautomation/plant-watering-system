@@ -82,7 +82,7 @@ WaterSystem::WaterSystem(/* args */)
 
     while (!Serial) {};
 
-    DEBUG("Dose: check for LCD");
+    DEBUG("Check 4 LCD");
 
     // See http://playground.arduino.cc/Main/I2cScanner
     Wire.begin();
@@ -127,7 +127,7 @@ void WaterSystem::selectModuleIndex(saneModuleIndex_t saneIndex)
 {
     byte index = saneIndex.moduleIndex;
     if (_saneModuleIndex(index).moduleIndex != saneIndex.moduleIndex) {
-        DEBUG("Internal error: received unsanitized index wrapped as sane %d", index);
+        DEBUG("InternError: rcv bad idx as sane %d", index);
         setSystemInternalError();
         system_panic_no_return();
     };
@@ -170,7 +170,8 @@ void WaterSystem::listAll()
     lcd.setBacklight(255); lcd.home(); lcd.clear();
 
     // TODO: use _lcd_line0
-    char buf[51] = ".    .    |    .    |    .    |    .    ";
+    // char buf[51] = ".    .    |    .    |    .    |    .    ";
+    char buf[lcdLineBufLen] = { 0 };
     // TODO: populate _lcd_line1
     char line2[lcdLineBufLen] = { 0U };
     for (byte i=0; i<MAX_MODULE_COUNT; i++) {
@@ -187,13 +188,13 @@ void WaterSystem::listAll()
         lcd.print(line2);
 
 
-        DEBUG("list all lines: %s %s", buf, line2);
+        DEBUG("listAll lines: %s %s", buf, line2);
     }
 
     // the menu item
     lcd.setCursor(12, 0);
-    sprintf(buf, "== X");
-    lcd.print(buf);
+    lcd.write(_burger_menu->location());
+    lcd.print("  X");
 
     lcd.setCursor(15, 1);
     if (hasInternalError())
@@ -229,7 +230,7 @@ void WaterSystem::showMenuCursor()
         int column = _p_current_menu->getLcdCursorColumn();
         int line = _p_current_menu->getLcdCursorLine();
 
-        DEBUG("showMenuCursor: %.4x column = %.2d, line = %.2d ", (uintptr_t)_p_current_menu, column, line);
+        DEBUG("showMenuCursor:%.4x col=%.2d, ln=%.2d", (uintptr_t)_p_current_menu, column, line);
         lcd.setCursor(column, line);
         lcd.blink();
     }
@@ -239,7 +240,7 @@ bool WaterSystem::listCtrlOne(byte currentModule)
 {
     saneModuleIndex_t saneIndex = _saneModuleIndex(currentModule);
     if (currentModule != saneIndex.moduleIndex) {
-        DEBUG("Ctrl one screen function: called but no active module!");
+        DEBUG("listCtrlOne: no module!");
         setSystemInternalError();
 
         return false;
@@ -250,23 +251,23 @@ bool WaterSystem::listCtrlOne(byte currentModule)
     return true;
 }
 
+char listCtrlOne0[lcdLineBufLen] = "P. Refs .. .. ..";
+char listCtrlOne1[lcdLineBufLen] = ">  ..Use Reset X";
+
+static const char listCtrlOne0Fmt[] = "%.1d Refs %.2s %.2s %.2s";
+static const char listCtrlOne1Fmt[] = ">  %.2sUse Reset X";
+
 void WaterSystem::listCurrentCtrlOne()
 {
     lcd.clear();
     lcd.home();
     if (!_some_module_selected) {
-        DEBUG("listCurrentCtrlOne: no selected module to list");
+        DEBUG("listCurrentCtrlOne: no module");
         lcd.write(_plant->location());
         lcd.write('?');
         return;
     }
     byte saneIdx = _selected_module.moduleIndex;
-
-    char listCtrlOne0[lcdLineBufLen] = "P. Refs .. .. ..";
-    char listCtrlOne1[lcdLineBufLen] = ">  ..Use Reset X";
-
-    static const char listCtrlOne0Fmt[] = "%.1d Refs %.2s %.2s %.2s";
-    static const char listCtrlOne1Fmt[] = ">  %.2sUse Reset X";
 
     snprintf(listCtrlOne0, lcdLineBufLen - 1, listCtrlOne0Fmt,
              saneIdx,
@@ -299,7 +300,7 @@ void WaterSystem::setLcdLines()
     } else if (_p_current_menu == &ctrl_one_menu) {
         listCurrentCtrlOne();
     } else {
-        DEBUG("Unhandled menu pointer %p in setLcdLines", _p_current_menu);
+        DEBUG("Unhdld menu ptr %p in setLcdLines", _p_current_menu);
     }
 
 }

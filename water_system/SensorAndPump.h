@@ -112,7 +112,7 @@ class SensorAndPump {
             snprintf(_buf, _bufLen, "%.2d", _dryPercent(dryValueRefIndex));
 
             // this should be safe since we have one buffer per SensorAndPump instance
-            DEBUG(" Too dry percent >%s<", _buf);
+            DEBUG("Dry %% >%s<", _buf);
 
             return _buf;
         }

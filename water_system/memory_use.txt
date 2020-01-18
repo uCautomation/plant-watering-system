@@ -1,0 +1,40 @@
+Schiţa foloseşte 11936 bytes (38%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1250 bytes (61%) din memoria dinamică, lăsând 798 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# remove dump function, ulong -> uint16_t on _state_to
+Schiţa foloseşte 11904 bytes (38%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1218 bytes (59%) din memoria dinamică, lăsând 830 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# shrink debug messages, buffers
+Schiţa foloseşte 11730 bytes (38%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1110 bytes (54%) din memoria dinamică, lăsând 938 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+
+# revert to ulong on _state_to
+Schiţa foloseşte 11762 bytes (38%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1142 bytes (55%) din memoria dinamică, lăsând 906 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+
+# Made _state_to a static member
+Schiţa foloseşte 11732 bytes (38%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1142 bytes (55%) din memoria dinamică, lăsând 906 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+
+# Made _*_next_state[] static members
+Schiţa foloseşte 11578 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1206 bytes (58%) din memoria dinamică, lăsând 842 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+
+# shrinked DEBUG dbgbuf to 80+1 bytes, set last char as 0
+Schiţa foloseşte 11608 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1206 bytes (58%) din memoria dinamică, lăsând 842 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+
+# remove reset to 0 of last char of dbgbuf
+Schiţa foloseşte 11528 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1206 bytes (58%) din memoria dinamică, lăsând 842 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+
+# change direct accessing of _state_to into a static member function call to _timeoutForState
+Schiţa foloseşte 11544 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1206 bytes (58%) din memoria dinamică, lăsând 842 bytes pentru variabilele locale. Maximul este de 2048 bytes.

@@ -68,7 +68,7 @@ class WaterSystemSM {
         wss_type _state;
         transition_reason _last_reason = reason_init;
 
-        const wss_type _okBut_next_state[WSS_NOSTATE] {
+        constexpr static const wss_type _okBut_next_state[WSS_NOSTATE] {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
@@ -86,7 +86,7 @@ class WaterSystemSM {
             [wss_probe] = wss_list_one,
         };
 
-        const wss_type _nextBut_next_state[WSS_NOSTATE] {
+        constexpr static const wss_type _nextBut_next_state[WSS_NOSTATE] {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
@@ -109,14 +109,18 @@ class WaterSystemSM {
             [wss_ctrl_all] = wss_list_all,
         };
 
-        const wss_type _to_next_state[WSS_NOSTATE] {
-            [wss_sleep] = wss_sleep,
+        constexpr static const wss_type _to_next_state[WSS_NOSTATE] {
+            [wss_sleep] = wss_autowater, // FIXME: should be check_autowater+autowater, in sequence, 0-3
             [wss_start] = wss_list_all,
             [wss_panic] = wss_panic,
         };
         ulong _timeout = 1000;
 
-        const ulong _state_to[WSS_NOSTATE] {
+        // TODO: represent on a single byte
+        //
+        // rangeof valid values 1s - 3 hours
+
+        constexpr static const ulong _state_to[WSS_NOSTATE] {
             [wss_sleep] = 30000UL,
             [wss_start] = 10000UL,
             [wss_panic] = 1000UL,
@@ -142,6 +146,8 @@ class WaterSystemSM {
         wss_type stateAfterOKButton();
         wss_type stateAfterNextButton();
         wss_type stateAfterTimeout();
+
+        static ulong _timeoutForState(wss_type);
 
         void setPanicState();
 
