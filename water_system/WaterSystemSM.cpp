@@ -6,10 +6,10 @@
 #include "WaterSystemSM.h"
 #include "WSRuntime.h"
 
-constexpr const wss_type WaterSystemSM::_okBut_next_state[WSS_NOSTATE];
-constexpr const wss_type WaterSystemSM::_nextBut_next_state[WSS_NOSTATE];
-constexpr const wss_type WaterSystemSM::_to_next_state[WSS_NOSTATE];
-constexpr const uint16_t WaterSystemSM::_state_to[WSS_NOSTATE];
+constexpr const wss_type WaterSystemSM::_okBut_next_state[WSS_NOSTATE] PROGMEM;
+constexpr const wss_type WaterSystemSM::_nextBut_next_state[WSS_NOSTATE] PROGMEM;
+constexpr const wss_type WaterSystemSM::_to_next_state[WSS_NOSTATE] PROGMEM;
+constexpr const uint16_t WaterSystemSM::_state_to[WSS_NOSTATE] PROGMEM;
 
 ulong WaterSystemSM::_timeoutForState(wss_type state)
 {
@@ -17,7 +17,7 @@ ulong WaterSystemSM::_timeoutForState(wss_type state)
         DEBUG("_timeoutForState:PANIC: Out of range state");
         system_panic_no_return();
     };
-    return timeInMilli(_state_to[state]);
+    return timeInMilli(u16PgmRead(_state_to[state]));
 }
 
 
@@ -47,19 +47,17 @@ WaterSystemSM::WaterSystemSM(
 
 wss_type WaterSystemSM::stateAfterOKButton()
 {
-    wss_type ret_state = _okBut_next_state[_state];
-
-    return ret_state;
+    return u16PgmRead(_okBut_next_state[_state]);
 }
 
 wss_type WaterSystemSM::stateAfterNextButton()
 {
-    return _nextBut_next_state[_state];
+    return u16PgmRead(_nextBut_next_state[_state]);
 }
 
 wss_type WaterSystemSM::stateAfterTimeout()
 {
-    return _to_next_state[_state];
+    return u16PgmRead(_to_next_state[_state]);
 }
 
 bool WaterSystemSM::stateUpdated(ulong current_milli) {

@@ -8,6 +8,12 @@ void panicLEDToggle();
 void system_panic_no_return();
 ulong timedelta(ulong ref_timestamp, ulong now);
 
+#ifdef __AVR
+#define u16PgmRead(var) pgm_read_word(&(var))
+#else
+#define u16PgmRead(var) (var)
+#endif
+
 inline byte systemAnalogReadBits()
 {
     // TODO: Should we set the read resolution via analogReadResolution() to 8 bits? for EEPROM efficiency?

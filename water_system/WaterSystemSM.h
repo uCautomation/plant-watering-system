@@ -72,7 +72,7 @@ class WaterSystemSM {
         wss_type _state;
         transition_reason _last_reason = reason_init;
 
-        constexpr static const wss_type _okBut_next_state[WSS_NOSTATE] {
+        constexpr static const wss_type _okBut_next_state[WSS_NOSTATE] PROGMEM {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
@@ -90,7 +90,7 @@ class WaterSystemSM {
             [wss_probe] = wss_list_one,
         };
 
-        constexpr static const wss_type _nextBut_next_state[WSS_NOSTATE] {
+        constexpr static const wss_type _nextBut_next_state[WSS_NOSTATE] PROGMEM {
             [wss_sleep] = wss_list_all,
             [wss_start] = wss_sleep,
             [wss_panic] = wss_panic,
@@ -113,7 +113,7 @@ class WaterSystemSM {
             [wss_ctrl_all] = wss_list_all,
         };
 
-        constexpr static const wss_type _to_next_state[WSS_NOSTATE] {
+        constexpr static const wss_type _to_next_state[WSS_NOSTATE] PROGMEM {
             [wss_sleep] = wss_autowater, // FIXME: should be check_autowater+autowater, in sequence, 0-3
             [wss_start] = wss_list_all,
             [wss_panic] = wss_panic,
@@ -125,7 +125,7 @@ class WaterSystemSM {
         // rangeof valid values 1s - 3 hours (maybe more? 12h?)
 
         // values in seconds
-        constexpr static const uint16_t _state_to[WSS_NOSTATE] {
+        constexpr static const uint16_t _state_to[WSS_NOSTATE] PROGMEM {
             [wss_sleep] = 30U,
             [wss_start] = 1U,
             [wss_panic] = 1U,

@@ -42,3 +42,11 @@ Variabilele globale folosesc 1206 bytes (58%) din memoria dinamică, lăsând 84
 # Change _state_to to be listed in seconds on uint16_t
 Schiţa foloseşte 11550 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
 Variabilele globale folosesc 1174 bytes (57%) din memoria dinamică, lăsând 874 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# Use PROGMEM for _state_to
+Schiţa foloseşte 11552 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1142 bytes (55%) din memoria dinamică, lăsând 906 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# Use PROGMEM for all _*_next_state
+Schiţa foloseşte 11560 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 1046 bytes (51%) din memoria dinamică, lăsând 1002 bytes pentru variabilele locale. Maximul este de 2048 bytes.

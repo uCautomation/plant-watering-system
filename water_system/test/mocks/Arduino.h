@@ -31,6 +31,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <limits.h>
+#include <string.h>
 
 #ifndef ULONG_MAX
 #define ULONG_MAX UINT_MAX
@@ -65,6 +66,10 @@ void digitalWrite(int pin, int level);
 int analogRead(int anpin);
 void interrupts();
 void noInterrupts();
+
+// PROGMEM related APIs
+#define PROGMEM
+#define memcpy_P(src,dst,size) memcpy(src,dst,size)
 
 #define digitalPinToInterrupt(x)
 #define attachInterrupt(interupt,isr,mode)
