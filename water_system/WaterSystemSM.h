@@ -44,7 +44,7 @@ typedef enum {
     reason_next_button,
 } transition_reason;
 
-constexpr ulong timeInSeconds(uint16_t seconds)
+constexpr ulong timeInMilli(uint16_t seconds)
 {
     return 1000UL * seconds;
 }
@@ -127,7 +127,7 @@ class WaterSystemSM {
         // values in seconds
         constexpr static const uint16_t _state_to[WSS_NOSTATE] {
             [wss_sleep] = 30U,
-            [wss_start] = 10U,
+            [wss_start] = 1U,
             [wss_panic] = 1U,
 
             [wss_list_all] = 5U,

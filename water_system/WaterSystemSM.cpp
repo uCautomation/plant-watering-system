@@ -17,7 +17,7 @@ ulong WaterSystemSM::_timeoutForState(wss_type state)
         DEBUG("_timeoutForState:PANIC: Out of range state");
         system_panic_no_return();
     };
-    return timeInSeconds(_state_to[state]);
+    return timeInMilli(_state_to[state]);
 }
 
 
