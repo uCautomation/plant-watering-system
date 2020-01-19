@@ -45,6 +45,8 @@ class MockButtonWS : public ButtonWS
         }
 };
 
+#define EXPECTED_START_TIMEOUT 1UL
+
 TEST(WaterSystemSM, Initial) {
 
     WaterSystemSM *t = new WaterSystemSM(0UL);
@@ -57,14 +59,14 @@ TEST(WaterSystemSM, TimeoutFromInitial) {
     WaterSystemSM *t = new WaterSystemSM(0UL);
 
     // immediately time-out from start into wss_list_all
-    EXPECT_EQ(true, t->stateUpdated(1UL));
+    EXPECT_EQ(true, t->stateUpdated(EXPECTED_START_TIMEOUT));
     EXPECT_EQ(wss_list_all, t->State());
 };
 
 TEST(WaterSystemSM, ListAllRemainsWithoutTimeout) {
 
     WaterSystemSM *t = new WaterSystemSM(0UL);
-    (void)t->stateUpdated(1UL); // immediately time-out from start into wss_list_all
+    (void)t->stateUpdated(EXPECTED_START_TIMEOUT); // immediately time-out from start into wss_list_all
 
     EXPECT_EQ(false, t->stateUpdated(SleepTimeOut)); // timeout is at 5001
     EXPECT_EQ(wss_list_all, t->State());
@@ -73,12 +75,12 @@ TEST(WaterSystemSM, ListAllRemainsWithoutTimeout) {
 TEST(WaterSystemSM, SleepOnListAllTimeOut) {
 
     WaterSystemSM *t = new WaterSystemSM(0UL);
-    (void)t->stateUpdated(1UL); // going from start into list_all
+    (void)t->stateUpdated(EXPECTED_START_TIMEOUT); // going from start into list_all
     // still in list_all before initial timeout
     (void)t->stateUpdated(SleepTimeOut); // timeout should be at 5001
 
     // check we're in sleep after timeout
-    EXPECT_EQ(true, t->stateUpdated(SleepTimeOut + 1UL));
+    EXPECT_EQ(true, t->stateUpdated(SleepTimeOut + EXPECTED_START_TIMEOUT));
     EXPECT_EQ(wss_sleep, t->State());
 };
 
@@ -87,8 +89,8 @@ TEST(WaterSystemSM, OnOkInSleepGoesToListAll) {
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    (void)t->stateUpdated(1UL); // going from start into list_all
-    (void)t->stateUpdated(SleepTimeOut + 1UL); // timeout, go to sleep
+    (void)t->stateUpdated(EXPECTED_START_TIMEOUT); // going from start into list_all
+    (void)t->stateUpdated(SleepTimeOut + EXPECTED_START_TIMEOUT); // timeout, go to sleep
 
     mockOkBut.tAppendExpectPush(true); // simulate button pressed
     // .. when in sleep
@@ -101,8 +103,8 @@ TEST(WaterSystemSM, OnNextInSleepGoesToListAll) {
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    (void)t->stateUpdated(1UL); // going from start into list_all
-    (void)t->stateUpdated(SleepTimeOut + 1UL); // timeout, go to sleep
+    (void)t->stateUpdated(EXPECTED_START_TIMEOUT); // going from start into list_all
+    (void)t->stateUpdated(SleepTimeOut + EXPECTED_START_TIMEOUT); // timeout, go to sleep
 
     mockNextBut.tAppendExpectPush(true); // simulate button pressed
     // .. when in sleep
@@ -115,7 +117,7 @@ TEST(WaterSystemSM, OnNextInListAllGoesToSysStatus) {
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    (void)t->stateUpdated(1UL); // going from start into list_all
+    (void)t->stateUpdated(EXPECTED_START_TIMEOUT); // going from start into list_all
 
     mockNextBut.tAppendExpectPush(true); // simulate Next pressed before sleep
     EXPECT_EQ(true, t->stateUpdated(SleepTimeOut >> 2));
@@ -127,7 +129,7 @@ TEST(WaterSystemSM, OnNextInSysStatusGoesToCtrlAll) {
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    (void)t->stateUpdated(1UL); // going from start into list_all
+    (void)t->stateUpdated(EXPECTED_START_TIMEOUT); // going from start into list_all
     mockNextBut.tAppendExpectPush(true); // simulate Next pressed in list all
     (void)t->stateUpdated(SleepTimeOut >> 2);
     mockNextBut.tAppendExpectPush(true); // simulate Next pressed in sys status
@@ -141,7 +143,7 @@ TEST(WaterSystemSM, OnNextInCtrlAllGoesToListAll) {
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    (void)t->stateUpdated(1UL); // going from start into list_all
+    (void)t->stateUpdated(EXPECTED_START_TIMEOUT); // going from start into list_all
     mockNextBut.tAppendExpectPush(true); // simulate Next pressed in list all
     (void)t->stateUpdated(SleepTimeOut >> 2);
     mockNextBut.tAppendExpectPush(true); // simulate Next pressed in sys status
@@ -158,7 +160,7 @@ TEST(WaterSystemSM, OnOkInListAllGoesToMenuAllX) {
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    (void)t->stateUpdated(1UL); // going from start into list_all
+    (void)t->stateUpdated(EXPECTED_START_TIMEOUT); // going from start into list_all
     mockOkBut.tAppendExpectPush(true); // simulate Ok pressed before sleep
 
     EXPECT_EQ(true, t->stateUpdated(SleepTimeOut >> 2));
@@ -170,7 +172,7 @@ TEST(WaterSystemSM, OnOkInMenuAllXGoesToListAll) {
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    (void)t->stateUpdated(1UL); // going from start into list_all
+    (void)t->stateUpdated(EXPECTED_START_TIMEOUT); // going from start into list_all
     mockOkBut.tAppendExpectPush(true); // simulate Ok pressed before sleep
     (void)t->stateUpdated(SleepTimeOut >> 2); // going from list_all to MenuAllX
     mockOkBut.tAppendExpectPush(true); // simulate Ok pressed on 'X'
@@ -185,7 +187,7 @@ TEST(WaterSystemSM, OnNextOkInListAllMenuGoesToListOne) {
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
 
     WaterSystemSM *t = new WaterSystemSM(0UL, &mockOkBut, &mockNextBut);
-    (void)t->stateUpdated(1UL); // going from start into list_all
+    (void)t->stateUpdated(EXPECTED_START_TIMEOUT); // going from start into list_all
     mockOkBut.tAppendExpectPush(true); // Ok -> go in menu
     (void)t->stateUpdated(SleepTimeOut >> 2); // going from list_all to MenuAllX
     mockNextBut.tAppendExpectPush(true); // simulate Next pressed (goto first)
