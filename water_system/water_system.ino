@@ -104,7 +104,7 @@ void set_system_state(wss_type nextstate)
         case wss_menu_all_p3:
         case wss_menu_all_p4:
         case wss_menu_all_ctrl:
-            pWaterSystem->selectNextMenu();
+            pWaterSystem->selectNextMenuEntry();
             break;;
 
         case wss_list_one:

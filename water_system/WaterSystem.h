@@ -85,7 +85,7 @@ class WaterSystem
 
         void showMenuCursor();
         void openMenu(WSMenu *pMenu);
-        void selectNextMenu();
+        void selectNextMenuEntry();
         void setLcdLines();
 
 };

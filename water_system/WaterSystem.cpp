@@ -152,7 +152,7 @@ void WaterSystem::deactivateSelection()
     _some_module_selected = false;
 }
 
-void WaterSystem::selectNextMenu()
+void WaterSystem::selectNextMenuEntry()
 {
     if (_p_current_menu != nullptr) {
         _p_current_menu->nextMenuEntry();
