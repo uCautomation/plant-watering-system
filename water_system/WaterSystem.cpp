@@ -277,8 +277,8 @@ bool WaterSystem::showCtrlOne(byte currentModule)
 // "P. Refs .. .. ..";
 // ">  ..Use Reset X";
 
-static const char listCtrlOne0Fmt[] = "%.1d Refs %.2s %.2s %.2s";
-static const char listCtrlOne1Fmt[] = ">  %.2sUse Reset X";
+static const char ctrlOne0Fmt[] = "%.1d Refs %.2s %.2s %.2s";
+static const char ctrlOne1Fmt[] = ">  %.2sUse Reset X";
 
 void WaterSystem::showCtrlCurrentOne()
 {
@@ -292,14 +292,14 @@ void WaterSystem::showCtrlCurrentOne()
     }
     byte saneIdx = _selected_module.moduleIndex;
 
-    snprintf(_lcd_line0, lcdLineBufLen - 1, listCtrlOne0Fmt,
+    snprintf(_lcd_line0, lcdLineBufLen - 1, ctrlOne0Fmt,
              saneIdx,
              sp[saneIdx].GetTooDryPercent(0),
              sp[saneIdx].GetTooDryPercent(1),
              sp[saneIdx].GetTooDryPercent(2)
              );
 
-    snprintf(_lcd_line1, lcdLineBufLen - 1, listCtrlOne1Fmt,
+    snprintf(_lcd_line1, lcdLineBufLen - 1, ctrlOne1Fmt,
         sp[saneIdx].isModuleUsed() ? "In" : "No");
 
     // print to screen
