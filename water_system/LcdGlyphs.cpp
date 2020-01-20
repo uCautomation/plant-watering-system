@@ -6,22 +6,22 @@ const int plant[LCD_LINES_PER_GLYPH] PROGMEM = {
     0b00000000,
     0b00000000,
     0b00000000,
-    0b00000000,
     0b00001000,
     0b00000100,
     0b00011111,
-    0b00001110
+    0b00001110,
+    0b00000000,
 };
 
 const int rain_plant[LCD_LINES_PER_GLYPH] PROGMEM = {
-    0b00010101,
     0b00000000,
     0b00010101,
     0b00000000,
     0b00001000,
     0b00000100,
     0b00011111,
-    0b00001110
+    0b00001110,
+    0b00000000,
 };
 
 const int right_arrow[LCD_LINES_PER_GLYPH] PROGMEM = {
