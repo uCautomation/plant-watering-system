@@ -62,3 +62,7 @@ Variabilele globale folosesc 899 bytes (43%) din memoria dinamică, lăsând 114
 # Remove unused transition reason code
 Schiţa foloseşte 11726 bytes (38%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
 Variabilele globale folosesc 899 bytes (43%) din memoria dinamică, lăsând 1149 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# Add DEBUG_P(msg) to store non-paramterized debug messages in PROGMEM
+Schiţa foloseşte 11684 bytes (38%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 781 bytes (38%) din memoria dinamică, lăsând 1267 bytes pentru variabilele locale. Maximul este de 2048 bytes.

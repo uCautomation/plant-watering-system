@@ -14,7 +14,7 @@ constexpr const uint16_t WaterSystemSM::_state_to[WSS_NOSTATE] PROGMEM;
 ulong WaterSystemSM::_timeoutForState(wss_type state)
 {
     if (state >= WSS_NOSTATE) {
-        DEBUG("_timeoutForState:PANIC: Out of range state");
+        DEBUG_P("_timeoutForState:PANIC: Out of range state");
         system_panic_no_return();
     };
     return timeInMilli(u16PgmRead(_state_to[state]));
@@ -63,7 +63,7 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
 
     if (okBut->isPressed(current_milli)) {
 
-        DEBUG("OK pressed");
+        DEBUG_P("OK pressed");
 
         noInterrupts();
         _state = stateAfterOKButton();
@@ -76,7 +76,7 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
 
     if (nextBut->isPressed(current_milli)) {
 
-        DEBUG("Next pressed");
+        DEBUG_P("Next pressed");
 
         noInterrupts();
         _state = stateAfterNextButton();
@@ -102,14 +102,14 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
             _last_transition_milli = current_milli;
             _timeout = _timeoutForState(_state);
         } else {
-            DEBUG("same state");
+            DEBUG_P("same state");
         }
         interrupts();
 
         return state_changed;
     }
 
-    DEBUG("No state chg");
+    DEBUG_P("No state chg");
 
     return false;
 }

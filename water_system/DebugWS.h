@@ -13,8 +13,11 @@
         Serial.println(dbgbuf);                 \
     } while(0)
 
+#define DEBUG_P(msg) Serial.print(F(msg))
+
 #else
 #define DEBUG(fmt, args ...)
+#define DEBUG_P(msg)
 
 #endif // #ifdef DEBUG_ON
 

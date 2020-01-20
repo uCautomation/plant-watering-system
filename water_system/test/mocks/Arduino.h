@@ -70,6 +70,7 @@ void noInterrupts();
 // PROGMEM related APIs
 #define PROGMEM
 #define memcpy_P(src,dst,size) memcpy(src,dst,size)
+#define F(msg) (msg)
 
 #define digitalPinToInterrupt(x)
 #define attachInterrupt(interupt,isr,mode)
@@ -80,8 +81,10 @@ void noInterrupts();
 
 #ifdef USE_DEBUG
     #define DEBUG(fmt, ...) printf(fmt "\n" , ##__VA_ARGS__)
+    #define DEBUG_P(msg) DEBUG(msg)
 #else
     #define DEBUG(fmt, ...)
+    #define DEBUG_P(msg)
 #endif
 
 #endif

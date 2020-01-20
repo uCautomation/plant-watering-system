@@ -78,11 +78,11 @@ WaterSystem::WaterSystem(/* args */)
     _internal_error = false;
     _p_current_menu = nullptr;
 
-    DEBUG("Init LCD...");
+    DEBUG_P("Init LCD...");
 
     while (!Serial) {};
 
-    DEBUG("Check 4 LCD");
+    DEBUG_P("Check 4 LCD");
 
     // See http://playground.arduino.cc/Main/I2cScanner
     Wire.begin();
@@ -99,7 +99,7 @@ WaterSystem::WaterSystem(/* args */)
         lcd.begin(16, 2); // initialize the lcd
         lcd.setBacklight(255);
         lcd.home(); lcd.clear();
-        lcd.print("Water system 0.1\n");
+        lcd.print(F("Water system 0.1\n"));
 
         lcd.setCursor(0, 1);
         for (int i=0; i<8; i++)
@@ -232,7 +232,7 @@ void WaterSystem::manualWaterCurrent()
     if (hasActiveModule(&saneIdx)) {
         sp[saneIdx.moduleIndex].ManualGiveWaterAndAdjustDry();
     } else {
-        DEBUG("%s", (char *)F("manualWater command, but no active module"));
+        DEBUG_P("manualWater command, but no active module");
         system_panic_no_return();
     }
     delay(MIN_REWATER_INTERVAL_MS);
@@ -254,7 +254,7 @@ bool WaterSystem::listCtrlOne(byte currentModule)
 {
     saneModuleIndex_t saneIndex = _saneModuleIndex(currentModule);
     if (currentModule != saneIndex.moduleIndex) {
-        DEBUG("listCtrlOne: no module!");
+        DEBUG_P("listCtrlOne: no module!");
         setSystemInternalError();
 
         return false;
@@ -276,7 +276,7 @@ void WaterSystem::listCurrentCtrlOne()
     lcd.clear();
     lcd.home();
     if (!_some_module_selected) {
-        DEBUG("listCurrentCtrlOne: no module");
+        DEBUG_P("listCurrentCtrlOne: no module");
         lcd.write(_plant->location());
         lcd.write('?');
         return;

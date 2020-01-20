@@ -11,7 +11,7 @@ void panicLEDToggle() {
 
 void system_panic_no_return()
 {
-    DEBUG("PANIC!!!!");
+    DEBUG_P("PANIC!!!!");
 
     lcd.setBacklight(127);
     while(true) {

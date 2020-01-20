@@ -129,7 +129,7 @@ class SensorAndPump {
                 delay(_pumpOnMS);
                 digitalWrite(_pumpCmdPin, LOW); // close valve
             } else {
-                DEBUG("%s", (char *)F("Ignore unused plant watering cmd"));
+                DEBUG_P("Ignore unused plant watering cmd");
             }
         }
 

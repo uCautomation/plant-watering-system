@@ -26,7 +26,7 @@ bool ButtonWS::isPressed(ulong now)
 
     ulong td = timedelta(_milli, now);
     if (td < _debounceDelay) return false;
-    //DEBUG("Debounced");
+    //DEBUG_P("Debounced");
 
     byte s = digitalRead(_pin);
     //DEBUG("%s", s == LOW ? "LOW" : "HIGH");
