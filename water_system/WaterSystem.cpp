@@ -109,6 +109,7 @@ WaterSystem::WaterSystem(/* args */)
 
 void WaterSystem::setSystemInternalError()
 {
+    DEBUG_P(" !!! INTERNAL ERROR !!!");
     _internal_error = true;
 }
 
@@ -262,7 +263,7 @@ bool WaterSystem::listCtrlOne(byte currentModule)
 {
     saneModuleIndex_t saneIndex = _saneModuleIndex(currentModule);
     if (currentModule != saneIndex.moduleIndex) {
-        DEBUG_P("listCtrlOne: no module!");
+        DEBUG_P("INTERNAL ERROR: listCtrlOne: no module!");
         setSystemInternalError();
 
         return false;
