@@ -330,7 +330,8 @@ void WaterSystem::setLcdLines()
 void WaterSystem::openMenu(WSMenu *pMenu)
 {
     _p_current_menu = pMenu;
-    // setLcdLines();
+    // FIXME: reprint LCD lines
+    // menus which are openend and selected need a separate wrapper API
     _resetMenu();
     // showScreen(); // probably not needed
     showMenuCursor();
