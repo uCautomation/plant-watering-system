@@ -54,3 +54,11 @@ Variabilele globale folosesc 1046 bytes (51%) din memoria dinamică, lăsând 10
 # Use PROGMEM for LCDGlyphs
 Schiţa foloseşte 11578 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
 Variabilele globale folosesc 918 bytes (44%) din memoria dinamică, lăsând 1130 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# Moved some debug messages in PROGMEM (and added some code)
+Schiţa foloseşte 11810 bytes (38%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 899 bytes (43%) din memoria dinamică, lăsând 1149 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# Remove unused transition reason code
+Schiţa foloseşte 11726 bytes (38%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 899 bytes (43%) din memoria dinamică, lăsând 1149 bytes pentru variabilele locale. Maximul este de 2048 bytes.

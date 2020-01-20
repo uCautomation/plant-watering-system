@@ -37,12 +37,6 @@ const byte okButPin = 2;
 void nextButISR(void);
 void okButISR(void);
 
-typedef enum {
-    reason_init,
-    reason_timeout,
-    reason_ok_button,
-    reason_next_button,
-} transition_reason;
 
 constexpr ulong timeInMilli(uint16_t seconds)
 {
@@ -61,7 +55,6 @@ class WaterSystemSM {
         WaterSystemSM(ulong current_milli, ButtonWS *okBut, ButtonWS *nextBut);
 
         wss_type State();
-        transition_reason lastTransitionReason();
         bool stateUpdated(ulong current_milli);
 
     private:
@@ -70,7 +63,6 @@ class WaterSystemSM {
 
         volatile ulong _last_transition_milli;
         wss_type _state;
-        transition_reason _last_reason = reason_init;
 
         constexpr static const wss_type _okBut_next_state[WSS_NOSTATE] PROGMEM {
             [wss_sleep] = wss_list_all,

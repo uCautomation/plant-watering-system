@@ -39,7 +39,6 @@ WaterSystemSM::WaterSystemSM(
 {
     _state = wss_start;
     _last_transition_milli = current_milli;
-    _last_reason = reason_init;
 
     _timeout = _timeoutForState(_state);
 
@@ -69,7 +68,6 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
         noInterrupts();
         _state = stateAfterOKButton();
         _last_transition_milli = current_milli;
-        _last_reason = reason_ok_button;
         _timeout = _timeoutForState(_state);
         interrupts();
 
@@ -83,7 +81,6 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
         noInterrupts();
         _state = stateAfterNextButton();
         _last_transition_milli = current_milli;
-        _last_reason = reason_next_button;
         _timeout = _timeoutForState(_state);
         interrupts();
 
@@ -103,7 +100,6 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
             DEBUG("state chg via TO (old=%d, new=%d, delta=%ul, _to = %lu", _state, _next_state, time_delta, _timeout);
             _state = _next_state;
             _last_transition_milli = current_milli;
-            _last_reason = reason_timeout;
             _timeout = _timeoutForState(_state);
         } else {
             DEBUG("same state");
@@ -125,10 +121,5 @@ void WaterSystemSM::setPanicState() {
 wss_type WaterSystemSM::State() {
     return _state;
 };
-
-transition_reason WaterSystemSM::lastTransitionReason()
-{
-    return _last_reason;
-}
 
 //private:

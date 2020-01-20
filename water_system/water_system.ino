@@ -125,8 +125,6 @@ void set_system_state(wss_type nextstate)
 
         case wss_sys_status:
             {
-                /*transition_reason reason = */
-                (void)pWSSM->lastTransitionReason();
 
                 lcd.clear();
                 lcd.setBacklight(255);
@@ -136,7 +134,7 @@ void set_system_state(wss_type nextstate)
                 if (pWaterSystem->hasActiveModule(&saneIndex)) {
                     snprintf(msg, lcdLineBufLen, "Logs: module %d", saneIndex.moduleIndex);
                 } else {
-                    snprintf(msg, lcdLineBufLen, "Logs: [NoSelect]");
+                    snprintf(msg, lcdLineBufLen, (char *)F("Logs: [NoSelect]"));
                 }
                 lcd.print(msg);
                 lcd.setCursor(0, 1);
