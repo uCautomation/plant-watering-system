@@ -315,18 +315,6 @@ void WaterSystem::listCurrentCtrlOne()
 
 }
 
-void WaterSystem::setLcdLines()
-{
-    if (_p_current_menu == &list_all_menu) {
-        listAll();
-    } else if (_p_current_menu == &ctrl_one_menu) {
-        listCurrentCtrlOne();
-    } else {
-        DEBUG("Unhdld menu ptr %p in setLcdLines", _p_current_menu);
-    }
-
-}
-
 void WaterSystem::openMenu(WSMenu *pMenu)
 {
     _p_current_menu = pMenu;
