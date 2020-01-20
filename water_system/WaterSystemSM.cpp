@@ -17,7 +17,14 @@ ulong WaterSystemSM::_timeoutForState(wss_type state)
         DEBUG_P("_timeoutForState:PANIC: Out of range state");
         system_panic_no_return();
     };
-    return timeInMilli(u16PgmRead(_state_to[state]));
+
+    uint8_t state_to = u16PgmRead(_state_to[state]);
+    // 0 is the default initializer, but for TO we want by default SleepTimeOut
+    if (state_to == 0U) {
+        state_to = SleepTimeOut;
+    }
+
+    return timeInMilli(state_to);
 }
 
 

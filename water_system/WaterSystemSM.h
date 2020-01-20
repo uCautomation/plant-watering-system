@@ -21,6 +21,7 @@ typedef enum {
     wss_menu_all_ctrl,
 
     wss_list_one, // indirectly reached via wss_list_all menu
+
     wss_manualwater, // indirectly reached via wss_list_one menu
     wss_probe, // check the current sensor reading (on demand)
     wss_autowater, // Used by automatic watering
@@ -136,8 +137,7 @@ class WaterSystemSM {
             [wss_probe] = 1U,
             [wss_autowater] = 1U,
 
-            [wss_sys_status] = SleepTimeOut,
-            [wss_ctrl_all] = SleepTimeOut,
+            // 0 is the same as SleepTimeOut, see _timeoutForState
         };
 
         wss_type stateAfterOKButton();
