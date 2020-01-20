@@ -76,8 +76,8 @@ class WaterSystem
         bool hasActiveModule(saneModuleIndex_t *pModuleIdx);
 
         void listAll();
-        bool listCtrlOne(byte moduleIndex);
-        void listCurrentCtrlOne();
+        bool showCtrlOne(byte moduleIndex);
+        void showCtrlCurrentOne();
 
         void manualWaterCurrent();
 

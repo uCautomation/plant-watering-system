@@ -116,7 +116,7 @@ void set_system_state(wss_type nextstate)
                           == (wss_list_one_p3 - wss_list_one_p2));
             static_assert((wss_list_one_p2 - wss_list_one_p1)
                           == (wss_list_one_p4 - wss_list_one_p3));
-            if (!pWaterSystem->listCtrlOne((byte)(nextstate - wss_list_one_p1))) {
+            if (!pWaterSystem->showCtrlOne((byte)(nextstate - wss_list_one_p1))) {
                 DEBUG_P("Unexpected failure of listCtrlOne");
                 pWaterSystem->setSystemInternalError();
             };

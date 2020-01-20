@@ -259,18 +259,18 @@ void WaterSystem::showMenuCursor()
     }
 }
 
-bool WaterSystem::listCtrlOne(byte currentModule)
+bool WaterSystem::showCtrlOne(byte currentModule)
 {
     saneModuleIndex_t saneIndex = _saneModuleIndex(currentModule);
     if (currentModule != saneIndex.moduleIndex) {
-        DEBUG_P("INTERNAL ERROR: listCtrlOne: no module!");
+        DEBUG_P("INTERNAL ERROR: showCtrlOne: no module!");
         setSystemInternalError();
 
         return false;
     };
 
     selectModuleIndex(saneIndex);
-    listCurrentCtrlOne();
+    showCtrlCurrentOne();
     return true;
 }
 
@@ -280,12 +280,12 @@ bool WaterSystem::listCtrlOne(byte currentModule)
 static const char listCtrlOne0Fmt[] = "%.1d Refs %.2s %.2s %.2s";
 static const char listCtrlOne1Fmt[] = ">  %.2sUse Reset X";
 
-void WaterSystem::listCurrentCtrlOne()
+void WaterSystem::showCtrlCurrentOne()
 {
     lcd.clear();
     lcd.home();
     if (!_some_module_selected) {
-        DEBUG_P("listCurrentCtrlOne: no module");
+        DEBUG_P("showCtrlCurrentOne: no module");
         lcd.write(_plant->location());
         lcd.write('?');
         return;
