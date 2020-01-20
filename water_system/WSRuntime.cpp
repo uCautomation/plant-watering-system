@@ -2,7 +2,7 @@
 
 #include "WaterSystem.h"
 
-int g_panic_led = 0;
+byte g_panic_led = 0;
 
 void panicLEDToggle() {
     g_panic_led = !g_panic_led;
