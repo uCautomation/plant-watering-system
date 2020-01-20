@@ -200,6 +200,8 @@ void WaterSystem::listAll()
     if (hasInternalError())
         lcd.write(_skull->location());
 
+    lcd.noBlink();
+
 }
 
 #if 0
