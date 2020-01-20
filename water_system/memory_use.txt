@@ -50,3 +50,7 @@ Variabilele globale folosesc 1142 bytes (55%) din memoria dinamică, lăsând 90
 # Use PROGMEM for all _*_next_state
 Schiţa foloseşte 11560 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
 Variabilele globale folosesc 1046 bytes (51%) din memoria dinamică, lăsând 1002 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# Use PROGMEM for LCDGlyphs
+Schiţa foloseşte 11578 bytes (37%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 918 bytes (44%) din memoria dinamică, lăsând 1130 bytes pentru variabilele locale. Maximul este de 2048 bytes.
