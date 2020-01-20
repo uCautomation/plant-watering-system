@@ -274,8 +274,8 @@ bool WaterSystem::listCtrlOne(byte currentModule)
     return true;
 }
 
-char listCtrlOne0[lcdLineBufLen] = "P. Refs .. .. ..";
-char listCtrlOne1[lcdLineBufLen] = ">  ..Use Reset X";
+// "P. Refs .. .. ..";
+// ">  ..Use Reset X";
 
 static const char listCtrlOne0Fmt[] = "%.1d Refs %.2s %.2s %.2s";
 static const char listCtrlOne1Fmt[] = ">  %.2sUse Reset X";
@@ -292,27 +292,27 @@ void WaterSystem::listCurrentCtrlOne()
     }
     byte saneIdx = _selected_module.moduleIndex;
 
-    snprintf(listCtrlOne0, lcdLineBufLen - 1, listCtrlOne0Fmt,
+    snprintf(_lcd_line0, lcdLineBufLen - 1, listCtrlOne0Fmt,
              saneIdx,
              sp[saneIdx].GetTooDryPercent(0),
              sp[saneIdx].GetTooDryPercent(1),
              sp[saneIdx].GetTooDryPercent(2)
              );
 
-    snprintf(listCtrlOne1, lcdLineBufLen - 1, listCtrlOne1Fmt,
+    snprintf(_lcd_line1, lcdLineBufLen - 1, listCtrlOne1Fmt,
         sp[saneIdx].isModuleUsed() ? "In" : "No");
 
     // print to screen
-    DEBUG("%s", listCtrlOne0);
-    DEBUG("%s", listCtrlOne1);
+    DEBUG("%s", _lcd_line0);
+    DEBUG("%s", _lcd_line1);
 
     lcd.setBacklight(255); lcd.home(); lcd.clear(); lcd.noCursor();
     int ploc = _plant->location();
     DEBUG("Plant location >%d<\n", ploc);
     lcd.write(_plant->location());
-    lcd.print(listCtrlOne0);
+    lcd.print(_lcd_line0);
     lcd.setCursor(0, 1);
-    lcd.print(listCtrlOne1);
+    lcd.print(_lcd_line1);
 
 }
 
