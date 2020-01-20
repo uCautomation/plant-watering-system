@@ -29,8 +29,15 @@ typedef enum {
     wss_sys_status, // reservoir water level, dump logs, battery level, error/panic/watchdog reset count
     wss_ctrl_all, // system level control menu (forget calibration, forget+recalibrate, clear system logs, etc.)
 
+
+    wss_list_one_p1,
+    wss_list_one_p2,
+    wss_list_one_p3,
+    wss_list_one_p4,
+
     WSS_NOSTATE
 } wss_type;
+
 
 const byte nextButPin = 3;
 const byte okButPin = 2;
@@ -72,10 +79,10 @@ class WaterSystemSM {
             [wss_list_all] = wss_menu_all_x,
 
             [wss_menu_all_x] = wss_list_all,
-            [wss_menu_all_p1] = wss_list_one,
-            [wss_menu_all_p2] = wss_list_one,
-            [wss_menu_all_p3] = wss_list_one,
-            [wss_menu_all_p4] = wss_list_one,
+            [wss_menu_all_p1] = wss_list_one_p1,
+            [wss_menu_all_p2] = wss_list_one_p2,
+            [wss_menu_all_p3] = wss_list_one_p3,
+            [wss_menu_all_p4] = wss_list_one_p4,
             [wss_menu_all_ctrl] = wss_ctrl_all,
 
             [wss_list_one] = wss_probe,

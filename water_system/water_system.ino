@@ -107,10 +107,21 @@ void set_system_state(wss_type nextstate)
             pWaterSystem->selectNextMenuEntry();
             break;;
 
-        case wss_list_one:
-            // TODO: HACK! use list one!
-            pWaterSystem->listCtrlOne(0);
-            break;;
+        case wss_list_one_p1:
+        case wss_list_one_p2:
+        case wss_list_one_p3:
+        case wss_list_one_p4:
+            static_assert((wss_list_one_p2 - wss_list_one_p1) == 1);
+            static_assert((wss_list_one_p2 - wss_list_one_p1)
+                          == (wss_list_one_p3 - wss_list_one_p2));
+            static_assert((wss_list_one_p2 - wss_list_one_p1)
+                          == (wss_list_one_p4 - wss_list_one_p3));
+            if (!pWaterSystem->listCtrlOne((byte)(nextstate - wss_list_one_p1))) {
+                DEBUG_P("Unexpected failure of listCtrlOne");
+                pWaterSystem->setSystemInternalError();
+            };
+            break;
+            ;;
 
         case wss_sleep:
             lcd.setBacklight(0);
