@@ -307,8 +307,6 @@ void WaterSystem::listCurrentCtrlOne()
     DEBUG("%s", _lcd_line1);
 
     lcd.setBacklight(255); lcd.home(); lcd.clear(); lcd.noCursor();
-    int ploc = _plant->location();
-    DEBUG("Plant location >%d<\n", ploc);
     lcd.write(_plant->location());
     lcd.print(_lcd_line0);
     lcd.setCursor(0, 1);
