@@ -55,8 +55,6 @@ class WaterSystem
         inline saneModuleIndex_t _saneModuleIndex(byte moduleIndex);
         // void listCtrlOne(saneModuleIndex_t currentModule);
 
-    public:
-
         // Sensor+Pump modules
         SensorAndPump sp[MAX_MODULE_COUNT] = {
             {4, A0, 5}, // D4 is Vsens, A0 = Sens, D5 is Valve cmd
@@ -64,6 +62,8 @@ class WaterSystem
             {8, A2, 9},
             {10, A3, 11},
         };
+
+    public:
 
         WaterSystem();
 
@@ -79,6 +79,7 @@ class WaterSystem
         bool listCtrlOne(byte moduleIndex);
         void listCurrentCtrlOne();
 
+        void manualWaterCurrent();
 
         // void showScreen();
 

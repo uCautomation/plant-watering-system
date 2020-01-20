@@ -224,6 +224,18 @@ void WaterSystem::_resetMenu()
     }
 }
 
+void WaterSystem::manualWaterCurrent()
+{
+    saneModuleIndex_t saneIdx;
+    if (hasActiveModule(&saneIdx)) {
+        sp[saneIdx.moduleIndex].ManualGiveWaterAndAdjustDry();
+    } else {
+        DEBUG("%s", (char *)F("manualWater command, but no active module"));
+        system_panic_no_return();
+    }
+    delay(MIN_REWATER_INTERVAL_MS);
+}
+
 void WaterSystem::showMenuCursor()
 {
     if (_p_current_menu != nullptr) {

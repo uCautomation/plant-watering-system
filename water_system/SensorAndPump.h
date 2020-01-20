@@ -124,9 +124,13 @@ class SensorAndPump {
 
         void GiveWater()
         {
-            digitalWrite(_pumpCmdPin, HIGH); // open valve to let water run
-            delay(_pumpOnMS);
-            digitalWrite(_pumpCmdPin, LOW); // close valve
+            if (isModuleUsed()) {
+                digitalWrite(_pumpCmdPin, HIGH); // open valve to let water run
+                delay(_pumpOnMS);
+                digitalWrite(_pumpCmdPin, LOW); // close valve
+            } else {
+                DEBUG("%s", (char *)F("Ignore unused plant watering cmd"));
+            }
         }
 
         void ManualGiveWaterAndAdjustDry()
@@ -145,10 +149,7 @@ class SensorAndPump {
 
         inline void setModuleUnused() { _moduleIsUsed = false; }
 
-        inline bool isModuleUsed()
-        {
-            return _moduleIsUsed;
-        }
+        inline bool isModuleUsed() { return _moduleIsUsed; }
 };
 
 #endif

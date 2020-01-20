@@ -119,11 +119,7 @@ void set_system_state(wss_type nextstate)
             ;;
 
         case wss_manualwater:
-            saneModuleIndex_t saneIdx;
-            if (pWaterSystem->hasActiveModule(&saneIdx)) {
-                pWaterSystem->sp[saneIdx.moduleIndex].ManualGiveWaterAndAdjustDry();
-            }
-            delay(MIN_REWATER_INTERVAL_MS);
+            pWaterSystem->manualWaterCurrent();
             break;
             ;;
 
