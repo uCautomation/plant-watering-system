@@ -152,6 +152,14 @@ void WaterSystem::deactivateSelection()
     _some_module_selected = false;
 }
 
+void WaterSystem::selectNextMenu()
+{
+    if (_p_current_menu != nullptr) {
+        _p_current_menu->nextMenuEntry();
+        showMenuCursor();
+    }
+}
+
 bool WaterSystem::hasActiveModule(saneModuleIndex_t *pModuleIdx)
 {
     if (!_some_module_selected) {

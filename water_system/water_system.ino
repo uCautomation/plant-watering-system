@@ -82,8 +82,8 @@ void loop() {
 void set_system_state(wss_type nextstate)
 {
     DEBUG("St=%d", nextstate);
-    lcd.setCursor(13, 1);
-    lcd.print(nextstate);
+    // lcd.setCursor(13, 1);
+    // lcd.print(nextstate);
     switch (nextstate) {
         case wss_panic:
             system_panic_no_return(); // never returns
@@ -97,14 +97,14 @@ void set_system_state(wss_type nextstate)
 
         case wss_menu_all_x:
             pWaterSystem->openMenu(&list_all_menu);
-            __attribute__((fallthrough));
+            break;;
 
         case wss_menu_all_p1:
         case wss_menu_all_p2:
         case wss_menu_all_p3:
         case wss_menu_all_p4:
         case wss_menu_all_ctrl:
-            pWaterSystem->showMenuCursor();
+            pWaterSystem->selectNextMenu();
             break;;
 
         case wss_list_one:
