@@ -70,7 +70,7 @@ class WaterSystem
         void setSystemInternalError();
         bool hasInternalError();
 
-        byte selectSaneModuleIndex(byte moduleIndex);
+        // byte selectSaneModuleIndex(byte moduleIndex);
         void selectModuleIndex(saneModuleIndex_t saneIndex);
         void deactivateSelection();
         bool hasActiveModule(saneModuleIndex_t *pModuleIdx);

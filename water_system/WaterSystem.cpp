@@ -138,14 +138,14 @@ void WaterSystem::selectModuleIndex(saneModuleIndex_t saneIndex)
     interrupts();
 }
 
-byte WaterSystem::selectSaneModuleIndex(byte moduleIndex)
-{
-    noInterrupts();
-    _selected_module = _saneModuleIndex(moduleIndex);
-    _some_module_selected = true;
-    interrupts();
-    return _selected_module.moduleIndex;
-}
+// byte WaterSystem::selectSaneModuleIndex(byte moduleIndex)
+// {
+//     noInterrupts();
+//     _selected_module = _saneModuleIndex(moduleIndex);
+//     _some_module_selected = true;
+//     interrupts();
+//     return _selected_module.moduleIndex;
+// }
 
 void WaterSystem::deactivateSelection()
 {
