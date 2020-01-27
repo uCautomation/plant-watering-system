@@ -14,3 +14,9 @@ void system_panic_no_return() {
     EXPECT_TRUE(expectPanic);
     expectPanic = false;
 }
+
+void assert_or_panic(bool condition)
+{
+    // TODO: is this enough?
+    EXPECT_TRUE(condition);
+}

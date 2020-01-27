@@ -19,4 +19,6 @@ inline byte systemAnalogReadBits()
     // TODO: Should we set the read resolution via analogReadResolution() to 8 bits? for EEPROM efficiency?
     return 10;
 }
+
+void assert_or_panic(bool condition);
 #endif // WSRUNTIME_H

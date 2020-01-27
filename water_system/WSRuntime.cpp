@@ -19,3 +19,11 @@ void system_panic_no_return()
         delay(200);
     }
 }
+
+void assert_or_panic(bool condition)
+{
+    if (!condition) {
+        DEBUG_P("InternalErr: Assertion failure!");
+        system_panic_no_return();
+    }
+}

@@ -294,9 +294,9 @@ void WaterSystem::showCtrlCurrentOne()
 
     snprintf(_lcd_line0, lcdLineBufLen - 1, ctrlOne0Fmt,
              saneIdx,
-             sp[saneIdx].GetTooDryPercent(0),
-             sp[saneIdx].GetTooDryPercent(1),
-             sp[saneIdx].GetTooDryPercent(2)
+             sp[saneIdx].GetTooDryPercentAsStr(0),
+             sp[saneIdx].GetTooDryPercentAsStr(1),
+             sp[saneIdx].GetTooDryPercentAsStr(2)
              );
 
     snprintf(_lcd_line1, lcdLineBufLen - 1, ctrlOne1Fmt,

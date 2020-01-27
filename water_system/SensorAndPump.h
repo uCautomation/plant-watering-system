@@ -34,6 +34,28 @@ class SensorAndPump {
             digitalWrite(_vSensorPin, LOW);//turn sensor "Off"
         }
 
+        byte _dryPercentFromAbsValue(int analogValue)
+        {
+            assert_or_panic((analogValue >= 0) && (analogValue < (int)_analogReadSteps()));
+
+            // maximum ADC representable value is (2^n - 1),
+            // so the result below is always slightly < 100%
+            return (byte)(100U * (uint16_t)analogValue / _analogReadSteps());
+        }
+
+        uint16_t _analogReadSteps()
+        {
+            return 2U << systemAnalogReadBits();
+        }
+
+        byte _dryPercentOnSampleNo(byte drySampleIndex)
+        {
+            // not used for now, will be used when multiple refs are stored
+            (void)drySampleIndex;
+
+            return _dryPercentFromAbsValue(_dryValue);
+        }
+
     public:
         SensorAndPump
         (
@@ -93,23 +115,24 @@ class SensorAndPump {
             }
         }
 
-        byte _dryPercent(byte saneDryValue) {
-            // not used for now
-            (void)saneDryValue;
-
-            // maximum ADC representable value is (2^n - 1),
-            // so the result below is always slightly < 100%
-            return (byte)(100 * _dryValue / (2 << systemAnalogReadBits()));
+        byte GetDryPercent()
+        {
+            return _dryPercentFromAbsValue(_dryValue);
         }
 
-        char *GetTooDryPercent(byte dryValueRefIndex)
+        byte GetLastMoisturePercent()
         {
-            if (dryValueRefIndex >= _maxDryValues) {
+            return _dryPercentFromAbsValue(_lastMoisture);
+        }
+
+        char *GetTooDryPercentAsStr(byte drySampleIndex)
+        {
+            if (drySampleIndex >= _maxDryValues) {
                 return (char *)noPercent;
             }
 
             // TODO: workaround the fact we can't guarantee lifetimes?
-            snprintf(_buf, _bufLen, "%.2d", _dryPercent(dryValueRefIndex));
+            snprintf(_buf, _bufLen, "%.2d", _dryPercentOnSampleNo(drySampleIndex));
 
             // this should be safe since we have one buffer per SensorAndPump instance
             DEBUG("Dry %% >%s<", _buf);
