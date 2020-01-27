@@ -33,10 +33,6 @@ WSMenu list_all_menu(
 #define LIST_ONE_MENU_ENTRIES      3
 #define LIST_ONE_MENU_START_COLUMN 0xb
 #define LIST_ONE_MENU_LINE         1
-char menuOne0[lcdLineBufLen] = { "P1 Now:.. Ref:.." };
-char menuOne1[lcdLineBufLen] = { "WET(d:..)  W > X" };
-// char menuOne0Fmt[] = { "P1 Now:%.2d Ref:%.2d" };
-// char menuOne1Fmt[] = { "WET(d:%+.1d)  W > X" };
 WSMenu list_one_menu(
     /* .MenuColumnStep = */ LIST_ONE_MENU_STEP,
     /* .NoOfMenuItems = */ LIST_ONE_MENU_ENTRIES,
@@ -259,13 +255,69 @@ void WaterSystem::showMenuCursor()
     }
 }
 
-bool WaterSystem::showCtrlOne(byte currentModule)
+bool WaterSystem::_confirmIndexIsSane(byte moduleIndex, saneModuleIndex_t *pSaneIndex)
 {
-    saneModuleIndex_t saneIndex = _saneModuleIndex(currentModule);
-    if (currentModule != saneIndex.moduleIndex) {
-        DEBUG_P("INTERNAL ERROR: showCtrlOne: no module!");
+    *pSaneIndex = _saneModuleIndex(moduleIndex);
+    if (moduleIndex != pSaneIndex->moduleIndex) {
         setSystemInternalError();
+        return false;
+    }
 
+    return true;
+}
+
+bool WaterSystem::statusOne(byte moduleIndex)
+{
+    saneModuleIndex_t saneIndex;
+    if (_confirmIndexIsSane(moduleIndex, &saneIndex)) {
+        DEBUG_P("INTERNAL ERROR: statusOne: no module!");
+        return false;
+    };
+
+    selectModuleIndex(saneIndex);
+    showStatusCurrentOne();
+    return true;
+
+}
+
+void WaterSystem::_continueLine0AndWriteLine1()
+{
+    // print to screen continuing on line0
+    lcd.print(_lcd_line0);
+    lcd.setCursor(0, 1);
+    lcd.print(_lcd_line1);
+}
+
+//   0123456789abcdef
+//  +----------------+
+// 0|P1 Now:52 Ref:50|
+// 1|WET(d:+2)  ☔ > X|
+//  +----------------+
+static char menuOne0Fmt[] = { " Now:%.2d Ref:%.2d" };
+static char menuOne1Fmt[] = { "WET(d:%+.1d)  W > X" };
+void WaterSystem::showStatusCurrentOne()
+{
+    byte saneIdx;
+    if (!_clearLcdAndListCurrentPlant(saneIdx)) {
+        DEBUG_P("showStatusCurrentOne: no module");
+        return;
+    }
+
+    snprintf(_lcd_line0, lcdLineBufLen - 1, menuOne0Fmt,
+        sp[saneIdx].GetLastMoisturePercent(),
+        sp[saneIdx].GetDryPercent());
+
+    snprintf(_lcd_line1, lcdLineBufLen - 1, menuOne1Fmt,
+        sp[saneIdx].GetNormalizedDeltaToThreshold());
+
+    _continueLine0AndWriteLine1();
+}
+
+bool WaterSystem::showCtrlOne(byte moduleIndex)
+{
+    saneModuleIndex_t saneIndex;
+    if (_confirmIndexIsSane(moduleIndex, &saneIndex)) {
+        DEBUG_P("INTERNAL ERROR: showCtrlOne: no module!");
         return false;
     };
 
@@ -277,23 +329,35 @@ bool WaterSystem::showCtrlOne(byte currentModule)
 // "P. Refs .. .. ..";
 // ">  ..Use Reset X";
 
-static const char ctrlOne0Fmt[] = "%.1d Refs %.2s %.2s %.2s";
+static const char ctrlOne0Fmt[] =  " Refs %.2s %.2s %.2s";
 static const char ctrlOne1Fmt[] = ">  %.2sUse Reset X";
 
-void WaterSystem::showCtrlCurrentOne()
+bool WaterSystem::_clearLcdAndListCurrentPlant(byte &selectedIdx)
 {
     lcd.clear();
     lcd.home();
+    lcd.setBacklight(255);
+    lcd.noCursor();
+
+    lcd.write(_plant->location());
     if (!_some_module_selected) {
-        DEBUG_P("showCtrlCurrentOne: no module");
-        lcd.write(_plant->location());
         lcd.write('?');
+    } else {
+        selectedIdx = _selected_module.moduleIndex;
+        lcd.write(selectedIdx);
+    }
+    return _some_module_selected;
+}
+
+void WaterSystem::showCtrlCurrentOne()
+{
+    byte saneIdx;
+    if (!_clearLcdAndListCurrentPlant(saneIdx)) {
+        DEBUG_P("showCtrlCurrentOne: no module");
         return;
     }
-    byte saneIdx = _selected_module.moduleIndex;
 
     snprintf(_lcd_line0, lcdLineBufLen - 1, ctrlOne0Fmt,
-             saneIdx,
              sp[saneIdx].GetTooDryPercentAsStr(0),
              sp[saneIdx].GetTooDryPercentAsStr(1),
              sp[saneIdx].GetTooDryPercentAsStr(2)
@@ -302,15 +366,11 @@ void WaterSystem::showCtrlCurrentOne()
     snprintf(_lcd_line1, lcdLineBufLen - 1, ctrlOne1Fmt,
         sp[saneIdx].isModuleUsed() ? "In" : "No");
 
-    // print to screen
     DEBUG("%s", _lcd_line0);
     DEBUG("%s", _lcd_line1);
 
-    lcd.setBacklight(255); lcd.home(); lcd.clear(); lcd.noCursor();
-    lcd.write(_plant->location());
-    lcd.print(_lcd_line0);
-    lcd.setCursor(0, 1);
-    lcd.print(_lcd_line1);
+    // print to screen continuing on line0
+    _continueLine0AndWriteLine1();
 
 }
 

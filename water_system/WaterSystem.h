@@ -51,6 +51,8 @@ class WaterSystem
         char _lcd_line0[lcdLineBufLen] = {0};
         char _lcd_line1[lcdLineBufLen] = {0};
 
+        void _continueLine0AndWriteLine1();
+
         void _resetMenu();
         inline saneModuleIndex_t _saneModuleIndex(byte moduleIndex);
         // void listCtrlOne(saneModuleIndex_t currentModule);
@@ -62,6 +64,9 @@ class WaterSystem
             {8, A2, 9},
             {10, A3, 11},
         };
+
+        bool _confirmIndexIsSane(byte moduleIndex, saneModuleIndex_t *pSaneIndex);
+        bool _clearLcdAndListCurrentPlant(byte &selectedIdx);
 
     public:
 
@@ -76,6 +81,8 @@ class WaterSystem
         bool hasActiveModule(saneModuleIndex_t *pModuleIdx);
 
         void listAll();
+        bool statusOne(byte moduleIndex);
+        void showStatusCurrentOne();
         bool showCtrlOne(byte moduleIndex);
         void showCtrlCurrentOne();
 
