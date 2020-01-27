@@ -1,0 +1,4 @@
+Disable esp8266 platform, it only has a single ADC pin, but we need 4.
+Also, the input range for the esp8266 ADC is 0-1V, but we would rather have 0-5V.
+
+See details: https://arduino-esp8266.readthedocs.io/en/latest/reference.html#analog-input
