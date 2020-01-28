@@ -31,6 +31,7 @@ void printHex(byte b)
     Serial.print(' ');
 }
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 void dumpWSTables(WaterSystem *pWS)
 {
 //     Serial.print("Sizeof(wss_type) = ");
@@ -47,6 +48,7 @@ void dumpWSTables(WaterSystem *pWS)
 //         printHex(*(pStateByte + i));
 //     }
 }
+#pragma GCC diagnostic pop
 
 void setup() {
     Serial.begin(9600);
