@@ -36,7 +36,7 @@ typedef enum {
     wss_list_one_p4,
 
     WSS_NOSTATE
-} wss_type;
+} __attribute__ ((__packed__)) wss_type;
 
 
 const byte nextButPin = 3;

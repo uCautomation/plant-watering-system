@@ -66,3 +66,11 @@ Variabilele globale folosesc 899 bytes (43%) din memoria dinamică, lăsând 114
 # Add DEBUG_P(msg) to store non-paramterized debug messages in PROGMEM
 Schiţa foloseşte 11684 bytes (38%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
 Variabilele globale folosesc 781 bytes (38%) din memoria dinamică, lăsând 1267 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# Various fixes and optimizations
+Schiţa foloseşte 11030 bytes (35%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 670 bytes (32%) din memoria dinamică, lăsând 1378 bytes pentru variabilele locale. Maximul este de 2048 bytes.
+
+# Add __attribute__((packed)) to wss_type typedef
+Schiţa foloseşte 10938 bytes (35%) din spațiul de stocare a programului. Maximul este de 30720 bytes.
+Variabilele globale folosesc 670 bytes (32%) din memoria dinamică, lăsând 1378 bytes pentru variabilele locale. Maximul este de 2048 bytes.
