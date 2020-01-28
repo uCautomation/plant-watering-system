@@ -297,7 +297,10 @@ static char menuOne0Fmt[] = { " Now:%.2d Ref:%.2d" };
 static char menuOne1Fmt[] = { "WET(d:%+.1d)  W > X" };
 void WaterSystem::showStatusCurrentOne()
 {
-    byte saneIdx;
+    // Initialize to silence -Wmaybe-uninitialized, incorrectly triggered here
+    // and is NOT silenced by
+    //   #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+    byte saneIdx = MAX_MODULE_COUNT;
     if (!_clearLcdAndListCurrentPlant(saneIdx)) {
         DEBUG_P("showStatusCurrentOne: no module");
         return;
