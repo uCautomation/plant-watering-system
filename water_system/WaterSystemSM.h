@@ -20,7 +20,7 @@ typedef enum {
     wss_menu_all_p4,
     wss_menu_all_ctrl,
 
-    wss_list_one, // indirectly reached via wss_list_all menu
+    wss_list_one /*TODO: __attribute__((deprecated))*/, // indirectly reached via wss_list_all menu
 
     wss_manualwater, // indirectly reached via wss_list_one menu
     wss_probe, // check the current sensor reading (on demand)
