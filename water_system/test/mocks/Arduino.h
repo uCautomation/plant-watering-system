@@ -79,7 +79,7 @@ void noInterrupts();
 #define digitalPinToInterrupt(isr,isrno,evt) 0
 #endif
 
-#ifdef USE_DEBUG
+#ifdef DEBUG_ON
     #define DEBUG(fmt, ...) printf(fmt "\n" , ##__VA_ARGS__)
     #define DEBUG_P(msg) DEBUG(msg)
 #else
