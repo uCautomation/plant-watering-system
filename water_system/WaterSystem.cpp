@@ -269,7 +269,7 @@ bool WaterSystem::_confirmIndexIsSane(byte moduleIndex, saneModuleIndex_t *pSane
 bool WaterSystem::statusOne(byte moduleIndex)
 {
     saneModuleIndex_t saneIndex;
-    if (_confirmIndexIsSane(moduleIndex, &saneIndex)) {
+    if (!_confirmIndexIsSane(moduleIndex, &saneIndex)) {
         DEBUG_P("INTERNAL ERROR: statusOne: no module!");
         return false;
     };
