@@ -344,7 +344,7 @@ bool WaterSystem::_clearLcdAndListCurrentPlant(byte &selectedIdx)
         lcd.write('?');
     } else {
         selectedIdx = _selected_module.moduleIndex;
-        lcd.write(selectedIdx);
+        lcd.write(selectedIdx + '0');
     }
     return _some_module_selected;
 }
