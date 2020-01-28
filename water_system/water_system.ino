@@ -32,7 +32,7 @@ void printHex(byte b)
 }
 
 #pragma GCC diagnostic ignored "-Wunused-parameter"
-void dumpWSTables(WaterSystem *pWS)
+void dumpWSTables(WaterSystemSM *pWSSM)
 {
 //     Serial.print("Sizeof(wss_type) = ");
 //     Serial.println(sizeof(wss_type));
@@ -59,13 +59,13 @@ void setup() {
     ulong last = millis();
 
     pWaterSystem = new WaterSystem();
-    dumpWSTables(pWaterSystem);
 
     pWSSM = new WaterSystemSM(
         last,
         new ButtonWS(okButPin, okButISR),
         new ButtonWS(nextButPin, nextButISR)
         );
+    dumpWSTables(pWSSM);
 
     if (pWSSM->State() == wss_panic) {
         system_panic_no_return();
