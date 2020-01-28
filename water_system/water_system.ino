@@ -34,19 +34,22 @@ void printHex(byte b)
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 void dumpWSTables(WaterSystemSM *pWSSM)
 {
-//     Serial.print("Sizeof(wss_type) = ");
-//     Serial.println(sizeof(wss_type));
+    // DEBUG_P("Sizeof(wss_type) = ");
+    // DEBUG("     >>>> %d", sizeof(wss_type));
 
-//     byte *pStateByte = (byte *)&(WaterSystemSM::_okBut_next_state);
-//     for (uintptr_t i = 0; i < sizeof(WaterSystemSM::_okBut_next_state); i++)
-//     {
-//         if (i % 16 == 0) {
-//             Serial.println(' ');
-//             Serial.print(i, HEX);
-//             Serial.print(": ");
-//         }
-//         printHex(*(pStateByte + i));
-//     }
+    // DEBUG_P("Sizeof(*pWSSM) =");
+    // DEBUG("     >>>> %d", sizeof(*pWSSM));
+
+    // byte *pStateByte = (byte *)&(WaterSystemSM::_okBut_next_state);
+    // for (uintptr_t i = 0; i < sizeof(WaterSystemSM::_okBut_next_state); i++)
+    // {
+    //     if (i % 16 == 0) {
+    //         Serial.println(' ');
+    //         Serial.print(i, HEX);
+    //         Serial.print(": ");
+    //     }
+    //     printHex(*(pStateByte + i));
+    // }
 }
 #pragma GCC diagnostic pop
 
