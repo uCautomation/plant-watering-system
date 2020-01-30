@@ -68,6 +68,8 @@ class WaterSystem
         bool _confirmIndexIsSane(byte moduleIndex, saneModuleIndex_t *pSaneIndex);
         bool _clearLcdAndListCurrentPlant(byte &selectedIdx);
 
+        void _clearScreenNoCursor();
+
     public:
 
         WaterSystem();
@@ -93,6 +95,8 @@ class WaterSystem
         void showMenuCursor();
         void openMenu(WSMenu *pMenu);
         void selectNextMenuEntry();
+
+        void showSysStatus();
 
 };
 

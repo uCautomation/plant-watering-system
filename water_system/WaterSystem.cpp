@@ -329,6 +329,14 @@ bool WaterSystem::showCtrlOne(byte moduleIndex)
     return true;
 }
 
+void WaterSystem::_clearScreenNoCursor()
+{
+    lcd.clear();
+    lcd.home();
+    lcd.setBacklight(255);
+    lcd.noCursor();
+}
+
 // "P. Refs .. .. ..";
 // ">  ..Use Reset X";
 
@@ -337,10 +345,7 @@ static const char ctrlOne1Fmt[] = ">  %.2sUse Reset X";
 
 bool WaterSystem::_clearLcdAndListCurrentPlant(byte &selectedIdx)
 {
-    lcd.clear();
-    lcd.home();
-    lcd.setBacklight(255);
-    lcd.noCursor();
+    _clearScreenNoCursor();
 
     lcd.write(_plant->location());
     if (!_some_module_selected) {
@@ -387,6 +392,24 @@ void WaterSystem::openMenu(WSMenu *pMenu)
     showMenuCursor();
 }
 
+void WaterSystem::showSysStatus()
+{
+    _clearScreenNoCursor();
+
+    char msg[lcdLineBufLen] = {0};
+
+    if (_some_module_selected) {
+        snprintf(msg, lcdLineBufLen,
+            "Logs: module %d",
+            _selected_module.moduleIndex);
+    } else {
+        memcpy_P(msg, F("Logs: [NoSelect]"), sizeof(msg));
+    }
+    lcd.print(msg);
+    lcd.setCursor(0, 1);
+    lcd.print(F("TODO:Sys/Mod Log"));
+
+}
 
 
 ulong timedelta(ulong ref_timestamp, ulong now)

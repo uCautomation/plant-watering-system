@@ -140,22 +140,7 @@ void set_system_state(wss_type nextstate)
             ;;
 
         case wss_sys_status:
-            {
-
-                lcd.clear();
-                lcd.setBacklight(255);
-                lcd.home();
-                char msg[lcdLineBufLen] = {0};
-                saneModuleIndex_t saneIndex;
-                if (pWaterSystem->hasActiveModule(&saneIndex)) {
-                    snprintf(msg, lcdLineBufLen, "Logs: module %d", saneIndex.moduleIndex);
-                } else {
-                    memcpy_P(msg, F("Logs: [NoSelect]"), sizeof(msg));
-                }
-                lcd.print(msg);
-                lcd.setCursor(0, 1);
-                lcd.print(F("TODO:Sys/Mod Log"));
-            };
+            pWaterSystem->showSysStatus();
             break;
             ;;
 
