@@ -171,8 +171,7 @@ bool WaterSystem::hasActiveModule(saneModuleIndex_t *pModuleIdx)
 
 void WaterSystem::listAll()
 {
-    lcd.display();
-    lcd.setBacklight(255); lcd.home(); lcd.clear();
+    _clearScreenNoCursor();
 
     // TODO: use _lcd_line0
     // char buf[51] = ".    .    |    .    |    .    |    .    ";
@@ -332,9 +331,9 @@ bool WaterSystem::showCtrlOne(byte moduleIndex)
 void WaterSystem::_clearScreenNoCursor()
 {
     lcd.clear();
-    lcd.home();
-    lcd.setBacklight(255);
     lcd.noCursor();
+    lcd.setBacklight(255);
+    lcd.display();
 }
 
 // "P. Refs .. .. ..";
