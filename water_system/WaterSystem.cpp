@@ -410,6 +410,64 @@ void WaterSystem::showSysStatus()
 
 }
 
+/// Mostly a debug function to display not yet implemented states
+void WaterSystem::showState(uint8_t stateNo)
+{
+    _clearScreenNoCursor();
+    snprintf(_lcd_line0, lcdLineBufLen, " _ state = %.d _", stateNo);
+    lcd.print(_lcd_line0);
+}
+
+void WaterSystem::autoWater()
+{
+
+    _clearScreenNoCursor();
+    DEBUG_P("Auto water...\n");
+    lcd.print(F("Auto water...\n"));
+    delay(HUMAN_PERCEPTIBLE_MS);
+
+    // we don't want to care about timeout sync-ing, or buttons,
+    // but I think it's safe to timeout or have buttons pressed
+    // since we shouldn't call the state machine's
+    // stateUpdated() function during the execution of this
+    // function
+    //
+    // TODO: maybe detachInterrupt/attachInterrupt is better
+    // to disable buttons?
+
+    // TODO: for i in each sp, try auto Water
+    for (uint8_t i = 0; i < MAX_MODULE_COUNT; i++) {
+        lcd.setCursor(0, 1);
+        lcd.write(_plant->location());
+        // snprintf(_lcd_line1, lcdLineBufLen, "%u", i);
+        lcd.write('0' + i);
+        delay(HUMAN_PERCEPTIBLE_MS);
+
+        SensorAndPump *module = &sp[i];
+        if (module->isModuleUsed()) {
+            lcd.setCursor(0, 1);
+            lcd.write(_rain_plant->location());
+
+            DEBUG_P("Autowatering plant ");
+            DEBUG("%u ...", i);
+
+            delay(HUMAN_PERCEPTIBLE_MS);
+
+            //TODO: log "auto watered i result"
+            if (module->tryAutoWater()) {
+                DEBUG_P("done.\n");
+            } else {
+                DEBUG_P("skipped (not dry)\n");
+            };
+        } else {
+            DEBUG_P("Skipping disabled plant ");
+            DEBUG("%u\n", i);
+        };
+        delay(HUMAN_PERCEPTIBLE_MS);
+    }
+
+    DEBUG_P("Finished autowatering cycle.\n");
+}
 
 ulong timedelta(ulong ref_timestamp, ulong now)
 {

@@ -144,8 +144,13 @@ void set_system_state(wss_type nextstate)
             break;
             ;;
 
+        case wss_autowater:
+            pWaterSystem->autoWater();
+            break;
+            ;;
+
         default:
-            /* nothing to do */
+            pWaterSystem->showState(nextstate);
             ;;
     }
 }
