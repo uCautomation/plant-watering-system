@@ -56,6 +56,11 @@ class SensorAndPump {
             return _dryPercentFromAbsValue(_dryValue);
         }
 
+        inline bool _lastMoistureIsTooDry()
+        {
+            return _lastMoisture <= _dryValue;
+        }
+
     public:
         SensorAndPump
         (
@@ -80,7 +85,7 @@ class SensorAndPump {
 
         }
 
-        int GetCurrentMoisture()
+        int readCurrentMoisture()
         {
             _sensorOn();
             delay(SENSOR_START_DELAY_MS);//wait for the sensor to stabilize
@@ -145,7 +150,7 @@ class SensorAndPump {
             _dryValue = dryValue;
         }
 
-        void GiveWater()
+        void giveWater()
         {
             if (isModuleUsed()) {
                 digitalWrite(_pumpCmdPin, HIGH); // open valve to let water run
@@ -160,12 +165,12 @@ class SensorAndPump {
         {
             // Audo-adjust
             noInterrupts();
-            int moistureNow = GetCurrentMoisture();
+            int moistureNow = readCurrentMoisture();
             // TODO: store more (3?) than 1 value and average all
             SetTooDry( (_dryValue + moistureNow) / 2);
             interrupts();
 
-            GiveWater();
+            giveWater();
         }
 
         inline void setModuleUsed() { _moduleIsUsed = true; }
@@ -173,6 +178,18 @@ class SensorAndPump {
         inline void setModuleUnused() { _moduleIsUsed = false; }
 
         inline bool isModuleUsed() { return _moduleIsUsed; }
+
+        bool tryAutoWater() {
+            bool watered = false;
+            if (_moduleIsUsed) {
+                (void)readCurrentMoisture();
+                if (_lastMoistureIsTooDry()) {
+                    giveWater();
+                    watered = true;
+                }
+            }
+            return watered;
+        }
 };
 
 #endif
