@@ -95,12 +95,12 @@ class SensorAndPump {
             return _lastMoisture; //send current moisture value
         }
 
-        int GetLastMoisture()
+        int getLastMoisture()
         {
             return _lastMoisture;
         }
 
-        int GetNormalizedDeltaToThreshold()
+        int getNormalizedDeltaToThreshold()
         {
             // We want to get a -9 to +9 range for the entire spectrum
             int delta = _lastMoisture - _dryValue;
@@ -120,17 +120,17 @@ class SensorAndPump {
             }
         }
 
-        byte GetDryPercent()
+        byte getDryPercent()
         {
             return _dryPercentFromAbsValue(_dryValue);
         }
 
-        byte GetLastMoisturePercent()
+        byte getLastMoisturePercent()
         {
             return _dryPercentFromAbsValue(_lastMoisture);
         }
 
-        char *GetTooDryPercentAsStr(byte drySampleIndex)
+        char *getTooDryPercentAsStr(byte drySampleIndex)
         {
             if (drySampleIndex >= _maxDryValues) {
                 return (char *)noPercent;
@@ -145,7 +145,7 @@ class SensorAndPump {
             return _buf;
         }
 
-        void SetTooDry(int dryValue)
+        void setTooDry(int dryValue)
         {
             _dryValue = dryValue;
         }
@@ -161,13 +161,13 @@ class SensorAndPump {
             }
         }
 
-        void ManualGiveWaterAndAdjustDry()
+        void manualGiveWaterAndAdjustDry()
         {
             // Audo-adjust
             noInterrupts();
             int moistureNow = readCurrentMoisture();
             // TODO: store more (3?) than 1 value and average all
-            SetTooDry( (_dryValue + moistureNow) / 2);
+            setTooDry( (_dryValue + moistureNow) / 2);
             interrupts();
 
             giveWater();

@@ -187,7 +187,7 @@ void WaterSystem::listAll()
         lcd.write(_plant->location()); lcd.print(buf);
 
         lcd.setCursor(x, 1);
-        int delta = sp[i].GetNormalizedDeltaToThreshold();
+        int delta = sp[i].getNormalizedDeltaToThreshold();
         sprintf(line2, "%.2d", delta);
         lcd.print(line2);
 
@@ -234,7 +234,7 @@ void WaterSystem::manualWaterCurrent()
 {
     saneModuleIndex_t saneIdx;
     if (hasActiveModule(&saneIdx)) {
-        sp[saneIdx.moduleIndex].ManualGiveWaterAndAdjustDry();
+        sp[saneIdx.moduleIndex].manualGiveWaterAndAdjustDry();
     } else {
         DEBUG_P("manualWater command, but no active module");
         system_panic_no_return();
@@ -306,11 +306,11 @@ void WaterSystem::showStatusCurrentOne()
     }
 
     snprintf(_lcd_line0, lcdLineBufLen - 1, menuOne0Fmt,
-        sp[saneIdx].GetLastMoisturePercent(),
-        sp[saneIdx].GetDryPercent());
+        sp[saneIdx].getLastMoisturePercent(),
+        sp[saneIdx].getDryPercent());
 
     snprintf(_lcd_line1, lcdLineBufLen - 1, menuOne1Fmt,
-        sp[saneIdx].GetNormalizedDeltaToThreshold());
+        sp[saneIdx].getNormalizedDeltaToThreshold());
 
     _continueLine0AndWriteLine1();
 }
@@ -365,9 +365,9 @@ void WaterSystem::showCtrlCurrentOne()
     }
 
     snprintf(_lcd_line0, lcdLineBufLen - 1, ctrlOne0Fmt,
-             sp[saneIdx].GetTooDryPercentAsStr(0),
-             sp[saneIdx].GetTooDryPercentAsStr(1),
-             sp[saneIdx].GetTooDryPercentAsStr(2)
+             sp[saneIdx].getTooDryPercentAsStr(0),
+             sp[saneIdx].getTooDryPercentAsStr(1),
+             sp[saneIdx].getTooDryPercentAsStr(2)
              );
 
     snprintf(_lcd_line1, lcdLineBufLen - 1, ctrlOne1Fmt,
