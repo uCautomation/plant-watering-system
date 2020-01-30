@@ -20,10 +20,8 @@ typedef enum {
     wss_menu_all_p4,
     wss_menu_all_ctrl,
 
-    wss_list_one /*TODO: __attribute__((deprecated))*/, // indirectly reached via wss_list_all menu
-
-    wss_manualwater, // indirectly reached via wss_list_one menu
-    wss_probe, // check the current sensor reading (on demand)
+    wss_manualwater, // indirectly reached via wss_menu_one_pN menu
+    // wss_probe __attribute__((deprecated)), // check the current sensor reading (on demand)
     wss_autowater, // Used by automatic watering
 
     wss_sys_status, // reservoir water level, dump logs, battery level, error/panic/watchdog reset count
@@ -85,9 +83,8 @@ class WaterSystemSM {
             [wss_menu_all_p4] = wss_list_one_p4,
             [wss_menu_all_ctrl] = wss_ctrl_all,
 
-            [wss_list_one] = wss_probe,
             [wss_manualwater] = wss_manualwater,
-            [wss_probe] = wss_list_one,
+            // [wss_probe] = wss_list_one,
         };
 
         constexpr static const wss_type _nextBut_next_state[WSS_NOSTATE] PROGMEM {
@@ -104,9 +101,8 @@ class WaterSystemSM {
             [wss_menu_all_p4] = wss_menu_all_ctrl,
             [wss_menu_all_ctrl] = wss_menu_all_x,
 
-            [wss_list_one] = wss_probe,
             [wss_manualwater] = wss_manualwater,
-            [wss_probe] = wss_list_one,
+            // [wss_probe] = wss_list_one,
             [wss_autowater] = wss_autowater, // ignore key press
 
             [wss_sys_status] = wss_ctrl_all,
@@ -139,9 +135,8 @@ class WaterSystemSM {
             [wss_menu_all_p4] = SleepTimeOut,
             [wss_menu_all_ctrl] =SleepTimeOut,
 
-            [wss_list_one] = 2U,
             [wss_manualwater] = SleepTimeOut,
-            [wss_probe] = 1U,
+            // [wss_probe] = 1U,
             [wss_autowater] = 1U,
 
             // 0 is the same as SleepTimeOut, see _timeoutForState
