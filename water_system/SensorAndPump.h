@@ -82,7 +82,7 @@ class SensorAndPump {
 
         int GetCurrentMoisture()
         {
-            this->_sensorOn();
+            _sensorOn();
             delay(SENSOR_START_DELAY_MS);//wait for the sensor to stabilize
             _lastMoisture = analogRead(_sensorPin);//Read the SIG value form sensor
             _sensorOff();
