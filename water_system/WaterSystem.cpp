@@ -232,11 +232,24 @@ void WaterSystem::_resetMenu()
 
 void WaterSystem::manualWaterCurrent()
 {
+    _clearScreenNoCursor();
+    DEBUG_P("Manual watering\n");
+    lcd.print(F("Manual watering\n"));
+    lcd.setCursor(0, 1);
+    lcd.write(_plant->location());
+
     saneModuleIndex_t saneIdx;
     if (hasActiveModule(&saneIdx)) {
+        lcd.write('0' + saneIdx.moduleIndex);
+        delay(HUMAN_PERCEPTIBLE_MS);
+        lcd.setCursor(0, 1);
+        lcd.write(_rain_plant->location());
         sp[saneIdx.moduleIndex].manualGiveWaterAndAdjustDry();
     } else {
         DEBUG_P("manualWater command, but no active module");
+        lcd.write('?');
+        setSystemInternalError();
+        lcd.print(F(" PANIC! \7"));
         system_panic_no_return();
     }
     delay(MIN_REWATER_INTERVAL_MS);
