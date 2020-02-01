@@ -125,6 +125,15 @@ void set_system_state(wss_type nextstate)
             };
             break;
 
+        case wss_menu_one_x:
+            pWaterSystem->openMenu(&list_one_menu);
+            break;
+
+        case wss_menu_one_ctrl:
+        case wss_menu_one_water:
+            pWaterSystem->selectNextMenuEntry();
+            break;
+
         case wss_sleep:
             lcd.setBacklight(0);
             lcd.noDisplay();
