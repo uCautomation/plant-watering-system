@@ -93,16 +93,14 @@ void set_system_state(wss_type nextstate)
         case wss_panic:
             system_panic_no_return(); // never returns
             break;
-            ;;
 
         case wss_list_all:
             pWaterSystem->listAll();
             break;
-            ;;
 
         case wss_menu_all_x:
             pWaterSystem->openMenu(&list_all_menu);
-            break;;
+            break;
 
         case wss_menu_all_p1:
         case wss_menu_all_p2:
@@ -110,7 +108,7 @@ void set_system_state(wss_type nextstate)
         case wss_menu_all_p4:
         case wss_menu_all_ctrl:
             pWaterSystem->selectNextMenuEntry();
-            break;;
+            break;
 
         case wss_list_one_p1:
         case wss_list_one_p2:
@@ -126,31 +124,25 @@ void set_system_state(wss_type nextstate)
                 pWaterSystem->setSystemInternalError();
             };
             break;
-            ;;
 
         case wss_sleep:
             lcd.setBacklight(0);
             lcd.noDisplay();
             break;
-            ;;
 
         case wss_manualwater:
             pWaterSystem->manualWaterCurrent();
             break;
-            ;;
 
         case wss_sys_status:
             pWaterSystem->showSysStatus();
             break;
-            ;;
 
         case wss_autowater:
             pWaterSystem->autoWater();
             break;
-            ;;
 
         default:
             pWaterSystem->showState(nextstate);
-            ;;
     }
 }
