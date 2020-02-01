@@ -20,6 +20,15 @@ typedef enum {
     wss_menu_all_p4,
     wss_menu_all_ctrl,
 
+    wss_list_one_p1,
+    wss_list_one_p2,
+    wss_list_one_p3,
+    wss_list_one_p4,
+
+    wss_menu_one_x,
+    wss_menu_one_ctrl,
+    wss_menu_one_water,
+
     wss_manualwater, // indirectly reached via wss_menu_one_pN menu
     // wss_probe __attribute__((deprecated)), // check the current sensor reading (on demand)
     wss_autowater, // Used by automatic watering
@@ -27,11 +36,6 @@ typedef enum {
     wss_sys_status, // reservoir water level, dump logs, battery level, error/panic/watchdog reset count
     wss_ctrl_all, // system level control menu (forget calibration, forget+recalibrate, clear system logs, etc.)
 
-
-    wss_list_one_p1,
-    wss_list_one_p2,
-    wss_list_one_p3,
-    wss_list_one_p4,
 
     WSS_NOSTATE
 } __attribute__ ((__packed__)) wss_type;
@@ -83,8 +87,18 @@ class WaterSystemSM {
             [wss_menu_all_p4] = wss_list_one_p4,
             [wss_menu_all_ctrl] = wss_ctrl_all,
 
+            [wss_list_one_p1] = wss_menu_one_x,
+            [wss_list_one_p2] = wss_menu_one_x,
+            [wss_list_one_p3] = wss_menu_one_x,
+            [wss_list_one_p4] = wss_menu_one_x,
+
+            [wss_menu_one_x] = wss_list_all, // TODO: wss_list_one_pN?
+            [wss_menu_one_ctrl] = wss_ctrl_all, // TODO: wss_ctrl_current
+            [wss_menu_one_water] = wss_manualwater,
+
             [wss_manualwater] = wss_manualwater,
             // [wss_probe] = wss_list_one,
+
         };
 
         constexpr static const wss_type _nextBut_next_state[WSS_NOSTATE] PROGMEM {
@@ -100,6 +114,15 @@ class WaterSystemSM {
             [wss_menu_all_p3] = wss_menu_all_p4,
             [wss_menu_all_p4] = wss_menu_all_ctrl,
             [wss_menu_all_ctrl] = wss_menu_all_x,
+
+            [wss_list_one_p1] = wss_list_one_p2,
+            [wss_list_one_p2] = wss_list_one_p3,
+            [wss_list_one_p3] = wss_list_one_p4,
+            [wss_list_one_p4] = wss_list_one_p1,
+
+            [wss_menu_one_x] = wss_menu_one_water, // TODO: one_pN?
+            [wss_menu_one_ctrl] = wss_menu_one_x,
+            [wss_menu_one_water] = wss_menu_one_ctrl,
 
             [wss_manualwater] = wss_manualwater,
             // [wss_probe] = wss_list_one,
