@@ -128,17 +128,6 @@ class WaterSystemSM {
 
             [wss_list_all] = 5U,
 
-            [wss_menu_all_x] = SleepTimeOut,
-            [wss_menu_all_p1] = SleepTimeOut,
-            [wss_menu_all_p2] = SleepTimeOut,
-            [wss_menu_all_p3] = SleepTimeOut,
-            [wss_menu_all_p4] = SleepTimeOut,
-            [wss_menu_all_ctrl] =SleepTimeOut,
-
-            [wss_manualwater] = SleepTimeOut,
-            // [wss_probe] = 1U,
-            [wss_autowater] = 1U,
-
             // 0 is the same as SleepTimeOut, see _timeoutForState
         };
 
