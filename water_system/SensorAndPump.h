@@ -7,7 +7,7 @@
 #include "WSRuntime.h"
 
 #define SENSOR_START_DELAY_MS 10
-#define PUMP_ON_MS            200
+#define PUMP_ON_MS            5000UL
 
 static const char *noPercent = "-- ";
 
