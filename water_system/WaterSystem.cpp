@@ -306,7 +306,7 @@ void WaterSystem::_continueLine0AndWriteLine1()
 // 1|WET(d:+2)  ☔ > X|
 //  +----------------+
 static char menuOne0Fmt[] = { " Now:%.2d Ref:%.2d" };
-static char menuOne1Fmt[] = { "WET(d:%+.1d)  W > X" };
+static char menuOne1Fmt[] = { "WET(d:%+.1d)  %c > X" };
 void WaterSystem::showStatusCurrentOne()
 {
     // Initialize to silence -Wmaybe-uninitialized, incorrectly triggered here
@@ -323,7 +323,7 @@ void WaterSystem::showStatusCurrentOne()
         sp[saneIdx].getDryPercent());
 
     snprintf(_lcd_line1, lcdLineBufLen - 1, menuOne1Fmt,
-        sp[saneIdx].getNormalizedDeltaToThreshold());
+        sp[saneIdx].getNormalizedDeltaToThreshold(), _rain_plant->location());
 
     _continueLine0AndWriteLine1();
 }
