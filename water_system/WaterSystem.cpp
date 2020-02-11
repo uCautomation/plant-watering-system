@@ -192,7 +192,7 @@ void WaterSystem::listAll()
         lcd.print(line2);
 
 
-        DEBUG("listAll lines: %s %s", buf, line2);
+        DEBUG("listAll delta%s %s", buf, line2);
     }
 
     // the menu item
