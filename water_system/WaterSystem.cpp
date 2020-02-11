@@ -188,7 +188,7 @@ void WaterSystem::listAll()
 
         lcd.setCursor(x, 1);
         int delta = sp[i].getNormalizedDeltaToThreshold();
-        sprintf(line2, "%.2d", delta);
+        sprintf(line2, "%+.1d", delta);
         lcd.print(line2);
 
 
