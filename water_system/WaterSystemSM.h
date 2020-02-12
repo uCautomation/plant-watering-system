@@ -133,7 +133,7 @@ class WaterSystemSM {
         };
 
         constexpr static const wss_type _to_next_state[WSS_NOSTATE] PROGMEM {
-            [wss_sleep] = wss_autowater, // FIXME: should be check_autowater+autowater, in sequence, 0-3
+            [wss_sleep] = wss_autowater,
             [wss_start] = wss_list_all,
             [wss_panic] = wss_panic,
         };

@@ -182,7 +182,6 @@ void WaterSystem::listAll()
 
         const int x = i * 3;
         lcd.setCursor(x, 0);
-        // TODO: use the WaterSystem::_plant glyph
         sprintf(buf, "%.1d", i);
         lcd.write(_plant->location()); lcd.print(buf);
 
@@ -448,7 +447,6 @@ void WaterSystem::autoWater()
     // TODO: maybe detachInterrupt/attachInterrupt is better
     // to disable buttons?
 
-    // TODO: for i in each sp, try auto Water
     for (uint8_t i = 0; i < MAX_MODULE_COUNT; i++) {
         lcd.setCursor(0, 1);
         lcd.write(_plant->location());
