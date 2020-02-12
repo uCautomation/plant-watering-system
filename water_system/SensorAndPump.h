@@ -18,6 +18,7 @@ class SensorAndPump {
         int _vSensorPin, _sensorPin, _pumpCmdPin;
         int _dryValue, _lastMoisture;
         int _pumpOnMS;
+        static const int _dryDeadBandDelta = 10;
 
         static const byte _maxDryValues = 1;
         static const byte _maxPercentStrLen = 4;
@@ -58,8 +59,9 @@ class SensorAndPump {
 
         inline bool _lastMoistureIsTooDry()
         {
-            return _lastMoisture <= _dryValue;
+            return _lastMoisture + _dryDeadBandDelta < _dryValue;
         }
+
 
     public:
         SensorAndPump
