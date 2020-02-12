@@ -8,12 +8,15 @@ The user can interact with the system via the 16x2 LCD display and the user butt
 
 ## TODO
 
+- Disable/Enable module
+- Reset/Forget module calibration (i.e. change plant)
 - Save power by going to sleep on timeout
 - Test the WaterSystem state machine
 - Persistent calibration data after reset each module; save the calibration data
   into the EEPROM
   - Save the calibration data into a sort-of flash/EEPROM filesystem to prevent
     early death of specific EEPROM memory cells - see Generational EEPROM storage
+- Persistent log system (using EEPROM)
 - Proportional watering - the system will keep the valve/pump open for a time
   proportional to the difference from the reference value (to allow checking
   up with the reference value)
