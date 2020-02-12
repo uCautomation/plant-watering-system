@@ -62,6 +62,15 @@ class SensorAndPump {
             return _lastMoisture + _dryDeadBandDelta < _dryValue;
         }
 
+        int _readCurrentMoisture()
+        {
+            _sensorOn();
+            delay(SENSOR_START_DELAY_MS);//wait for the sensor to stabilize
+            _lastMoisture = analogRead(_sensorPin);//Read the SIG value form sensor
+            _sensorOff();
+
+            return _lastMoisture; //send current moisture value
+        }
 
     public:
         SensorAndPump
@@ -85,16 +94,6 @@ class SensorAndPump {
 
             _lastMoisture = _dryValue; // Assume on start the plant is watered; initialize the value
 
-        }
-
-        int readCurrentMoisture()
-        {
-            _sensorOn();
-            delay(SENSOR_START_DELAY_MS);//wait for the sensor to stabilize
-            _lastMoisture = analogRead(_sensorPin);//Read the SIG value form sensor
-            _sensorOff();
-
-            return _lastMoisture; //send current moisture value
         }
 
         int getLastMoisture()
@@ -167,7 +166,7 @@ class SensorAndPump {
         {
             // Audo-adjust
             noInterrupts();
-            int moistureNow = readCurrentMoisture();
+            int moistureNow = _readCurrentMoisture();
             // TODO: store more (3?) than 1 value and average all
             setTooDry( (_dryValue + moistureNow) / 2);
             interrupts();
@@ -184,7 +183,7 @@ class SensorAndPump {
         bool tryAutoWater() {
             bool watered = false;
             if (_moduleIsUsed) {
-                (void)readCurrentMoisture();
+                (void)_readCurrentMoisture();
                 if (_lastMoistureIsTooDry()) {
                     giveWater();
                     watered = true;
