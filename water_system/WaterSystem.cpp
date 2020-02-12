@@ -432,8 +432,9 @@ void WaterSystem::showState(uint8_t stateNo)
 
 void WaterSystem::autoWater()
 {
-
     _clearScreenNoCursor();
+    //TODO: no LCD in autowater?
+    lcd.setBacklight(0);
     DEBUG_P("Auto water...\n");
     lcd.print(F("Auto water...\n"));
     delay(HUMAN_PERCEPTIBLE_MS);
@@ -456,6 +457,8 @@ void WaterSystem::autoWater()
 
         SensorAndPump *module = &sp[i];
         if (module->isModuleUsed()) {
+            // TODO: just add each plant on the second row during processing
+            // e.g.:  0(rain) 1(rain) 2(skip) 3(disabled)
             lcd.setCursor(0, 1);
             lcd.write(_rain_plant->location());
 
