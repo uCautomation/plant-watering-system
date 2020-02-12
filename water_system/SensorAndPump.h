@@ -72,6 +72,11 @@ class SensorAndPump {
             return _lastMoisture; //send current moisture value
         }
 
+        void _setTooDry(int dryValue)
+        {
+            _dryValue = dryValue;
+        }
+
     public:
         SensorAndPump
         (
@@ -146,11 +151,6 @@ class SensorAndPump {
             return _buf;
         }
 
-        void setTooDry(int dryValue)
-        {
-            _dryValue = dryValue;
-        }
-
         void giveWater()
         {
             if (isModuleUsed()) {
@@ -168,7 +168,7 @@ class SensorAndPump {
             noInterrupts();
             int moistureNow = _readCurrentMoisture();
             // TODO: store more (3?) than 1 value and average all
-            setTooDry( (_dryValue + moistureNow) / 2);
+            _setTooDry( (_dryValue + moistureNow) / 2);
             interrupts();
 
             giveWater();
