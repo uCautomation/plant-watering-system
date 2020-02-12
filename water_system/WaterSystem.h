@@ -48,8 +48,8 @@ class WaterSystem
         void initGlyphs(LiquidCrystal_PCF8574 &lcd);
 
         WSMenu *_p_current_menu;
-        char _lcd_line0[lcdLineBufLen] = {0};
-        char _lcd_line1[lcdLineBufLen] = {0};
+        static char _lcd_line0[lcdLineBufLen];
+        static char _lcd_line1[lcdLineBufLen];
 
         void _continueLine0AndWriteLine1();
 
@@ -101,6 +101,8 @@ class WaterSystem
         void showState(uint8_t stateNo);
 
         void autoWater();
+
+        static void lcdPrintModuleInfo(SensorAndPump &sp, int iconLoc);
 
 };
 

@@ -171,6 +171,8 @@ class SensorAndPump {
             _setTooDry( (_dryValue + moistureNow) / 2);
             interrupts();
 
+            DEBUG("MW %p: now=%d newDry=%d", this, moistureNow, _dryValue);
+
             giveWater();
         }
 
@@ -180,7 +182,17 @@ class SensorAndPump {
 
         inline bool isModuleUsed() { return _moduleIsUsed; }
 
-        bool tryAutoWater() {
+        bool isDryAfterTryReadCurrentMoisture()
+        {
+            if (_moduleIsUsed) {
+                (void)_readCurrentMoisture();
+            }
+
+            return _lastMoistureIsTooDry();
+        }
+
+        bool autoWaterIfTooDry()
+        {
             bool watered = false;
             if (_moduleIsUsed) {
                 (void)_readCurrentMoisture();

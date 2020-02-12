@@ -52,6 +52,8 @@ WSMenu ctrl_one_menu(
     /* .MenuLine = */ 1
     );
 
+char WaterSystem::_lcd_line0[lcdLineBufLen] = {0};
+char WaterSystem::_lcd_line1[lcdLineBufLen] = {0};
 
 void WaterSystem::initGlyphs(LiquidCrystal_PCF8574 &lcd)
 {
@@ -454,12 +456,11 @@ void WaterSystem::autoWater()
         lcd.write(_plant->location());
         // snprintf(_lcd_line1, lcdLineBufLen, "%u", i);
         lcd.write('0' + i);
+        lcd.print(F("              "));
         delay(HUMAN_PERCEPTIBLE_MS);
 
         SensorAndPump *module = &sp[i];
         if (module->isModuleUsed()) {
-            lcd.setCursor(0, 1);
-            lcd.write(_rain_plant->location());
 
             DEBUG_P("Autowatering plant ");
             DEBUG("%u ...", i);
@@ -467,7 +468,10 @@ void WaterSystem::autoWater()
             delay(HUMAN_PERCEPTIBLE_MS);
 
             //TODO: log "auto watered i result"
-            if (module->tryAutoWater()) {
+            bool isDry = module->isDryAfterTryReadCurrentMoisture();
+            int iconLoc = isDry ? _rain_plant->location() : _plant->location();
+            lcdPrintModuleInfo(*module, iconLoc);
+            if (module->autoWaterIfTooDry()) {
                 DEBUG_P("done.\n");
             } else {
                 DEBUG_P("skipped (not dry)\n");
@@ -475,11 +479,25 @@ void WaterSystem::autoWater()
         } else {
             DEBUG_P("Skipping disabled plant ");
             DEBUG("%u\n", i);
+            lcd.print(F("  (disabled, skipped)"));
         };
         delay(HUMAN_PERCEPTIBLE_MS);
     }
 
     DEBUG_P("Finished autowatering cycle.\n");
+}
+
+void WaterSystem::lcdPrintModuleInfo(SensorAndPump &module, int iconLoc)
+{
+    lcd.setCursor(0, 1);
+    lcd.write(iconLoc);
+
+    lcd.setCursor(2, 1);
+    snprintf(_lcd_line1, lcdLineBufLen, "  N/D:%.2d/%.2d %+.1d",
+        module.getLastMoisturePercent(),
+        module.getDryPercent(),
+        module.getNormalizedDeltaToThreshold());
+    lcd.print(_lcd_line1);
 }
 
 ulong timedelta(ulong ref_timestamp, ulong now)
