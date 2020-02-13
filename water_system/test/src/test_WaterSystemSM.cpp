@@ -343,3 +343,25 @@ TEST(WaterSystemSM, OnNextInMenuOneXGoesToMenuOneWater) {
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
     EXPECT_EQ(wss_menu_one_water, t->State()); // ... sends us into list one (first sensor) state
 };
+
+void auxPutWSSMInMenuOneWaterState(WaterSystemSM &wssm, MockButtonWS &mockNextBut, MockButtonWS &mockOkBut, testTimeMilli &ms)
+{
+    auxPutWSSMInMenuOneXState(wssm, mockNextBut, mockOkBut, ms);
+    mockNextBut.tAppendExpectPush(true); // simulate Ok pressed before sleep
+    (void)wssm.stateUpdated(ms.tickAndGet(halfOfSleepTimeoutMillis()));
+}
+
+/// wss_menu_one_water(p1) -OK-> wss_manualwater
+TEST(WaterSystemSM, OnOkInMenuOneWaterGoesToManualWater) {
+    testTimeMilli ms;
+    MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
+    MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
+    WaterSystemSM *t = new WaterSystemSM(ms.get(), &mockOkBut, &mockNextBut);
+    auxPutWSSMInMenuOneWaterState(*t, mockNextBut, mockOkBut, ms);
+
+    mockOkBut.tAppendExpectPush(true);
+
+    ms.tickUpTo(sleepTimeOutMillis());
+    EXPECT_EQ(true, t->stateUpdated(ms.get()));
+    EXPECT_EQ(wss_manualwater, t->State()); // ... sends us into list one (first sensor) state
+};
