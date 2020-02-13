@@ -243,15 +243,20 @@ TEST(WaterSystemSM, OnOkInListAllGoesToMenuAllX) {
     EXPECT_EQ(wss_menu_all_x, t->State()); // ... sends us in MenuAllCLose state
 };
 
+void auxPutWSSMInMenuAllXState(WaterSystemSM &wssm, MockButtonWS &mockOkBut, testTimeMilli &ms)
+{
+    auxPutWSSMInListAllState(wssm, ms);
+    mockOkBut.tAppendExpectPush(true); // simulate Ok pressed before sleep
+    (void)wssm.stateUpdated(ms.tickAndGet(halfOfSleepTimeoutMillis()));
+}
+
 TEST(WaterSystemSM, OnOkInMenuAllXGoesToListAll) {
     testTimeMilli ms;
     MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
-
     WaterSystemSM *t = new WaterSystemSM(ms.get(), &mockOkBut, &mockNextBut);
-    (void)t->stateUpdated(ms.tickAndGet(startTimeOutMilli)); // going from start into list_all
-    mockOkBut.tAppendExpectPush(true); // simulate Ok pressed before sleep
-    (void)t->stateUpdated(ms.tickAndGet(halfOfSleepTimeoutMillis())); // going from list_all to MenuAllX
+    auxPutWSSMInMenuAllXState(*t, mockOkBut, ms);
+
     mockOkBut.tAppendExpectPush(true); // simulate Ok pressed on 'X'
 
     ms.tickUpTo(sleepTimeOutMillis());
