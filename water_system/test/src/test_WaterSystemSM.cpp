@@ -278,21 +278,46 @@ TEST(WaterSystemSM, OnNextInMenuAllXGoesToMenuAllP1) {
     EXPECT_EQ(wss_menu_all_p1, t->State()); // ... sends us back in list_all state
 };
 
-/// start -> list_all -OK-> wss_menu_all_x -Next-> wss_menu_all_p1 -OK-> wss_list_one(_p1)
-TEST(WaterSystemSM, OnNextOkInListAllMenuGoesToListOneP1) {
+void auxPutWSSMInMenuAllP1State(WaterSystemSM &wssm, MockButtonWS &mockNextBut, MockButtonWS &mockOkBut, testTimeMilli &ms)
+{
+    auxPutWSSMInMenuAllXState(wssm, mockOkBut, ms);
+    mockNextBut.tAppendExpectPush(true); // simulate Ok pressed on 'X'
+    (void)wssm.stateUpdated(ms.tickAndGet(halfOfSleepTimeoutMillis()));
+}
+
+/// wss_menu_all_p1 -OK-> wss_list_one(_p1)
+TEST(WaterSystemSM, OnOkInMenuAllP1GoesToListOneP1) {
     testTimeMilli ms;
     MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
     MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
     WaterSystemSM *t = new WaterSystemSM(ms.get(), &mockOkBut, &mockNextBut);
-    auxPutWSSMInListAllState(*t, ms);
+    auxPutWSSMInMenuAllP1State(*t, mockNextBut, mockOkBut, ms);
 
-    mockOkBut.tAppendExpectPush(true); // Ok -> go in menu
-    (void)t->stateUpdated(ms.tickAndGet(halfOfSleepTimeoutMillis())); // going from list_all to MenuAllX
-    mockNextBut.tAppendExpectPush(true); // simulate Next pressed (goto first)
-    (void)t->stateUpdated(ms.tickAndGet(halfOfSleepTimeoutMillis())); // move in menu listall
     mockOkBut.tAppendExpectPush(true); // simulate Ok pressed on 'X'
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
     EXPECT_EQ(wss_list_one_p1, t->State()); // ... sends us into list one (first sensor) state
 };
+
+void auxPutWSSMInListOneP1(WaterSystemSM &wssm, MockButtonWS &mockNextBut, MockButtonWS &mockOkBut, testTimeMilli &ms)
+{
+    auxPutWSSMInMenuAllP1State(wssm, mockNextBut, mockOkBut, ms);
+    mockOkBut.tAppendExpectPush(true); // simulate Ok pressed before sleep
+    (void)wssm.stateUpdated(ms.tickAndGet(halfOfSleepTimeoutMillis()));
+}
+
+/// wss_list_one(_p1) -OK-> wss_menu_one_x
+TEST(WaterSystemSM, OnOkInListOneP1GoesToMenuOneX) {
+    testTimeMilli ms;
+    MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
+    MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
+    WaterSystemSM *t = new WaterSystemSM(ms.get(), &mockOkBut, &mockNextBut);
+    auxPutWSSMInListOneP1(*t, mockNextBut, mockOkBut, ms);
+
+    mockOkBut.tAppendExpectPush(true); // Ok -> go in menu
+
+    ms.tickUpTo(sleepTimeOutMillis());
+    EXPECT_EQ(true, t->stateUpdated(ms.get()));
+    EXPECT_EQ(wss_menu_one_x, t->State());
+}
