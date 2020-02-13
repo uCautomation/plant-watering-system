@@ -24,8 +24,12 @@ extern WSMenu list_one_menu;
 
 const byte lcdLineBufLen = 18; //TODo: there seems to be a buffer overrun
 
+class WaterSystem;
 struct saneModuleIndex_t {
-    byte moduleIndex;
+    private:
+        friend WaterSystem;
+        saneModuleIndex_t(byte moduleIndex);
+        byte moduleIndex;
 };
 class WaterSystem
 {
@@ -34,7 +38,7 @@ class WaterSystem
         bool _internal_error = false;
 
         bool _some_module_selected;
-        saneModuleIndex_t _selected_module = { 0 };
+        saneModuleIndex_t _selected_module = saneModuleIndex_t(0);
 
         LCDGlyph *_plant;
         LCDGlyph *_rain_plant;

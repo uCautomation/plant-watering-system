@@ -164,7 +164,7 @@ bool WaterSystem::hasActiveModule(saneModuleIndex_t *pModuleIdx)
     };
 
     noInterrupts();
-    pModuleIdx->moduleIndex = _selected_module.moduleIndex;
+    pModuleIdx = new saneModuleIndex_t(_selected_module.moduleIndex);
     interrupts();
     return true;
 }
@@ -237,13 +237,13 @@ void WaterSystem::manualWaterCurrent()
     lcd.setCursor(0, 1);
     lcd.write(_plant->location());
 
-    saneModuleIndex_t saneIdx;
-    if (hasActiveModule(&saneIdx)) {
-        lcd.write('0' + saneIdx.moduleIndex);
+    saneModuleIndex_t *saneIdx = nullptr;
+    if (hasActiveModule(saneIdx)) {
+        lcd.write('0' + saneIdx->moduleIndex);
         delay(HUMAN_PERCEPTIBLE_MS);
         lcd.setCursor(0, 1);
         lcd.write(_rain_plant->location());
-        sp[saneIdx.moduleIndex].manualGiveWaterAndAdjustDry();
+        sp[saneIdx->moduleIndex].manualGiveWaterAndAdjustDry();
     } else {
         DEBUG_P("manualWater command, but no active module");
         lcd.write('?');
@@ -279,13 +279,13 @@ bool WaterSystem::_confirmIndexIsSane(byte moduleIndex, saneModuleIndex_t *pSane
 
 bool WaterSystem::statusOne(byte moduleIndex)
 {
-    saneModuleIndex_t saneIndex;
-    if (!_confirmIndexIsSane(moduleIndex, &saneIndex)) {
+    saneModuleIndex_t *saneIndex;
+    if (!_confirmIndexIsSane(moduleIndex, saneIndex)) {
         DEBUG_P("INTERNAL ERROR: statusOne: no module!");
         return false;
     };
 
-    selectModuleIndex(saneIndex);
+    selectModuleIndex(*saneIndex);
     showStatusCurrentOne();
     return true;
 
