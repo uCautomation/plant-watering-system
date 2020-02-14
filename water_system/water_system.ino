@@ -126,11 +126,22 @@ void set_system_state(wss_type nextstate)
             break;
 
         case wss_menu_one_x:
+            pWaterSystem->showStatusCurrentOne();
             pWaterSystem->openMenu(&list_one_menu);
             break;
 
         case wss_menu_one_ctrl:
         case wss_menu_one_water:
+            pWaterSystem->selectNextMenuEntry();
+            break;
+
+        case wss_menu_ctrl_current_x:
+            pWaterSystem->showCtrlCurrentOne();
+            pWaterSystem->openMenu(&ctrl_one_menu);
+            break;
+
+        case wss_menu_ctrl_current_reset:
+        case wss_menu_ctrl_current_toggleuse:
             pWaterSystem->selectNextMenuEntry();
             break;
 
