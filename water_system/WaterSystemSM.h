@@ -29,6 +29,11 @@ typedef enum {
     wss_menu_one_ctrl,
     wss_menu_one_water,
 
+    wss_menu_ctrl_current_x,
+    wss_menu_ctrl_current_reset,
+    wss_menu_ctrl_current_toggleuse,
+
+
     wss_manualwater, // indirectly reached via wss_menu_one_pN menu
     // wss_probe __attribute__((deprecated)), // check the current sensor reading (on demand)
     wss_autowater, // Used by automatic watering
@@ -93,8 +98,12 @@ class WaterSystemSM {
             [wss_list_one_p4] = wss_menu_one_x,
 
             [wss_menu_one_x] = wss_list_all, // TODO: wss_list_one_pN?
-            [wss_menu_one_ctrl] = wss_ctrl_all, // TODO: wss_ctrl_current
+            [wss_menu_one_ctrl] = wss_menu_ctrl_current_x,
             [wss_menu_one_water] = wss_manualwater,
+
+            [wss_menu_ctrl_current_x] = wss_menu_one_x,
+            [wss_menu_ctrl_current_reset] = wss_sleep, // TODO: wss_reset_current
+            [wss_menu_ctrl_current_toggleuse] = wss_sleep, // TODO: wss_current_toggleuse
 
             [wss_manualwater] = wss_manualwater,
             // [wss_probe] = wss_list_one,
@@ -123,6 +132,10 @@ class WaterSystemSM {
             [wss_menu_one_x] = wss_menu_one_water, // TODO: one_pN?
             [wss_menu_one_ctrl] = wss_menu_one_x,
             [wss_menu_one_water] = wss_menu_one_ctrl,
+
+            [wss_menu_ctrl_current_x] = wss_menu_ctrl_current_toggleuse,
+            [wss_menu_ctrl_current_reset] = wss_menu_ctrl_current_x,
+            [wss_menu_ctrl_current_toggleuse] = wss_menu_ctrl_current_reset,
 
             [wss_manualwater] = wss_manualwater,
             // [wss_probe] = wss_list_one,
