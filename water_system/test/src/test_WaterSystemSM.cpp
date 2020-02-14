@@ -365,3 +365,18 @@ TEST(WaterSystemSM, OnOkInMenuOneWaterGoesToManualWater) {
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
     EXPECT_EQ(wss_manualwater, t->State()); // ... sends us into list one (first sensor) state
 };
+
+/// wss_menu_one_water(_p1) -Next-> wss_menu_one_ctrl
+TEST(WaterSystemSM, OnNextInMenuOneWaterGoesToMenuOneCtrl) {
+    testTimeMilli ms;
+    MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
+    MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
+    WaterSystemSM *t = new WaterSystemSM(ms.get(), &mockOkBut, &mockNextBut);
+    auxPutWSSMInMenuOneWaterState(*t, mockNextBut, mockOkBut, ms);
+
+    mockNextBut.tAppendExpectPush(true); // simulate Next pressed (goto first)
+
+    ms.tickUpTo(sleepTimeOutMillis());
+    EXPECT_EQ(true, t->stateUpdated(ms.get()));
+    EXPECT_EQ(wss_menu_one_ctrl, t->State()); // ... sends us into list one (first sensor) state
+};
