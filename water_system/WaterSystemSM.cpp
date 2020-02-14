@@ -97,14 +97,15 @@ bool WaterSystemSM::stateUpdated(ulong current_milli) {
     ulong time_delta = timedelta(_last_transition_milli, current_milli);
     if (time_delta >= _timeout) {
 
-        DEBUG("TO from state %u", _state);
+        DEBUG_P("Time out from state:"); DEBUG("%u", _state);
 
         noInterrupts();
         wss_type _next_state = stateAfterTimeout();
         bool state_changed = (_next_state != _state);
 
         if (state_changed) {
-            DEBUG("state chg via TO (old=%d, new=%d, delta=%ul, _to = %lu", _state, _next_state, time_delta, _timeout);
+            DEBUG_P("state change via timeout: old\tnew\tdelta\t_to");
+            DEBUG(":%d\t%d\t%lu\t%lu", _state, _next_state, time_delta, _timeout);
             _state = _next_state;
             _last_transition_milli = current_milli;
             _timeout = _timeoutForState(_state);

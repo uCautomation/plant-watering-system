@@ -11,7 +11,7 @@ ButtonWS::ButtonWS(int pin, isr butChISR) : _pin(pin), _debounceDelay(50)
     pinMode(_pin, INPUT_PULLUP);
     delay(100);
     _state = digitalRead(_pin);
-    DEBUG("ButtonWS %d state %d", _pin, _state);
+    DEBUG_P("ButtonWS state for button(pin = state):"); DEBUG("%d = %d", _pin, _state);
     attachInterrupt(digitalPinToInterrupt(_pin), butChISR, CHANGE);
 }
 

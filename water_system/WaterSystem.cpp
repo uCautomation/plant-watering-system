@@ -84,7 +84,11 @@ WaterSystem::WaterSystem(/* args */)
     Wire.begin();
     Wire.beginTransmission(LCD_I2C_ADDRESS);
     int error = Wire.endTransmission();
-    DEBUG("Error: %d: LCD %s" "found.", error, 0 == error ? "" : "not ");
+    if (error) {
+        DEBUG_P("ERROR, LCD NOT FOUND!\n");
+    } else {
+        DEBUG_P("Found LCD :)\n");
+    }
 
     if (error != 0) {
         setSystemInternalError();
@@ -124,7 +128,7 @@ void WaterSystem::selectModuleIndex(saneModuleIndex_t saneIndex)
 {
     byte index = saneIndex.moduleIndex;
     if (_saneModuleIndex(index).moduleIndex != saneIndex.moduleIndex) {
-        DEBUG("InternError: rcv bad idx as sane %d", index);
+        DEBUG_P("InternalError: rcv bad idx as sane"); DEBUG("%d", index);
         setSystemInternalError();
         system_panic_no_return();
     };
@@ -191,7 +195,8 @@ void WaterSystem::listAll()
         lcd.print(line2);
 
 
-        DEBUG("listAll delta%s %s", buf, line2);
+        DEBUG_P("listAll delta\t value");
+        DEBUG("\t\t%s\t%s", buf, line2);
     }
 
     // the menu item
@@ -260,7 +265,8 @@ void WaterSystem::showMenuCursor()
         int column = _p_current_menu->getLcdCursorColumn();
         int line = _p_current_menu->getLcdCursorLine();
 
-        DEBUG("showMenuCursor:%.4x col=%.2d, ln=%.2d", (uintptr_t)_p_current_menu, column, line);
+        DEBUG_P("showMenuCursor:menuPtr\t col\t ln\n");
+        DEBUG("\t%.4x\t%.2d\t%.2d", (uintptr_t)_p_current_menu, column, line);
         lcd.setCursor(column, line);
         lcd.blink();
     }
@@ -455,6 +461,8 @@ void WaterSystem::autoWater()
         lcd.write('0' + i);
         delay(HUMAN_PERCEPTIBLE_MS);
 
+        DEBUG("AW%u", i);
+
         SensorAndPump *module = &sp[i];
         if (module->isModuleUsed()) {
             // TODO: just add each plant on the second row during processing
@@ -462,8 +470,7 @@ void WaterSystem::autoWater()
             lcd.setCursor(0, 1);
             lcd.write(_rain_plant->location());
 
-            DEBUG_P("Autowatering plant ");
-            DEBUG("%u ...", i);
+            DEBUG_P("Autowatering plant\n");
 
             delay(HUMAN_PERCEPTIBLE_MS);
 
@@ -474,8 +481,7 @@ void WaterSystem::autoWater()
                 DEBUG_P("skipped (not dry)\n");
             };
         } else {
-            DEBUG_P("Skipping disabled plant ");
-            DEBUG("%u\n", i);
+            DEBUG_P("Skipped (disabled)\n");
         };
         delay(HUMAN_PERCEPTIBLE_MS);
     }
