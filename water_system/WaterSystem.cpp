@@ -437,7 +437,8 @@ void WaterSystem::autoWater()
 {
     _clearScreenNoCursor();
     //TODO: no LCD in autowater?
-    lcd.setBacklight(0);
+    // lcd.setBacklight(0);
+
     DEBUG_P("Auto water...\n");
     lcd.print(F("Auto water...\n"));
     delay(HUMAN_PERCEPTIBLE_MS);
