@@ -177,8 +177,9 @@ void WaterSystem::listAll()
 {
     _clearScreenNoCursor();
 
-    _lcd_line0[lcdLineBufLen] = { 0 };
-    _lcd_line1[lcdLineBufLen] = { 0 };
+    ZERO_INIT_ARRAY(_lcd_line0);
+    ZERO_INIT_ARRAY(_lcd_line1);
+
     for (byte i=0; i<MAX_MODULE_COUNT; i++) {
 
         const int x = i * 3;

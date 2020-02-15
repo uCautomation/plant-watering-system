@@ -20,5 +20,7 @@ inline byte systemAnalogReadBits()
     return 10;
 }
 
+#define ZERO_INIT_ARRAY(ARR) memset(&(ARR), 0, sizeof(ARR))
+
 void assert_or_panic(bool condition);
 #endif // WSRUNTIME_H
