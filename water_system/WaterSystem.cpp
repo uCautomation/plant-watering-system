@@ -451,39 +451,39 @@ void WaterSystem::autoWater()
     // TODO: maybe detachInterrupt/attachInterrupt is better
     // to disable buttons?
 
+    #define AUTOWATER_STATUS_LEN_PER_PLANT 3U
     for (uint8_t i = 0; i < MAX_MODULE_COUNT; i++) {
-        lcd.setCursor(0, 1);
-        lcd.write(_plant->location());
-        // snprintf(_lcd_line1, lcdLineBufLen, "%u", i);
+        DEBUG("AW%u", i);
+
+        // just add each plant on the second row during processing
+        // e.g.:  0(rain) 1(rain) 2(skip) 3(disabled)
+        lcd.setCursor(i*AUTOWATER_STATUS_LEN_PER_PLANT, 1);
         lcd.write('0' + i);
         delay(HUMAN_PERCEPTIBLE_MS);
 
-        DEBUG("AW%u", i);
 
         SensorAndPump *module = &sp[i];
         if (module->isModuleUsed()) {
-            // TODO: just add each plant on the second row during processing
-            // e.g.:  0(rain) 1(rain) 2(skip) 3(disabled)
-            lcd.setCursor(0, 1);
-            lcd.write(_rain_plant->location());
-
-            DEBUG_P("Autowatering plant\n");
 
             delay(HUMAN_PERCEPTIBLE_MS);
 
             //TODO: log "auto watered i result"
             if (module->tryAutoWater()) {
-                DEBUG_P("done.\n");
+                lcd.write(_rain_plant->location());
+                DEBUG_P("watered\n");
             } else {
+                lcd.write(_plant->location());
                 DEBUG_P("skipped (not dry)\n");
             };
         } else {
+            lcd.write('X');
             DEBUG_P("Skipped (disabled)\n");
         };
         delay(HUMAN_PERCEPTIBLE_MS);
     }
 
     DEBUG_P("Finished autowatering cycle.\n");
+    delay(HUMAN_PERCEPTIBLE_MS);
 }
 
 ulong timedelta(ulong ref_timestamp, ulong now)
