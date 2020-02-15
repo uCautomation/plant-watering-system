@@ -39,7 +39,7 @@ If 5V pumps are used instead, the uC will control the relay that closes the pump
 
 ## Interface
 
-TODO: Next and OK buttons allow selecting the menu options:
+Next and OK buttons allow selecting the menu options:
 
 - Global status - Summary of all plant's status
   - probably it makes sense to re-read actual values only if more than 5-10
@@ -48,7 +48,9 @@ TODO: Next and OK buttons allow selecting the menu options:
   status info
 - Calibrate sensor - Allow selection and dry/wet threshold module calibration
   - this might be unnecessary, with auto-learning on manual watering
-- Water now(?) - select a module and water it under manual command - maybe should use to auto-calibrate dry, wet(?) and watering duration values?
+- Manual Watering now - select a module and water it under manual command;
+  Current dry value is used to auto-calibrate dry level for auto watering.
+  (Do we care about watering duration?)
 - Exit/Sleep
 
 ### Screens
