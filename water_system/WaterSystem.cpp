@@ -200,7 +200,7 @@ void WaterSystem::listAll()
     // the menu item
     lcd.setCursor(12, 0);
     lcd.write(_burger_menu->location());
-    lcd.print("  X");
+    lcd.print(F("  X"));
 
     lcd.setCursor(15, 1);
     if (hasInternalError())
