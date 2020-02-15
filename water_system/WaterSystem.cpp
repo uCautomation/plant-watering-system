@@ -15,8 +15,8 @@ LiquidCrystal_PCF8574 lcd(LCD_I2C_ADDRESS);  // set the LCD address to 0x27 for 
 //  +----------------+
 #define LIST_ALL_MENU_STEP    3
 #define LIST_ALL_MENU_ENTRIES 6
-char menuAll0[lcdLineBufLen] = { "P1 P2 P3 P4 == X" };
-char menuAll1[lcdLineBufLen] = { ".. .. .. ..    ." };
+// char menuAll0[lcdLineBufLen] = { "P1 P2 P3 P4 == X" };
+// char menuAll1[lcdLineBufLen] = { ".. .. .. ..    ." };
 // const char menuAllFmt1[] = { "%+.1d %+.1d %+.1d %+.1d    %c" };
 WSMenu list_all_menu(
     /* .MenuColumnStep = */ LIST_ALL_MENU_STEP,
