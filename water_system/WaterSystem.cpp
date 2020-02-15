@@ -455,7 +455,7 @@ void WaterSystem::autoWater()
 
     #define AUTOWATER_STATUS_LEN_PER_PLANT 3U
     for (uint8_t i = 0; i < MAX_MODULE_COUNT; i++) {
-        DEBUG("AW%u", i);
+        DEBUG_P("AW");DEBUG("%u", i);
 
         // just add each plant on the second row during processing
         // e.g.:  0(rain) 1(rain) 2(skip) 3(disabled)
