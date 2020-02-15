@@ -177,26 +177,23 @@ void WaterSystem::listAll()
 {
     _clearScreenNoCursor();
 
-    // TODO: use _lcd_line0
-    // char buf[51] = ".    .    |    .    |    .    |    .    ";
-    char buf[lcdLineBufLen] = { 0 };
-    // TODO: populate _lcd_line1
-    char line2[lcdLineBufLen] = { 0U };
+    _lcd_line0[lcdLineBufLen] = { 0 };
+    _lcd_line1[lcdLineBufLen] = { 0 };
     for (byte i=0; i<MAX_MODULE_COUNT; i++) {
 
         const int x = i * 3;
         lcd.setCursor(x, 0);
-        sprintf(buf, "%.1d", i);
-        lcd.write(_plant->location()); lcd.print(buf);
+        sprintf(_lcd_line0, "%.1d", i);
+        lcd.write(_plant->location()); lcd.print(_lcd_line0);
 
         lcd.setCursor(x, 1);
         int delta = sp[i].getNormalizedDeltaToThreshold();
-        sprintf(line2, "%+.1d", delta);
-        lcd.print(line2);
+        sprintf(_lcd_line1, "%+.1d", delta);
+        lcd.print(_lcd_line1);
 
 
         DEBUG_P("listAll delta\t value");
-        DEBUG("\t\t%s\t%s", buf, line2);
+        DEBUG("\t\t%s\t%s", _lcd_line0, _lcd_line1);
     }
 
     // the menu item
