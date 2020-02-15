@@ -6,6 +6,7 @@
 
 void panicLEDToggle();
 void system_panic_no_return();
+void system_panic_wo_lcd_no_return();
 ulong timedelta(ulong ref_timestamp, ulong now);
 
 #ifdef __AVR

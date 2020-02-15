@@ -92,7 +92,7 @@ WaterSystem::WaterSystem(/* args */)
 
     if (error != 0) {
         setSystemInternalError();
-        system_panic_no_return();
+        system_panic_wo_lcd_no_return();
 
     } else {
         initGlyphs(lcd);

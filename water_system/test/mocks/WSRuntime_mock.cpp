@@ -14,6 +14,9 @@ void system_panic_no_return() {
     EXPECT_TRUE(expectPanic);
     expectPanic = false;
 }
+void system_panic_wo_lcd_no_return(){
+    system_panic_no_return();
+}
 
 void assert_or_panic(bool condition)
 {

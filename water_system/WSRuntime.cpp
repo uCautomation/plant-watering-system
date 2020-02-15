@@ -9,15 +9,21 @@ void panicLEDToggle() {
     digitalWrite(LED_BUILTIN, g_panic_led);
 }
 
-void system_panic_no_return()
+void system_panic_wo_lcd_no_return()
 {
     DEBUG_P("PANIC!!!!");
 
-    lcd.setBacklight(127);
     while(true) {
         panicLEDToggle();
         delay(200);
     }
+}
+
+void system_panic_no_return()
+{
+    lcd.setBacklight(127);
+    lcd.print(F(" PANIC! \7"));
+    system_panic_wo_lcd_no_return();
 }
 
 void assert_or_panic(bool condition)
