@@ -78,7 +78,7 @@ WaterSystem::WaterSystem(/* args */)
 
     while (!Serial) {};
 
-    DEBUG_P("Check 4 LCD");
+    DEBUG_P(" Check 4 LCD ");
 
     // See http://playground.arduino.cc/Main/I2cScanner
     Wire.begin();
