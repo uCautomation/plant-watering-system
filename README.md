@@ -8,7 +8,6 @@ The user can interact with the system via the 16x2 LCD display and the user butt
 
 ## TODO
 
-- Disable/Enable module
 - Reset/Forget module calibration (i.e. change plant)
 - Save power by going to sleep on timeout
 - Test the WaterSystem state machine
