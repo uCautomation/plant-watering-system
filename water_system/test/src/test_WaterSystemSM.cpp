@@ -341,7 +341,7 @@ TEST(WaterSystemSM, OnNextInMenuOneXGoesToMenuOneWater) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_menu_one_water, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_menu_one_water, t->State());
 };
 
 void auxPutWSSMInMenuOneWaterState(WaterSystemSM &wssm, MockButtonWS &mockNextBut, MockButtonWS &mockOkBut, testTimeMilli &ms)
@@ -363,7 +363,7 @@ TEST(WaterSystemSM, OnOkInMenuOneWaterGoesToManualWater) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_manualwater, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_manualwater, t->State());
 };
 
 void auxPutWSSMInManualWaterState(WaterSystemSM &wssm, MockButtonWS &mockNextBut, MockButtonWS &mockOkBut, testTimeMilli &ms)
@@ -385,7 +385,7 @@ TEST(WaterSystemSM, OnOkInManualWaterRepeatsManualWater) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_manualwater, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_manualwater, t->State());
 };
 
 /// wss_manualwater -OK-> wss_menu_one_x
@@ -400,7 +400,7 @@ TEST(WaterSystemSM, OnNextInManualWaterGoesToMenuOneX) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_menu_one_x, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_menu_one_x, t->State());
 };
 
 
@@ -416,7 +416,7 @@ TEST(WaterSystemSM, OnNextInMenuOneWaterGoesToMenuOneCtrl) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_menu_one_ctrl, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_menu_one_ctrl, t->State());
 };
 
 void auxPutWSSMInMenuOneCtrlState(WaterSystemSM &wssm, MockButtonWS &mockNextBut, MockButtonWS &mockOkBut, testTimeMilli &ms)
@@ -438,7 +438,7 @@ TEST(WaterSystemSM, OnOkInMenuOneCtrlGoesToMenuCtrlCurrentX) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_menu_ctrl_current_x, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_menu_ctrl_current_x, t->State());
 };
 
 void auxPutWSSMInMenuCtrlCurrentXState(WaterSystemSM &wssm, MockButtonWS &mockNextBut, MockButtonWS &mockOkBut, testTimeMilli &ms)
@@ -460,7 +460,7 @@ TEST(WaterSystemSM, OnOkInMenuCtrlCurrentXGoesToMenuOneX) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_menu_one_x, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_menu_one_x, t->State());
 };
 
 /// wss_menu_ctrl_current_x -Next-> wss_menu_ctrl_current_toggleuse(p1)
@@ -475,7 +475,7 @@ TEST(WaterSystemSM, OnNextInMenuCtrlCurrentXGoesToMenuCtrlCurrentToggleUse) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_menu_ctrl_current_toggleuse, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_menu_ctrl_current_toggleuse, t->State());
 };
 
 void auxPutWSSMInMenuCtrlCurrentToggleUseState(WaterSystemSM &wssm, MockButtonWS &mockNextBut, MockButtonWS &mockOkBut, testTimeMilli &ms)
@@ -497,7 +497,7 @@ TEST(WaterSystemSM, OnNextInMenuCtrlCurrentToggleUseGoesToMenuResetCurrent) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_menu_ctrl_current_reset, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_menu_ctrl_current_reset, t->State());
 };
 
 void auxPutWSSMInMenuCtrlCurrentResetUseState(WaterSystemSM &wssm, MockButtonWS &mockNextBut, MockButtonWS &mockOkBut, testTimeMilli &ms)
@@ -519,7 +519,7 @@ TEST(WaterSystemSM, OnNextInMenuResetCurrentGoesToMenuCtrlCurrentX) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_menu_ctrl_current_x, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_menu_ctrl_current_x, t->State());
 };
 
 /// wss_menu_ctrl_current_toggleuse -Next-> wss_menu_ctrl_current_reset(p1)
@@ -534,5 +534,5 @@ TEST(WaterSystemSM, OnOkInMenuCtrlCurrentToggleUseGoesToToggleUseCurrent) {
 
     ms.tickUpTo(sleepTimeOutMillis());
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
-    EXPECT_EQ(wss_toggle_use_current, t->State()); // ... sends us into list one (first sensor) state
+    EXPECT_EQ(wss_toggle_use_current, t->State());
 };
