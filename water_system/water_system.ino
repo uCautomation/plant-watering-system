@@ -145,6 +145,10 @@ void set_system_state(wss_type nextstate)
             pWaterSystem->selectNextMenuEntry();
             break;
 
+        case wss_toggle_use_current:
+            pWaterSystem->toggleUsageForCurrent();
+            break;
+
         case wss_sleep:
             lcd.setBacklight(0);
             lcd.noDisplay();

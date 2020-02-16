@@ -100,6 +100,8 @@ class WaterSystem
 
         void showState(uint8_t stateNo);
 
+        void toggleUsageForCurrent();
+
         void autoWater();
 
 };

@@ -178,6 +178,8 @@ class SensorAndPump {
 
         inline void setModuleUnused() { _moduleIsUsed = false; }
 
+        inline void toggleModuleUsage() { _moduleIsUsed = !_moduleIsUsed; }
+
         inline bool isModuleUsed() { return _moduleIsUsed; }
 
         bool tryAutoWater() {

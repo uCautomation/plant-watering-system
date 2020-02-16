@@ -485,6 +485,11 @@ void WaterSystem::autoWater()
     delay(HUMAN_PERCEPTIBLE_MS);
 }
 
+void WaterSystem::toggleUsageForCurrent()
+{
+    sp[_selected_module.moduleIndex].toggleModuleUsage();
+}
+
 ulong timedelta(ulong ref_timestamp, ulong now)
 {
     if (now >= ref_timestamp)
