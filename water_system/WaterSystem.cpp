@@ -49,6 +49,7 @@ WSMenu ctrl_one_menu(
     /* .MenuLine = */ 1
     );
 
+static const char DISABLED_PLANT_ICON = 'x';
 
 void WaterSystem::initGlyphs(LiquidCrystal_PCF8574 &lcd)
 {
@@ -174,7 +175,7 @@ inline void WaterSystem::_lcdWritePlantIconOrX(byte moduleIndex) {
     if (sp[moduleIndex].isModuleUsed()) {
         lcd.write(_plant->location());
     } else {
-        lcd.write('x');
+        lcd.write(DISABLED_PLANT_ICON);
     }
 }
 
@@ -484,7 +485,7 @@ void WaterSystem::autoWater()
                 DEBUG_P("skipped (not dry)\n");
             };
         } else {
-            lcd.write('x');
+            lcd.write(DISABLED_PLANT_ICON);
             DEBUG_P("Skipped (disabled)\n");
         };
         delay(HUMAN_PERCEPTIBLE_MS);
