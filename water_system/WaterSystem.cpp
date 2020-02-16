@@ -170,6 +170,14 @@ bool WaterSystem::hasActiveModule(saneModuleIndex_t *pModuleIdx)
     return true;
 }
 
+inline void WaterSystem::_lcdWritePlantIconOrX(byte moduleIndex) {
+    if (sp[moduleIndex].isModuleUsed()) {
+        lcd.write(_plant->location());
+    } else {
+        lcd.write('x');
+    }
+}
+
 void WaterSystem::listAll()
 {
     _clearScreenNoCursor();
@@ -182,7 +190,8 @@ void WaterSystem::listAll()
         const int x = i * 3;
         lcd.setCursor(x, 0);
         sprintf(_lcd_line0, "%.1d", i);
-        lcd.write(_plant->location()); lcd.print(_lcd_line0);
+        _lcdWritePlantIconOrX(i);
+        lcd.print(_lcd_line0);
 
         lcd.setCursor(x, 1);
         int delta = sp[i].getNormalizedDeltaToThreshold();
@@ -235,7 +244,7 @@ void WaterSystem::manualWaterCurrent()
     DEBUG_P("Manual watering\n");
     lcd.print(F("Manual watering\n"));
     lcd.setCursor(0, 1);
-    lcd.write(_plant->location());
+    _lcdWritePlantIconOrX(_selected_module.moduleIndex);
 
     saneModuleIndex_t saneIdx;
     if (hasActiveModule(&saneIdx)) {
@@ -359,7 +368,7 @@ bool WaterSystem::_clearLcdAndListCurrentPlant(byte &selectedIdx)
 {
     _clearScreenNoCursor();
 
-    lcd.write(_plant->location());
+    _lcdWritePlantIconOrX(_selected_module.moduleIndex);
     if (!_some_module_selected) {
         lcd.write('?');
     } else {
@@ -475,7 +484,7 @@ void WaterSystem::autoWater()
                 DEBUG_P("skipped (not dry)\n");
             };
         } else {
-            lcd.write('X');
+            lcd.write('x');
             DEBUG_P("Skipped (disabled)\n");
         };
         delay(HUMAN_PERCEPTIBLE_MS);

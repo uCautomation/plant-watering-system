@@ -70,6 +70,8 @@ class WaterSystem
 
         void _clearScreenNoCursor();
 
+        void _lcdWritePlantIconOrX(byte moduleIndex);
+
     public:
 
         WaterSystem();
