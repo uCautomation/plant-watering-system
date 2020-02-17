@@ -9,6 +9,10 @@
 #define SENSOR_START_DELAY_MS 10
 #define PUMP_ON_MS            5000UL
 
+// it seems my relay has inverse command
+#define PUMP_OFF HIGH
+#define PUMP_ON LOW
+
 static const char *noPercent = "-- ";
 
 class SensorAndPump {
@@ -96,6 +100,7 @@ class SensorAndPump {
             pinMode(_vSensorPin, OUTPUT);
             // analog pins are ready for AnalogRead by default, so _sensorPin works out of the box
             pinMode(_pumpCmdPin, OUTPUT);
+            digitalWrite(_pumpCmdPin, PUMP_OFF);
 
             _lastMoisture = _dryValue; // Assume on start the plant is watered; initialize the value
 
@@ -154,9 +159,9 @@ class SensorAndPump {
         void giveWater()
         {
             if (isModuleUsed()) {
-                digitalWrite(_pumpCmdPin, HIGH); // open valve to let water run
+                digitalWrite(_pumpCmdPin, PUMP_ON); // open valve to let water run
                 delay(_pumpOnMS);
-                digitalWrite(_pumpCmdPin, LOW); // close valve
+                digitalWrite(_pumpCmdPin, PUMP_OFF); // close valve
             } else {
                 DEBUG_P("Ignore unused plant watering cmd");
             }
