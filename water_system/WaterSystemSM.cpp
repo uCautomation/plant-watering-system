@@ -18,7 +18,7 @@ ulong WaterSystemSM::_timeoutForState(wss_type state)
         system_panic_no_return();
     };
 
-    uint8_t state_to = u16PgmRead(_state_to[state]);
+    uint16_t state_to = u16PgmRead(_state_to[state]);
     // 0 is the default initializer, but for TO we want by default SleepTimeOut
     if (state_to == 0U) {
         state_to = SleepTimeOut;
