@@ -17,7 +17,6 @@ Note this code is:
 
 ## TODO
 
-- Reset/Forget module calibration (i.e. change plant)
 - Save power by going to sleep on timeout
 - Test the WaterSystem state machine
 - Persistent calibration data after reset each module; save the calibration data

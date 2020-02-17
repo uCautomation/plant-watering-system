@@ -198,6 +198,10 @@ class SensorAndPump {
             }
             return watered;
         }
+
+        void resetCalibration() {
+            _dryValue = 1;
+        }
 };
 
 #endif

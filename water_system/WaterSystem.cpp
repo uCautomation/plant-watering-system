@@ -495,6 +495,11 @@ void WaterSystem::autoWater()
     delay(HUMAN_PERCEPTIBLE_MS);
 }
 
+void WaterSystem::resetCalibrationForCurrentModule()
+{
+    sp[_selected_module.moduleIndex].resetCalibration();
+}
+
 void WaterSystem::toggleUsageForCurrent()
 {
     sp[_selected_module.moduleIndex].toggleModuleUsage();

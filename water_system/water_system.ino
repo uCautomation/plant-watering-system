@@ -169,6 +169,10 @@ void set_system_state(wss_type nextstate)
             pWaterSystem->autoWater();
             break;
 
+        case wss_reset_current_calibration:
+            pWaterSystem->resetCalibrationForCurrentModule();
+            break;
+
         default:
             pWaterSystem->showState(nextstate);
     }
