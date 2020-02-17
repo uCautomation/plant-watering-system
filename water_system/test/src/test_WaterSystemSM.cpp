@@ -536,3 +536,40 @@ TEST(WaterSystemSM, OnOkInMenuCtrlCurrentToggleUseGoesToToggleUseCurrent) {
     EXPECT_EQ(true, t->stateUpdated(ms.get()));
     EXPECT_EQ(wss_toggle_use_current, t->State());
 };
+
+/// wss_menu_ctrl_current_reset -Ok-> wss_reset_current_calibration
+TEST(WaterSystemSM, OnOkInMenuResetCurrentGoesToResetCurrent) {
+    testTimeMilli ms;
+    MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
+    MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
+    WaterSystemSM *t = new WaterSystemSM(ms.get(), &mockOkBut, &mockNextBut);
+    auxPutWSSMInMenuCtrlCurrentResetUseState(*t, mockNextBut, mockOkBut, ms);
+
+    mockOkBut.tAppendExpectPush(true);
+
+    ms.tickUpTo(sleepTimeOutMillis());
+    EXPECT_EQ(true, t->stateUpdated(ms.get()));
+    EXPECT_EQ(wss_reset_current_calibration, t->State());
+};
+
+void auxPutWSSMInResetCurrentCalibrationState(WaterSystemSM &wssm, MockButtonWS &mockNextBut, MockButtonWS &mockOkBut, testTimeMilli &ms)
+{
+    auxPutWSSMInMenuCtrlCurrentResetUseState(wssm, mockNextBut, mockOkBut, ms);
+    mockOkBut.tAppendExpectPush(true);
+    (void)wssm.stateUpdated(ms.tickAndGet(halfOfSleepTimeoutMillis()));
+}
+
+/// wss_reset_current_calibration -Ok-> wss_reset_current_calibration
+TEST(WaterSystemSM, OnTimeOutInResetCurrentGoesToMenuCtrlCurrentX) {
+    testTimeMilli ms;
+    MockButtonWS mockOkBut = MockButtonWS(okButPin, okButISR);
+    MockButtonWS mockNextBut = MockButtonWS(nextButPin, nextButISR);
+    WaterSystemSM *t = new WaterSystemSM(ms.get(), &mockOkBut, &mockNextBut);
+    auxPutWSSMInResetCurrentCalibrationState(*t, mockNextBut, mockOkBut, ms);
+
+    // actually this should be immediate, but 1s this ie the smallest TimeOut
+    ms.tickUpTo(sleepTimeOutMillis());
+
+    EXPECT_EQ(true, t->stateUpdated(ms.get()));
+    EXPECT_EQ(wss_menu_ctrl_current_x, t->State());
+};

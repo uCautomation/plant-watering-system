@@ -14,6 +14,7 @@ typedef enum {
     // and timeout immediately after completion
     wss_toggle_use_current,
     wss_manualwater, // indirectly reached via wss_menu_one_pN menu
+    wss_reset_current_calibration, // forget calibration data for one module
     wss_autowater, // Used by automatic watering
 
     // states accepting transitioning-out via button presses
@@ -90,6 +91,7 @@ class WaterSystemSM {
 
             [wss_toggle_use_current] = wss_sleep, // TODO: wss_menu_ctrl_current_x on TO and ignore this?
             [wss_manualwater] = wss_manualwater,
+            [wss_reset_current_calibration] = wss_reset_current_calibration, // ignore keypresss, redo has no effect
             [wss_autowater] = wss_sleep, // ignore key press
 
             [wss_list_all] = wss_menu_all_x,
@@ -111,8 +113,8 @@ class WaterSystemSM {
             [wss_menu_one_water] = wss_manualwater,
 
             [wss_menu_ctrl_current_x] = wss_menu_one_x,
-            [wss_menu_ctrl_current_reset] = wss_sleep, // TODO: wss_reset_current
-            [wss_menu_ctrl_current_toggleuse] = wss_toggle_use_current, // TODO: wss_current_toggleuse
+            [wss_menu_ctrl_current_reset] = wss_reset_current_calibration,
+            [wss_menu_ctrl_current_toggleuse] = wss_toggle_use_current,
 
             // [wss_probe] = wss_list_one,
 
@@ -125,8 +127,8 @@ class WaterSystemSM {
 
             [wss_toggle_use_current] = wss_menu_ctrl_current_x, // or sleep?
             [wss_manualwater] = wss_menu_one_x,
+            [wss_reset_current_calibration] = wss_reset_current_calibration, // ignore keypresss, redo has no effect
             [wss_autowater] = wss_autowater, // ignore key press
-
 
             [wss_list_all] = wss_sys_status,
 
@@ -164,6 +166,7 @@ class WaterSystemSM {
 
             [wss_toggle_use_current] = wss_menu_ctrl_current_x, // or sleep?
             [wss_manualwater] = wss_menu_one_x, // go back to parent menu
+            [wss_reset_current_calibration] = wss_menu_ctrl_current_x, // reprint menu
 
         };
         ulong _timeout = 1000;
@@ -180,6 +183,7 @@ class WaterSystemSM {
 
             [wss_toggle_use_current] = 1U,
             [wss_manualwater] = 1U, // go back to parent menu when done
+            [wss_reset_current_calibration] = 1U, // back to sleep when done
             [wss_autowater] = 1U, // back to sleep when done
 
             [wss_list_all] = 5U,
