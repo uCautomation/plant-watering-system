@@ -162,8 +162,8 @@ can differ between the two regions:
 - For the calibration region, the data is redundant, the most recent valid index
   is the data we want to load on system reset
 - For the log region, the storage is a circular buffer of entries; the oldest
-  log entries will be overwritten in case the memory is full and a new even must
-  be saved.
+  log entries will be overwritten in case the memory is full and a new event
+  must be saved.
 
 ### GeneROMst design details
 
