@@ -1,6 +1,8 @@
 #ifndef LIQUIDCRYSTAL_PCF8574_H
 #define LIQUIDCRYSTAL_PCF8574_H
 
+#include "Arduino.h"
+
 class LiquidCrystal_PCF8574 {
 	public:
 		LiquidCrystal_PCF8574(int addr) {};
