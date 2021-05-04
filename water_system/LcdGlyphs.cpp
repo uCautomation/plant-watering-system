@@ -96,7 +96,7 @@ LCDGlyph::LCDGlyph(LiquidCrystal_PCF8574 &lcd, int location, const int charmap_P
     int charmap[LCD_LINES_PER_GLYPH];
 
     memcpy_P((void *)charmap, charmap_P, sizeof(charmap));
-    lcd.createChar(location, (int *)charmap); // drop const with cast; the called API is not const
+    lcd.createChar(location, (byte [])charmap); // drop const with cast; the called API is not const
     _custom_glyph_location = location;
 }
 
