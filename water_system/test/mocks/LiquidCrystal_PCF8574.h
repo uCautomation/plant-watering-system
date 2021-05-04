@@ -1,6 +1,8 @@
 #ifndef LIQUIDCRYSTAL_PCF8574_H
 #define LIQUIDCRYSTAL_PCF8574_H
 
+#include "Arduino.h"
+
 class LiquidCrystal_PCF8574 {
 	public:
 		LiquidCrystal_PCF8574(int addr) {};
@@ -16,7 +18,7 @@ class LiquidCrystal_PCF8574 {
 		void noCursor() {};
 		void blink() {};
 		void noBlink() {};
-		void createChar(int location, int charmap[]) {};
+		void createChar(int location, byte charmap[]) {};
 		void write(int c) {};
 };
 
