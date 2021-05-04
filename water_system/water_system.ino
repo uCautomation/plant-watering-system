@@ -114,11 +114,14 @@ void set_system_state(wss_type nextstate)
         case wss_list_one_p2:
         case wss_list_one_p3:
         case wss_list_one_p4:
-            static_assert((wss_list_one_p2 - wss_list_one_p1) == 1);
+            static_assert((wss_list_one_p2 - wss_list_one_p1) == 1,
+                          "Inconsistent one_p1 and one_p2 values");
             static_assert((wss_list_one_p2 - wss_list_one_p1)
-                          == (wss_list_one_p3 - wss_list_one_p2));
+                          == (wss_list_one_p3 - wss_list_one_p2),
+                          "Inconsistent one_p1, one_p2, one_p3 values");
             static_assert((wss_list_one_p2 - wss_list_one_p1)
-                          == (wss_list_one_p4 - wss_list_one_p3));
+                          == (wss_list_one_p4 - wss_list_one_p3),
+                          "Inconsistent one_p1, one_p2, one_p3, one_p4 values");
             if (!pWaterSystem->statusOne((byte)(nextstate - wss_list_one_p1))) {
                 DEBUG_P("Unexpected failure of statusOne");
                 pWaterSystem->setSystemInternalError();
