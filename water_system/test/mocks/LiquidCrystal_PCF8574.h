@@ -16,7 +16,7 @@ class LiquidCrystal_PCF8574 {
 		void noCursor() {};
 		void blink() {};
 		void noBlink() {};
-		void createChar(int location, int charmap[]) {};
+		void createChar(int location, byte charmap[]) {};
 		void write(int c) {};
 };
 
