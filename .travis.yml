@@ -1,5 +1,4 @@
 language: minimal
-sudo: false
 git:
   depth: false
   quiet: true
