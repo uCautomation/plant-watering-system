@@ -270,8 +270,8 @@ void WaterSystem::showMenuCursor()
         int column = _p_current_menu->getLcdCursorColumn();
         int line = _p_current_menu->getLcdCursorLine();
 
-        DEBUG_P("showMenuCursor:menuPtr\t col\t ln\n");
-        DEBUG("\t\t%.4x\t%.2d\t%.2d", (uintptr_t)_p_current_menu, column, line);
+        // DEBUG_P("showMenuCursor:menuPtr\t col\t ln\n");
+        // DEBUG("\t\t%.4x\t%.2d\t%.2d", (uintptr_t)_p_current_menu, column, line);
         lcd.setCursor(column, line);
         lcd.blink();
     }

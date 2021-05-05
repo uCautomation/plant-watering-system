@@ -6,7 +6,7 @@
 #include "ws_defs.h"
 #include "WSRuntime.h"
 
-#define SENSOR_START_DELAY_MS 10
+#define SENSOR_START_DELAY_MS 20
 #define PUMP_ON_MS            5000UL
 
 // it seems my relay has inverse command
@@ -72,6 +72,8 @@ class SensorAndPump {
             delay(SENSOR_START_DELAY_MS);//wait for the sensor to stabilize
             _lastMoisture = analogRead(_sensorPin);//Read the SIG value form sensor
             _sensorOff();
+
+            DEBUG(" moisture(%p): %d", this, _lastMoisture);
 
             return _lastMoisture; //send current moisture value
         }
