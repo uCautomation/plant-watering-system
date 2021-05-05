@@ -79,6 +79,9 @@ void noInterrupts();
 #define digitalPinToInterrupt(isr,isrno,evt) 0
 #endif
 
+long map(long x, long in_min, long in_max, long out_min, long out_max);
+long constrain(long v, long min, long max);
+
 #ifdef DEBUG_ON
     #define DEBUG(fmt, ...) printf(fmt "\n" , ##__VA_ARGS__)
     #define DEBUG_P(msg) DEBUG(msg)

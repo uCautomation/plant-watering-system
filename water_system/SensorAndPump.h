@@ -10,8 +10,8 @@
 #define PUMP_ON_MS            5000UL
 
 // it seems my relay has inverse command
-#define PUMP_OFF HIGH
-#define PUMP_ON LOW
+#define PUMP_OFF              HIGH
+#define PUMP_ON               LOW
 
 static const char *noPercent = "-- ";
 
@@ -45,7 +45,8 @@ class SensorAndPump {
 
             // maximum ADC representable value is (2^n - 1),
             // so the result below is always slightly < 100%
-            return (byte)(100U * (uint16_t)analogValue / _analogReadSteps());
+            byte mapped = (byte)map(analogValue, SEEN_SENSOR_DRY_LIMIT, SEEN_SENSOR_WET_LIMIT, 0, 100);
+            return constrain(mapped, 0, 99);
         }
 
         uint16_t _analogReadSteps()
@@ -63,7 +64,11 @@ class SensorAndPump {
 
         inline bool _lastMoistureIsTooDry()
         {
+            #if defined(SENSOR_USES_DIRECT_PROPORTION)
             return _lastMoisture + _dryDeadBandDelta < _dryValue;
+            #else
+            return _lastMoisture - _dryDeadBandDelta > _dryValue;
+            #endif
         }
 
         int _readCurrentMoisture()
@@ -129,20 +134,25 @@ class SensorAndPump {
         {
             // We want to get a -9 to +9 range for the entire spectrum
             int delta = _lastMoisture - _dryValue;
+            #if !defined(SENSOR_USES_DIRECT_PROPORTION)
+            delta = -delta;
+            #endif
 
-            if (delta == 0) {
-                return 0;
+            int mapped = map(delta, -MAX_ADC_VALUE, MAX_ADC_VALUE, -9, +9);
+            return (int8_t)constrain(mapped, -9, +9);
+            // if (delta == 0) {
+            //     return 0;
 
-            } else if (delta < 0) {
-                // normalize in the interval [0, _dryValue),
-                // result must be negative
-                return (delta * 9) / _dryValue;
+            // } else if (delta < 0) {
+            //     // normalize in the interval [0, _dryValue),
+            //     // result must be negative
+            //     return (delta * 9) / _dryValue;
 
-            } else {
-                // normalize in the interval (_dryValue, MAX_ADC_VAL)
-                return (delta * 9) / (MAX_ADC_VALUE - _dryValue);
+            // } else {
+            //     // normalize in the interval (_dryValue, MAX_ADC_VAL)
+            //     return (delta * 9) / (MAX_ADC_VALUE - _dryValue);
 
-            }
+            // }
         }
 
         byte getDryPercent()
@@ -203,7 +213,11 @@ class SensorAndPump {
         }
 
         void resetCalibration() {
+            #if defined(SENSOR_USES_DIRECT_PROPORTION)
             _dryValue = 1;
+            #else
+            _dryValue = _analogReadSteps() - 1;
+            #endif
         }
 };
 

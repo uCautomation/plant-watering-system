@@ -82,7 +82,7 @@ class WaterSystemSM {
         friend void dumpWSTables();
 
         volatile ulong _last_transition_milli;
-        wss_type _state;
+        wss_type _state = wss_start;
 
         constexpr static const wss_type _okBut_next_state[WSS_NOSTATE] PROGMEM {
             [wss_sleep] = wss_list_all,

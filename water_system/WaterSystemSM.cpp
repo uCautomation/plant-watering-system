@@ -42,10 +42,10 @@ WaterSystemSM::WaterSystemSM(
     )
     :
     okBut(okBut),
-    nextBut(nextBut)
+    nextBut(nextBut),
+    // _state(wss_start),
+    _last_transition_milli(current_milli)
 {
-    _state = wss_start;
-    _last_transition_milli = current_milli;
 
     _timeout = _timeoutForState(_state);
 
@@ -128,6 +128,6 @@ void WaterSystemSM::setPanicState() {
 
 wss_type WaterSystemSM::State() {
     return _state;
-};
+}
 
 //private:
