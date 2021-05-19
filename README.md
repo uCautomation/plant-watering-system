@@ -12,7 +12,7 @@ Note this code is:
 
 - intentionally written in a heavily C-based C++ style as an experiment to see the
   minimal C++ constructs needed or found useful to implement it
-- written/updated is an on-and-off fashion, although consistent maintenance would
+- written/updated in an on-and-off fashion, although consistent maintenance would
   be preferrable
 
 ## TODO
@@ -179,8 +179,8 @@ can differ between the two regions:
 - a GeneROMst region is split in equally sized entries
 - each entry can be valid or invalid (erased or incorrectly/incompletely written)
   - validation of an entry's data is made via a check sum or a correction code
-    such as: even/odd parity, CRC, LDPC, Hamming structure, an ECC such as a
-    Reed Solomon code etc.
+    such as: even/odd parity, BSD checksum, CRC, LDPC, Hamming structure, an ECC
+    such as a Reed Solomon code etc.
 - each entry has one unique (at any given time) generation index (Gi)
 - generation indexes can be recycled, provided that any GeneROMst system state
   never contains the same Gi more than once in different valid entries
@@ -196,10 +196,18 @@ can differ between the two regions:
         This results from S / E
   - Gi = generation index for entry i
 
-Note: It is easier to implement a GeneROMst region with both S and E as exact
+Notes:
+
+- It is easier to implement a GeneROMst region with both S and E as exact
 powers of 2, or, at least, with N as a power of 2. Other values should work,
 but they could complicate some accesses, decodings, identification and correct
 handling of corner cases.
+
+- The BSD checksum is simple enough to implement and is can have a size
+adapted to the available space. For the first version, use 
+[BSD Checksum](https://en.wikipedia.org/wiki/BSD_checksum) and add a magic
+or version to entries, so, if later changes are needed, transition could be
+done without needing to erase the older entries.
 
 TODO:
 
