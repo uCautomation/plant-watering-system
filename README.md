@@ -6,6 +6,15 @@ An automatic plant watering system with 4 watering modules (sensor + valve/pump)
 
 The user can interact with the system via the 16x2 LCD display and the user buttons.
 
+## Develpment
+
+Note this code is:
+
+- intentionally written in a heavily C-based C++ style as an experiment to see the
+  minimal C++ constructs needed or found useful to implement it
+- written/updated is an on-and-off fashion, although consistent maintenance would
+  be preferrable
+
 ## TODO
 
 - Reset/Forget module calibration (i.e. change plant)
