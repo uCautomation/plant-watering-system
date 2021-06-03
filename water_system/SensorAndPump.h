@@ -171,7 +171,7 @@ class SensorAndPump {
 
         void manualGiveWaterAndAdjustDry()
         {
-            // Audo-adjust
+            // Auto-adjust
             noInterrupts();
             int moistureNow = _readCurrentMoisture();
             // TODO: store more (3?) than 1 value and average all
