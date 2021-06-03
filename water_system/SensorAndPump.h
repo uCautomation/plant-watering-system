@@ -130,7 +130,7 @@ class SensorAndPump {
             return _lastMoisture;
         }
 
-        int getNormalizedDeltaToThreshold()
+        int8_t getNormalizedDeltaToThreshold()
         {
             // We want to get a -9 to +9 range for the entire spectrum
             int delta = _lastMoisture - _dryValue;
