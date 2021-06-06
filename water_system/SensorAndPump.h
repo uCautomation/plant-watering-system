@@ -6,6 +6,56 @@
 #include "ws_defs.h"
 #include "WSRuntime.h"
 
+class LastMoistures {
+    private:
+        static const byte _SIZE = 3U;
+        int _moistures[_SIZE];
+        byte _index = _SIZE - 1;
+
+    public:
+
+        LastMoistures() {
+            LastMoistures(0U);
+        }
+
+        LastMoistures(int value) {
+            for ( byte i=0; i<_SIZE; i++) {
+                _index = (_index+1) % _SIZE;
+                _moistures[_index] = value;
+            }
+        }
+
+        void add(int value) {
+            _index = (_index+1) % _SIZE;
+            _moistures[_index] = value;
+        }
+
+        int getPrevious(byte offset) {
+            offset = offset % _SIZE;
+
+            return _moistures[_index - offset];
+        }
+
+        int getLast() {
+            return getPrevious(0U);
+        }
+
+        // int count(void) { return _SIZE; }
+
+        int average() {
+            int s = 0;
+            for (byte i = 0U; i<_SIZE; i++) {
+                s += _moistures[i];
+            }
+            return s / _SIZE;
+        }
+
+        void setAll(int value) {
+            for (byte i = 0; i < _SIZE; i++)
+                _moistures[i] = value;
+        }
+};
+
 #define SENSOR_START_DELAY_MS 20
 #define PUMP_ON_MS            5000UL
 
@@ -21,10 +71,11 @@ class SensorAndPump {
 
         int _vSensorPin, _sensorPin, _pumpCmdPin;
         int _dryValue, _lastMoisture;
+        LastMoistures _dryMoistures;
         int _pumpOnMS;
         static const int _dryDeadBandDelta = 10;
 
-        static const byte _maxDryValues = 1;
+        static const byte _maxDryValues = 3;
         static const byte _maxPercentStrLen = 4;
         constexpr static const byte _bufLen = _maxDryValues * _maxPercentStrLen + 1;
         char _buf[_bufLen] = { 0 };
@@ -56,10 +107,7 @@ class SensorAndPump {
 
         byte _dryPercentOnSampleNo(byte drySampleIndex)
         {
-            // not used for now, will be used when multiple refs are stored
-            (void)drySampleIndex;
-
-            return _dryPercentFromAbsValue(_dryValue);
+            return _dryPercentFromAbsValue(_dryMoistures.getPrevious(drySampleIndex));
         }
 
         inline bool _lastMoistureIsTooDry()
@@ -80,12 +128,15 @@ class SensorAndPump {
 
             DEBUG(" moisture(%p): %d", this, _lastMoisture);
 
+            _dryMoistures.add(_lastMoisture);
+
             return _lastMoisture; //send current moisture value
         }
 
         void _setTooDry(int dryValue)
         {
-            _dryValue = dryValue;
+            _dryMoistures.add(dryValue);
+            _dryValue = _dryMoistures.average();
         }
 
         void _giveWater()
@@ -121,6 +172,8 @@ class SensorAndPump {
             pinMode(_pumpCmdPin, OUTPUT);
             digitalWrite(_pumpCmdPin, PUMP_OFF);
 
+            _dryMoistures.setAll(DryValue);
+
             _lastMoisture = _dryValue; // Assume on start the plant is watered; initialize the value
 
         }
@@ -140,19 +193,6 @@ class SensorAndPump {
 
             int mapped = map(delta, -MAX_ADC_VALUE, MAX_ADC_VALUE, -9, +9);
             return (int8_t)constrain(mapped, -9, +9);
-            // if (delta == 0) {
-            //     return 0;
-
-            // } else if (delta < 0) {
-            //     // normalize in the interval [0, _dryValue),
-            //     // result must be negative
-            //     return (delta * 9) / _dryValue;
-
-            // } else {
-            //     // normalize in the interval (_dryValue, MAX_ADC_VAL)
-            //     return (delta * 9) / (MAX_ADC_VALUE - _dryValue);
-
-            // }
         }
 
         byte getDryPercent()
@@ -185,8 +225,7 @@ class SensorAndPump {
             // Auto-adjust
             noInterrupts();
             int moistureNow = _readCurrentMoisture();
-            // TODO: store more (3?) than 1 value and average all
-            _setTooDry( (_dryValue + moistureNow) / 2);
+            _setTooDry(moistureNow);
             interrupts();
 
             _giveWater();
@@ -218,6 +257,8 @@ class SensorAndPump {
             #else
             _dryValue = _analogReadSteps() - 1;
             #endif
+
+            _dryMoistures.setAll(_dryValue);
         }
 };
 
