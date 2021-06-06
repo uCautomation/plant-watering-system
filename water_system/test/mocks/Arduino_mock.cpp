@@ -6,7 +6,24 @@ int millis() {return 1234;};
 void delay(int delay_ms) {};
 void pinMode(int pin, int mode) {};
 void digitalWrite(int pin, int level) {};
-int analogRead(int anpin) {return 0;};
+
+static int mockAnalogPin = 0U;
+static int mockAnalogReadCount = 0U;
+void setExpectAnalogRead(int anpin, int value)
+{
+  // TODO: Add support for multiple analog pins and values
+  (void)anpin;
+
+  mockAnalogPin = value;
+  mockAnalogReadCount++;
+};
+int analogRead(int anpin) {
+  if (mockAnalogReadCount>0) {
+    mockAnalogReadCount--;
+    return mockAnalogPin;
+  }
+  return 0;
+};
 
 void nextButISR(void) {};
 void okButISR(void) {};

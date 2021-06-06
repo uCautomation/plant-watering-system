@@ -6,6 +6,7 @@
 #define HUMAN_PERCEPTIBLE_MS    500U
 #define MAX_ADC_VALUE           1023
 
+// TODO: fix these names WRT to inverse proportion
 // after some calibration, when the sensor was dipped in water,
 // didn't see values below this limit
 #define SEEN_SENSOR_WET_LIMIT   250
