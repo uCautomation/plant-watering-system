@@ -83,6 +83,18 @@ class SensorAndPump {
             _dryValue = dryValue;
         }
 
+        void _giveWater()
+        {
+            if (isModuleUsed()) {
+                digitalWrite(_pumpCmdPin, PUMP_ON); // open valve to let water run
+                delay(_pumpOnMS);
+                digitalWrite(_pumpCmdPin, PUMP_OFF); // close valve
+            } else {
+                DEBUG_P("Ignore unused plant watering cmd");
+            }
+        }
+
+
     public:
         SensorAndPump
         (
@@ -158,17 +170,6 @@ class SensorAndPump {
             return _buf;
         }
 
-        void giveWater()
-        {
-            if (isModuleUsed()) {
-                digitalWrite(_pumpCmdPin, PUMP_ON); // open valve to let water run
-                delay(_pumpOnMS);
-                digitalWrite(_pumpCmdPin, PUMP_OFF); // close valve
-            } else {
-                DEBUG_P("Ignore unused plant watering cmd");
-            }
-        }
-
         void manualGiveWaterAndAdjustDry()
         {
             // Auto-adjust
@@ -178,7 +179,7 @@ class SensorAndPump {
             _setTooDry( (_dryValue + moistureNow) / 2);
             interrupts();
 
-            giveWater();
+            _giveWater();
         }
 
         inline void setModuleUsed() { _moduleIsUsed = true; }
@@ -194,7 +195,7 @@ class SensorAndPump {
             if (_moduleIsUsed) {
                 (void)_readCurrentMoisture();
                 if (_lastMoistureIsTooDry()) {
-                    giveWater();
+                    _giveWater();
                     watered = true;
                 }
             }
