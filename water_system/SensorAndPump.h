@@ -31,9 +31,7 @@ class LastMoistures {
         }
 
         int getPrevious(byte offset) {
-            offset = offset % _SIZE;
-
-            return _moistures[_index - offset];
+            return _moistures[(_index - (offset % _SIZE) + _SIZE) % _SIZE];
         }
 
         int getLast() {
