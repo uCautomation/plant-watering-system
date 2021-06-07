@@ -77,8 +77,7 @@ TEST(SensorAndPump, halfHumidity) {
     EXPECT_LE(0, delta_percent);
 }
 
-// TODO: fix test for inverse sensors
-TEST(DISABLED_SensorAndPump, halfHumidity) {
+TEST(SensorAndPump, halfHumidity2) {
     SensorAndPump *t = new SensorAndPump(
         tPinVSensor, tPinAnalogSensor, tPinVPump);
 
@@ -94,7 +93,11 @@ TEST(DISABLED_SensorAndPump, halfHumidity) {
     setExpectAnalogRead(tPinAnalogSensor, halfHumidity);
     t->manualGiveWaterAndAdjustDry();
 
-    EXPECT_EQ(50, t->getDryPercent());
+    int8_t delta_percent = 50 - t->getDryPercent();
+
+    // accept only at most a 1% delta due to rounding errors
+    EXPECT_GE(1, delta_percent);
+    EXPECT_LE(0, delta_percent);
 }
 
 TEST(SensorAndPump, noAutoWateringIfAtTreshold) {

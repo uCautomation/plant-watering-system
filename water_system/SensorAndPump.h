@@ -131,7 +131,6 @@ class SensorAndPump {
 
         void _setTooDry(int dryValue)
         {
-            _dryMoistures.add(dryValue);
             _dryValue = _dryMoistures.average();
         }
 
