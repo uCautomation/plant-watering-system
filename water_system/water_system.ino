@@ -86,7 +86,7 @@ void loop() {
 
 void set_system_state(wss_type nextstate)
 {
-    DEBUG_P("Set system state:"); DEBUG("%d", nextstate);
+    // DEBUG_P("Set system state:"); DEBUG("%d", nextstate);
     // lcd.setCursor(13, 1);
     // lcd.print(nextstate);
     switch (nextstate) {
