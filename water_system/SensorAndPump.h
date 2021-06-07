@@ -112,11 +112,7 @@ class SensorAndPump {
 
         inline bool _lastMoistureIsTooDry()
         {
-            #if defined(SENSOR_USES_DIRECT_PROPORTION)
-            return _lastMoisture + _dryDeadBandDelta < _dryValue;
-            #else
-            return _lastMoisture - _dryDeadBandDelta > _dryValue;
-            #endif
+            return SENSOR_SIGN * (_dryValue - _lastMoisture) > _dryDeadBandDelta;
         }
 
         int _readCurrentMoisture()
@@ -186,10 +182,7 @@ class SensorAndPump {
         int8_t getNormalizedDeltaToThreshold()
         {
             // We want to get a -9 to +9 range for the entire spectrum
-            int delta = _lastMoisture - _dryValue;
-            #if !defined(SENSOR_USES_DIRECT_PROPORTION)
-            delta = -delta;
-            #endif
+            int delta = SENSOR_SIGN * (_lastMoisture - _dryValue);
 
             int mapped = map(delta, -MAX_ADC_VALUE, MAX_ADC_VALUE, -9, +9);
             return (int8_t)constrain(mapped, -9, +9);
@@ -252,12 +245,7 @@ class SensorAndPump {
         }
 
         void resetCalibration() {
-            #if defined(SENSOR_USES_DIRECT_PROPORTION)
-            _dryValue = 1;
-            #else
-            _dryValue = _analogReadSteps() - 1;
-            #endif
-
+            _dryValue = SEEN_SENSOR_DRY_LIMIT;
             _dryMoistures.setAll(_dryValue);
         }
 };
