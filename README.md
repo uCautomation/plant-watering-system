@@ -13,7 +13,7 @@ Note this code is:
 - intentionally written in a heavily C-based C++ style as an experiment to see the
   minimal C++ constructs needed or found useful to implement it
 - written/updated in an on-and-off fashion, although consistent maintenance would
-  be preferrable
+  be preferable
 
 ## TODO
 
@@ -203,7 +203,7 @@ but they could complicate some accesses, decodings, identification and correct
 handling of corner cases.
 
 - The BSD checksum is simple enough to implement and is can have a size
-adapted to the available space. For the first version, use 
+adapted to the available space. For the first version, use
 [BSD Checksum](https://en.wikipedia.org/wiki/BSD_checksum) and add a magic
 or version to entries, so, if later changes are needed, transition could be
 done without needing to erase the older entries.
