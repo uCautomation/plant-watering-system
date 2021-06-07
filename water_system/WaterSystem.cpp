@@ -387,10 +387,15 @@ void WaterSystem::showCtrlCurrentOne()
         return;
     }
 
+    char percent[3][3] = {0};
+    for (byte i=0U; i<3U; i++) {
+        strncpy(percent[i], sp[saneIdx].getTooDryPercentAsStr(i), 2);
+    }
+
     snprintf(_lcd_line0, lcdLineBufLen - 1, ctrlOne0Fmt,
-             sp[saneIdx].getTooDryPercentAsStr(0),
-             sp[saneIdx].getTooDryPercentAsStr(1),
-             sp[saneIdx].getTooDryPercentAsStr(2)
+             percent[0],
+             percent[1],
+             percent[2]
              );
 
     snprintf(_lcd_line1, lcdLineBufLen - 1, ctrlOne1Fmt,
