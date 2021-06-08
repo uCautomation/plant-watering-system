@@ -1,4 +1,8 @@
 #include <Arduino.h>
+#include <EEPROMWearLevel.h>
+
+#define EEPROM_LAYOUT_VERSION 0
+#define AMOUNT_OF_INDEXES     MAX_MODULE_COUNT
 
 #include "ws_defs.h"
 #include "WaterSystem.h"
@@ -93,6 +97,14 @@ WaterSystem::WaterSystem(/* args */)
         system_panic_wo_lcd_no_return();
 
     } else {
+
+        EEPROMwl.begin(EEPROM_LAYOUT_VERSION, AMOUNT_OF_INDEXES);
+        (void)EEPROM; // just shut up warning about not using EEPROM
+
+        if (!loadReferenceValuesFromEEPROM()) {
+            DEBUG_P("failed to load calibration! Continuing with dummy values!\n");
+        };
+
         initGlyphs(lcd);
         lcd.begin(16, 2); // initialize the lcd
         lcd.setBacklight(255);
@@ -102,6 +114,7 @@ WaterSystem::WaterSystem(/* args */)
         lcd.setCursor(0, 1);
         for (int i=0; i<8; i++)
             lcd.write(i);
+
     }
 }
 
@@ -116,6 +129,46 @@ bool WaterSystem::hasInternalError()
     return _internal_error;
 }
 
+void WaterSystem::saveReferenceValuesToEEPROM() {
+
+    for (byte m=0; m<MAX_MODULE_COUNT; m++) {
+
+        // all 3 references for a single module packed into a u32
+        uint32_t compactedRefs = 0U;
+
+        for (byte i=0; i<MAX_DRY_VALUES_PER_MODULE; i++) {
+            int r = (sp[m].getDryAbsValue(i) & 0x3FF) << (10 * i);
+            compactedRefs |= r;
+        }
+
+        EEPROMwl.put(m, compactedRefs);
+    }
+}
+
+
+bool WaterSystem::loadReferenceValuesFromEEPROM() {
+
+    for (byte m=0; m<MAX_MODULE_COUNT; m++) {
+
+        // contains all refernces packed into a u32
+        uint32_t compactedRefs = 0xFFFFFFFF;
+        int refs[MAX_DRY_VALUES_PER_MODULE] = {511};
+
+        EEPROMwl.get(m, compactedRefs);
+        if (compactedRefs == 0xFFFFFFFF) {
+            return false;
+        }
+
+        for (byte i=0; i<MAX_DRY_VALUES_PER_MODULE; i++) {
+            int ref = (int)(compactedRefs >> (10 * i)) & 0x3FF;
+            refs[i] = ref;
+        }
+
+        sp[m].setValues(refs);
+    }
+
+    return true;
+}
 
 inline saneModuleIndex_t WaterSystem::_saneModuleIndex(byte moduleIndex)
 {
@@ -479,6 +532,8 @@ void WaterSystem::autoWater()
         lcd.write('0' + i);
         delay(HUMAN_PERCEPTIBLE_MS);
 
+        DEBUG_P("Saving calibration data\n");
+        saveReferenceValuesToEEPROM();
 
         SensorAndPump *module = &sp[i];
         if (module->isModuleUsed()) {

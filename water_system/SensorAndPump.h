@@ -142,7 +142,6 @@ class SensorAndPump {
             }
         }
 
-
     public:
         SensorAndPump
         (
@@ -238,6 +237,16 @@ class SensorAndPump {
                 }
             }
             return watered;
+        }
+
+        void setValues(int referenceValues[MAX_DRY_VALUES_PER_MODULE]) {
+            for (byte i=0; i<MAX_DRY_VALUES_PER_MODULE; i++) {
+                _dryMoistures.add(referenceValues[i]);
+            }
+        }
+
+        int getDryAbsValue(byte index) {
+            return _dryMoistures.getPrevious(index % MAX_DRY_VALUES_PER_MODULE);
         }
 
         void resetCalibration() {

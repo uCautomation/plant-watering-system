@@ -79,6 +79,9 @@ class WaterSystem
         void setSystemInternalError();
         bool hasInternalError();
 
+        void saveReferenceValuesToEEPROM();
+        bool loadReferenceValuesFromEEPROM();
+
         // byte selectSaneModuleIndex(byte moduleIndex);
         void selectModuleIndex(saneModuleIndex_t saneIndex);
         void deactivateSelection();
