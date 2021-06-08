@@ -88,13 +88,13 @@ class SensorAndPump {
             digitalWrite(_vSensorPin, LOW);//turn sensor "Off"
         }
 
-        byte _dryPercentFromAbsValue(int analogValue)
+        int8_t _dryPercentFromAbsValue(int analogValue)
         {
             assert_or_panic((analogValue >= 0) && (analogValue < (int)_analogReadSteps()));
 
             // maximum ADC representable value is (2^n - 1),
             // so the result below is always slightly < 100%
-            byte mapped = (byte)map(analogValue, SEEN_SENSOR_DRY_LIMIT, SEEN_SENSOR_WET_LIMIT, 0, 100);
+            int8_t mapped = (int8_t)map(analogValue, SEEN_SENSOR_DRY_LIMIT, SEEN_SENSOR_WET_LIMIT, 0, 100);
             return constrain(mapped, 0, 99);
         }
 
@@ -105,7 +105,7 @@ class SensorAndPump {
 
         byte _dryPercentOnSampleNo(byte drySampleIndex)
         {
-            return _dryPercentFromAbsValue(_dryMoistures.getPrevious(drySampleIndex));
+            return (byte)_dryPercentFromAbsValue(_dryMoistures.getPrevious(drySampleIndex));
         }
 
         inline bool _lastMoistureIsTooDry()
