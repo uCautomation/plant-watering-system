@@ -8,7 +8,7 @@
 
 class LastMoistures {
     private:
-        static const byte _SIZE = 3U;
+        static const byte _SIZE = MAX_DRY_VALUES_PER_MODULE;
         int _moistures[_SIZE];
         byte _index = _SIZE - 1;
 
@@ -73,7 +73,7 @@ class SensorAndPump {
         int _pumpOnMS;
         static const int _dryDeadBandDelta = 10;
 
-        static const byte _maxDryValues = 3;
+        static const byte _maxDryValues = MAX_DRY_VALUES_PER_MODULE;
         static const byte _maxPercentStrLen = 4;
         constexpr static const byte _bufLen = _maxDryValues * _maxPercentStrLen + 1;
         char _buf[_bufLen] = { 0 };

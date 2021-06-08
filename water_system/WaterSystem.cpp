@@ -379,6 +379,8 @@ bool WaterSystem::_clearLcdAndListCurrentPlant(byte &selectedIdx)
     return _some_module_selected;
 }
 
+#define PERCENT_STR_MAX_LEN 3U
+
 void WaterSystem::showCtrlCurrentOne()
 {
     byte saneIdx;
@@ -387,9 +389,11 @@ void WaterSystem::showCtrlCurrentOne()
         return;
     }
 
-    char percent[3][3] = {0};
-    for (byte i=0U; i<3U; i++) {
-        strncpy(percent[i], sp[saneIdx].getTooDryPercentAsStr(i), 2);
+    static_assert(MAX_DRY_VALUES_PER_MODULE == 3U, "MAX_DRY_VALUES_PER_MODULE is not 3");
+    char percent[MAX_DRY_VALUES_PER_MODULE][PERCENT_STR_MAX_LEN] = {0};
+
+    for (byte i=0U; i<MAX_DRY_VALUES_PER_MODULE; i++) {
+        strncpy(percent[i], sp[saneIdx].getTooDryPercentAsStr(i), PERCENT_STR_MAX_LEN - 1);
     }
 
     snprintf(_lcd_line0, lcdLineBufLen - 1, ctrlOne0Fmt,
