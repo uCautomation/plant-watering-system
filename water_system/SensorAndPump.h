@@ -122,13 +122,12 @@ class SensorAndPump {
 
             DEBUG(" moisture(%p): %d", this, _lastMoisture);
 
-            _dryMoistures.add(_lastMoisture);
-
             return _lastMoisture; //send current moisture value
         }
 
         void _setTooDry(int dryValue)
         {
+            _dryMoistures.add(dryValue);
             _dryValue = _dryMoistures.average();
         }
 
