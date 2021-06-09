@@ -1,0 +1,7 @@
+The Arduino esp32 has an EEPROM which requires careful
+handling on begin(), but we need care too much now to get
+the right EEPROM incantation, we just need the EEPROM to
+store our calibration data for dry values.
+
+So just disable the board for now, we might reconsider if
+we can use some predefined compiler #define to handle this.

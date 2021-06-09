@@ -1,0 +1,5 @@
+The Arduino M4 have no EEPROM, but we need EEPROM to store
+our calibration data for dry values.
+
+So just disable Arduino M4 as it seems is not fit for our
+application.
