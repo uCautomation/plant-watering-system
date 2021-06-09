@@ -1,0 +1,5 @@
+The Arduino Zero has no EEPROM, but we need EEPROM to store
+our calibration data for dry values.
+
+So just disable Arduino Zero as it seems is not fit for our
+application.
