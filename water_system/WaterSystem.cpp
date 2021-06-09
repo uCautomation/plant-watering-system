@@ -136,16 +136,14 @@ void WaterSystem::saveReferenceValuesToEEPROM() {
         // all 3 references for a single module packed into a u32
         uint32_t compactedRefs = 0U;
 
-        DEBUG("compactedRefs[%u]   = %lx", m, compactedRefs);
         for (byte i=0; i<MAX_DRY_VALUES_PER_MODULE; i++) {
             int val = sp[m].getDryAbsValue(i);
             int32_t r = (val & 0x3FFUL) << (10 * i);
-            DEBUG("   %u.%u = %d (%lx)", m, i, val, r);
             compactedRefs |= r;
-            DEBUG("             [%u] %u = %lx", m, i, compactedRefs);
+            DEBUG("  Ref %u.%u = %.4d (%.8lx) -> compactref=0x%.8lx", m, i, val, r, compactedRefs);
         }
 
-        DEBUG("Saving %u: %lx", m, compactedRefs);
+        DEBUG("Saving %u: 0x%.8lx", m, compactedRefs);
         EEPROMwl.put(m, compactedRefs);
     }
 }
