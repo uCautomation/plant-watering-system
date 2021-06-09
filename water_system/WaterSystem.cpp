@@ -167,7 +167,7 @@ bool WaterSystem::loadReferenceValuesFromEEPROM() {
         DEBUG("Got %u: %lx", m, compactedRefs);
 
         for (byte i=0; i<MAX_DRY_VALUES_PER_MODULE; i++) {
-            int ref = (int)(compactedRefs >> (10 * i)) & 0x3FF;
+            int ref = (int)(compactedRefs >> (10 * (2-i))) & 0x3FF;
             refs[i] = ref;
         }
 
