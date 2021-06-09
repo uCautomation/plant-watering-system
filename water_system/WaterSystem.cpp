@@ -177,7 +177,9 @@ bool WaterSystem::loadReferenceValuesFromEEPROM() {
 
 inline saneModuleIndex_t WaterSystem::_saneModuleIndex(byte moduleIndex)
 {
-    return saneModuleIndex_t { (byte)(moduleIndex % MAX_MODULE_COUNT) };
+    return saneModuleIndex_t {
+               (byte)(moduleIndex % MAX_MODULE_COUNT)
+    };
 }
 
 void WaterSystem::selectModuleIndex(saneModuleIndex_t saneIndex)
@@ -387,11 +389,11 @@ void WaterSystem::showStatusCurrentOne()
     }
 
     snprintf(_lcd_line0, lcdLineBufLen - 1, menuOne0Fmt,
-        sp[saneIdx].getLastMoisturePercent(),
-        sp[saneIdx].getDryPercent());
+             sp[saneIdx].getLastMoisturePercent(),
+             sp[saneIdx].getDryPercent());
 
     snprintf(_lcd_line1, lcdLineBufLen - 1, menuOne1Fmt,
-        sp[saneIdx].getNormalizedDeltaToThreshold(), _rain_plant->location());
+             sp[saneIdx].getNormalizedDeltaToThreshold(), _rain_plant->location());
 
     _continueLine0AndWriteLine1();
 }
@@ -461,7 +463,7 @@ void WaterSystem::showCtrlCurrentOne()
              );
 
     snprintf(_lcd_line1, lcdLineBufLen - 1, ctrlOne1Fmt,
-        sp[saneIdx].isModuleUsed() ? "In" : "No");
+             sp[saneIdx].isModuleUsed() ? "In" : "No");
 
     DEBUG("%s", _lcd_line0);
     DEBUG("%s", _lcd_line1);
@@ -489,8 +491,8 @@ void WaterSystem::showSysStatus()
 
     if (_some_module_selected) {
         snprintf(msg, lcdLineBufLen,
-            "Logs: module %d",
-            _selected_module.moduleIndex);
+                 "Logs: module %d",
+                 _selected_module.moduleIndex);
     } else {
         memcpy_P(msg, F("Logs: [NoSelect]"), sizeof(msg));
     }
@@ -532,7 +534,7 @@ void WaterSystem::autoWater()
 
     #define AUTOWATER_STATUS_LEN_PER_PLANT 3U
     for (uint8_t i = 0; i < MAX_MODULE_COUNT; i++) {
-        DEBUG_P("AW");DEBUG("%u", i);
+        DEBUG_P("AW"); DEBUG("%u", i);
 
         // just add each plant on the second row during processing
         // e.g.:  0(rain) 1(rain) 2(skip) 3(disabled)
