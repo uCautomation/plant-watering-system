@@ -136,9 +136,13 @@ void WaterSystem::saveReferenceValuesToEEPROM() {
         // all 3 references for a single module packed into a u32
         uint32_t compactedRefs = 0U;
 
+        DEBUG("compactedRefs[%u]   = %lx", m, compactedRefs);
         for (byte i=0; i<MAX_DRY_VALUES_PER_MODULE; i++) {
-            int r = (sp[m].getDryAbsValue(i) & 0x3FF) << (10 * i);
+            int val = sp[m].getDryAbsValue(i);
+            int32_t r = (val & 0x3FFUL) << (10 * i);
+            DEBUG("   %u.%u = %d (%lx)", m, i, val, r);
             compactedRefs |= r;
+            DEBUG("             [%u] %u = %lx", m, i, compactedRefs);
         }
 
         DEBUG("Saving %u: %lx", m, compactedRefs);
@@ -504,6 +508,9 @@ void WaterSystem::showState(uint8_t stateNo)
     _clearScreenNoCursor();
     snprintf(_lcd_line0, lcdLineBufLen, " _ state = %.d _", stateNo);
     lcd.print(_lcd_line0);
+
+    DEBUG_P("Autosaving"); DEBUG(" state = %d", stateNo);
+    saveReferenceValuesToEEPROM();
 }
 
 void WaterSystem::autoWater()
