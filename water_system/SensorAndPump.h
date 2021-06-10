@@ -241,8 +241,14 @@ class SensorAndPump {
 
         void setValues(int referenceValues[MAX_DRY_VALUES_PER_MODULE]) {
             for (byte i=0; i<MAX_DRY_VALUES_PER_MODULE; i++) {
-                _dryMoistures.add(referenceValues[i]);
-            }
+
+                _lastMoisture = referenceValues[i];
+
+                _dryMoistures.add(_lastMoisture);
+            };
+
+            _dryValue = _dryMoistures.average();
+
         }
 
         int getDryAbsValue(byte index) {
