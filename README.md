@@ -2,9 +2,29 @@
 
 [![Build Status](https://travis-ci.com/uCautomation/plant-watering-system.svg?branch=master)](https://travis-ci.com/uCautomation/plant-watering-system)
 
-An automatic plant watering system with 4 watering modules (sensor + valve/pump).
+An automatic auto-calibrating plant watering system with 4 watering modules (sensor + valve/pump).
+
 
 The user can interact with the system via the 16x2 LCD display and the user buttons.
+
+
+## System demo
+
+
+### Initial start and saving
+
+[![Alt text](https://img.youtube.com/vi/MlZQGAmdXMs/0.jpg)](https://www.youtube.com/watch?v=MlZQGAmdXMs)
+
+
+### Auto-calibration and plant replacement
+
+[![Alt text](https://img.youtube.com/vi/N3DQ9_Ras7Y/0.jpg)](https://www.youtube.com/watch?v=MlZQGAmdXMs)
+
+
+### Battery powered operation
+
+[![Alt text](https://img.youtube.com/vi/6VTN1WMB9zE/0.jpg)](https://www.youtube.com/watch?v=6VTN1WMB9zE)
+
 
 ## Develpment
 
