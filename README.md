@@ -17,12 +17,11 @@ Note this code is:
 
 ## TODO
 
+- Add a video of the working project
 - Save power by going to sleep on timeout
-- Test the WaterSystem state machine
-- Persistent calibration data after reset each module; save the calibration data
-  into the EEPROM
-  - Save the calibration data into a sort-of flash/EEPROM filesystem to prevent
-    early death of specific EEPROM memory cells - see Generational EEPROM storage
+- Save the calibration data into a sort-of flash/EEPROM filesystem to prevent
+  early death of specific EEPROM memory cells - see Generational EEPROM storage
+  This should replace the currently used EEPROMWealLevel library
 - Persistent log system (using EEPROM)
 - Proportional watering - the system will keep the valve/pump open for a time
   proportional to the difference from the reference value (to allow checking
