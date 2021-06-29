@@ -30,11 +30,11 @@ matrix:
   #   language: cpp
   #   compiler: g++
   #   script: sed -i  's@//\s*#define\s*SENSOR_USES_DIRECT_PROPORTION@#define SENSOR_USES_DIRECT_PROPORTION@' water_system/ws_defs.h && cd water_system/test && make
-  - name: Unit tests g++ / focal / inverse proportional sensors
-    dist: focal
-    language: cpp
-    compiler: g++
-    script: sed -i  's@\(.*\)#define\s*SENSOR_USES_DIRECT_PROPORTION@// disabled SENSOR_USES_DIRECT_PROPORTION@' water_system/ws_defs.h && cd water_system/test && make
+  # - name: Unit tests g++ / focal / inverse proportional sensors
+  #   dist: focal
+  #   language: cpp
+  #   compiler: g++
+  #   script: sed -i  's@\(.*\)#define\s*SENSOR_USES_DIRECT_PROPORTION@// disabled SENSOR_USES_DIRECT_PROPORTION@' water_system/ws_defs.h && cd water_system/test && make
   # - name: Unit tests g++ / focal
   #   dist: focal
   #   language: cpp
