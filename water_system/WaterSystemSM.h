@@ -177,7 +177,7 @@ class WaterSystemSM {
 
         // values in seconds
         constexpr static const uint16_t _state_to[WSS_NOSTATE] PROGMEM {
-            [wss_sleep] = 600U,
+            [wss_sleep] = 1800U,
             [wss_start] = 1U,
             [wss_panic] = 1U,
 
