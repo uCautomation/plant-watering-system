@@ -20,21 +20,26 @@ matrix:
     install:
       - arduino --install-library "LiquidCrystal_PCF8574,EEPROMWearLevel"
     script: cd water_system && build_main_platforms && ls -la
-  - name: Unit tests g++ / focal / directly proportional sensors
+  - name: Unit tests g++ / focal / direct and inverse proportional sensors
     dist: focal
     language: cpp
     compiler: g++
-    script: sed -i  's@//\s*#define\s*SENSOR_USES_DIRECT_PROPORTION@#define SENSOR_USES_DIRECT_PROPORTION@' water_system/ws_defs.h && cd water_system/test && make
+    script: cd water_system/test && ./direct_inverse_test.sh
+  # - name: Unit tests g++ / focal / directly proportional sensors
+  #   dist: focal
+  #   language: cpp
+  #   compiler: g++
+  #   script: sed -i  's@//\s*#define\s*SENSOR_USES_DIRECT_PROPORTION@#define SENSOR_USES_DIRECT_PROPORTION@' water_system/ws_defs.h && cd water_system/test && make
   - name: Unit tests g++ / focal / inverse proportional sensors
     dist: focal
     language: cpp
     compiler: g++
     script: sed -i  's@\(.*\)#define\s*SENSOR_USES_DIRECT_PROPORTION@// disabled SENSOR_USES_DIRECT_PROPORTION@' water_system/ws_defs.h && cd water_system/test && make
-  - name: Unit tests g++ / focal
-    dist: focal
-    language: cpp
-    compiler: g++
-    script: cd water_system/test && make
+  # - name: Unit tests g++ / focal
+  #   dist: focal
+  #   language: cpp
+  #   compiler: g++
+  #   script: cd water_system/test && make
   - name: Unit tests clang++ / focal
     dist: focal
     language: cpp
@@ -50,11 +55,11 @@ matrix:
     language: cpp
     compiler: clang++
     script: cd water_system/test && make
-  - name: Unit tests clang++ / xenial
-    dist: xenial
-    language: cpp
-    compiler: clang++
-    script: cd water_system/test && make
+  # - name: Unit tests clang++ / xenial
+  #   dist: xenial
+  #   language: cpp
+  #   compiler: clang++
+  #   script: cd water_system/test && make
 #notifications:
 #  email:
 #    on_success: change
