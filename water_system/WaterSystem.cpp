@@ -129,6 +129,8 @@ bool WaterSystem::hasInternalError()
     return _internal_error;
 }
 
+#define EEPROM_ENABLED_MASK 0x80000000UL
+
 void WaterSystem::saveReferenceValuesToEEPROM() {
 
     for (byte m=0; m<MAX_MODULE_COUNT; m++) {
@@ -142,6 +144,9 @@ void WaterSystem::saveReferenceValuesToEEPROM() {
             compactedRefs |= r;
             DEBUG("  Ref %u.%u = %.4d (%.8lx) -> compactref=0x%.8lx", m, i, val, r, compactedRefs);
         }
+
+        // save the enable/disabled state, too
+        compactedRefs |= sp[m].isModuleUsed() ? EEPROM_ENABLED_MASK : 0x0;
 
         DEBUG("Saving %u: 0x%.8lx", m, compactedRefs);
         EEPROMwl.put(m, compactedRefs);
@@ -170,6 +175,11 @@ bool WaterSystem::loadReferenceValuesFromEEPROM() {
         }
 
         sp[m].setValues(refs);
+        if (0UL == (compactedRefs & EEPROM_ENABLED_MASK)) {
+            sp[m].setModuleUnused();
+        } else {
+            sp[m].setModuleUsed();
+        }
     }
 
     return true;
