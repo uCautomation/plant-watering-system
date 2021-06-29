@@ -213,7 +213,9 @@ class SensorAndPump {
             // Auto-adjust
             noInterrupts();
             int moistureNow = _readCurrentMoisture();
-            _setTooDry(moistureNow);
+            if (_moduleIsUsed) {
+                _setTooDry(moistureNow);
+            };
             interrupts();
 
             _giveWater();
