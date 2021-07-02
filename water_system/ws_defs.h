@@ -7,6 +7,9 @@
 #define HUMAN_PERCEPTIBLE_MS    500U
 #define MAX_ADC_VALUE           1023
 
+// tunable, we might need to make this configurable at runtime
+#define DRY_DEAD_BAND_DELTA_PERCENT 20
+
 // after some calibration, when the sensor was dipped in water,
 // didn't see values below this limit
 #define SEEN_MIN_LIMIT   250

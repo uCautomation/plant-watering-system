@@ -71,7 +71,9 @@ class SensorAndPump {
         int _dryValue, _lastMoisture;
         LastMoistures _dryMoistures;
         int _pumpOnMS;
-        static const int _dryDeadBandDelta = 10;
+
+        // this needs to be signed as is compared with the (dry% - last%) delta which is signed
+        static const int8_t _dryDeadBandPercentDelta = DRY_DEAD_BAND_DELTA_PERCENT;
 
         static const byte _maxDryValues = MAX_DRY_VALUES_PER_MODULE;
         static const byte _maxPercentStrLen = 4;
@@ -110,7 +112,9 @@ class SensorAndPump {
 
         inline bool _lastMoistureIsTooDry()
         {
-            return SENSOR_SIGN * (_dryValue - _lastMoisture) > _dryDeadBandDelta;
+            int8_t dryPercent = _dryPercentFromAbsValue(_dryValue);
+            int8_t lastPercent = _dryPercentFromAbsValue(_lastMoisture);
+            return dryPercent - lastPercent > _dryDeadBandPercentDelta;
         }
 
         int _readCurrentMoisture()
