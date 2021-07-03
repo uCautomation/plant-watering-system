@@ -322,11 +322,7 @@ void WaterSystem::manualWaterCurrent()
         lcd.write('0' + saneIdx.moduleIndex);
         delay(HUMAN_PERCEPTIBLE_MS);
         lcd.setCursor(0, 1);
-        if (sp[saneIdx.moduleIndex].isModuleUsed()) {
-            lcd.write(_rain_plant->location());
-        } else {
-            lcd.write(DISABLED_PLANT_ICON);
-        }
+        _lcdWritePlantIconOrX(saneIdx.moduleIndex);
         sp[saneIdx.moduleIndex].manualGiveWaterAndAdjustDry();
     } else {
         DEBUG_P("manualWater command, but no active module");
