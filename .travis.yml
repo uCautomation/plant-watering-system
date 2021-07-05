@@ -25,36 +25,21 @@ matrix:
     language: cpp
     compiler: g++
     script: cd water_system/test && ./direct_inverse_test.sh
-  # - name: Unit tests g++ / focal / directly proportional sensors
-  #   dist: focal
-  #   language: cpp
-  #   compiler: g++
-  #   script: sed -i  's@//\s*#define\s*SENSOR_USES_DIRECT_PROPORTION@#define SENSOR_USES_DIRECT_PROPORTION@' water_system/ws_defs.h && cd water_system/test && make
-  # - name: Unit tests g++ / focal / inverse proportional sensors
-  #   dist: focal
-  #   language: cpp
-  #   compiler: g++
-  #   script: sed -i  's@\(.*\)#define\s*SENSOR_USES_DIRECT_PROPORTION@// disabled SENSOR_USES_DIRECT_PROPORTION@' water_system/ws_defs.h && cd water_system/test && make
-  # - name: Unit tests g++ / focal
-  #   dist: focal
-  #   language: cpp
-  #   compiler: g++
-  #   script: cd water_system/test && make
-  - name: Unit tests clang++ / focal
+  - name: Unit tests clang++ / focal / direct and inverse proportional sensors
     dist: focal
     language: cpp
     compiler: clang++
-    script: cd water_system/test && make
-  - name: Unit tests g++ / bionic
+    script: cd water_system/test && ./direct_inverse_test.sh
+  - name: Unit tests g++ / bionic / direct and inverse proportional sensors
     dist: bionic
     language: cpp
     compiler: g++
-    script: cd water_system/test && make
-  - name: Unit tests clang++ / bionic
+    script: cd water_system/test && ./direct_inverse_test.sh
+  - name: Unit tests clang++ / bionic / direct and inverse proportional sensors
     dist: bionic
     language: cpp
     compiler: clang++
-    script: cd water_system/test && make
+    script: cd water_system/test && ./direct_inverse_test.sh
   # - name: Unit tests clang++ / xenial
   #   dist: xenial
   #   language: cpp
