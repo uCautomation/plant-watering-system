@@ -429,6 +429,14 @@ void WaterSystem::_clearScreenNoCursor()
     lcd.display();
 }
 
+void WaterSystem::_clearScreenNoCursorNoBacklight()
+{
+    lcd.clear();
+    lcd.noCursor();
+    lcd.setBacklight(0);
+    lcd.display();
+}
+
 // "P. Refs .. .. ..";
 // ">  ..Use Reset X";
 
@@ -525,7 +533,7 @@ void WaterSystem::showState(uint8_t stateNo)
 
 void WaterSystem::autoWater()
 {
-    _clearScreenNoCursor();
+    _clearScreenNoCursorNoBacklight();
     //TODO: no LCD in autowater?
     // lcd.setBacklight(0);
 

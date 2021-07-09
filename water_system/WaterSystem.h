@@ -69,6 +69,7 @@ class WaterSystem
         bool _clearLcdAndListCurrentPlant(byte &selectedIdx);
 
         void _clearScreenNoCursor();
+        void _clearScreenNoCursorNoBacklight();
 
         void _lcdWritePlantIconOrX(byte moduleIndex);
 
