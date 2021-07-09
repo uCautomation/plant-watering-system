@@ -18,7 +18,7 @@ matrix:
     before_install:
       - source <(curl -SLs https://raw.githubusercontent.com/adafruit/travis-ci-arduino/master/install.sh)
     install:
-      - arduino --install-library "LiquidCrystal_PCF8574,EEPROMWearLevel"
+      - arduino --install-library "LiquidCrystal_PCF8574,EEPROMWearLevel,Low-Power"
     script: cd water_system && build_main_platforms && ls -la
   - name: Unit tests g++ / focal / direct and inverse proportional sensors
     dist: focal
