@@ -38,7 +38,9 @@ Note this code is:
 ## TODO
 
 - Add a video of the working project
-- Save power by going to sleep on timeout
+- Save power
+  - by not turning on the LCD back light at full brightness
+  - by going to sleep on timeout
 - Save the calibration data into a sort-of flash/EEPROM filesystem to prevent
   early death of specific EEPROM memory cells - see Generational EEPROM storage
   This should replace the currently used EEPROMWealLevel library
