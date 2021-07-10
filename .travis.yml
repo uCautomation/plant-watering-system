@@ -30,16 +30,16 @@ matrix:
     language: cpp
     compiler: clang++
     script: cd water_system/test && ./direct_inverse_test.sh
-  - name: Unit tests g++ / bionic / direct and inverse proportional sensors
-    dist: bionic
-    language: cpp
-    compiler: g++
-    script: cd water_system/test && ./direct_inverse_test.sh
-  - name: Unit tests clang++ / bionic / direct and inverse proportional sensors
-    dist: bionic
-    language: cpp
-    compiler: clang++
-    script: cd water_system/test && ./direct_inverse_test.sh
+  # - name: Unit tests g++ / bionic / direct and inverse proportional sensors
+  #   dist: bionic
+  #   language: cpp
+  #   compiler: g++
+  #   script: cd water_system/test && ./direct_inverse_test.sh
+  # - name: Unit tests clang++ / bionic / direct and inverse proportional sensors
+  #   dist: bionic
+  #   language: cpp
+  #   compiler: clang++
+  #   script: cd water_system/test && ./direct_inverse_test.sh
   # - name: Unit tests clang++ / xenial
   #   dist: xenial
   #   language: cpp
