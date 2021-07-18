@@ -150,6 +150,7 @@ Do we need this? Maybe later? Probably we're over-engineering at this point.
 - Menu items:
   - NoUse - disables module (no plant exists for this module)
     - this entry will need to be "Enable/Use" if currently the module has no plant, i.e. was previously disabled
+    - This will also allow reading the current sensor value via manual watering command, without actually watering and without changing the reference values
   - Reset - forget all calibration data and set threshold to default (middle of the range?)
     - could this be better named instead a "new plant" menu item? What is the string here? "New (plant_icon)"?
 
