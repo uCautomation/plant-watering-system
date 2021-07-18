@@ -39,7 +39,6 @@ Note this code is:
 
 - Add a video of the working project
 - Save power
-  - by not turning on the LCD back light at full brightness
   - by going to sleep on timeout
 - Save the calibration data into a sort-of flash/EEPROM filesystem to prevent
   early death of specific EEPROM memory cells - see Generational EEPROM storage
