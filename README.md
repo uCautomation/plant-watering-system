@@ -39,7 +39,7 @@ Note this code is:
 
 - Add a video of the working project
 - Save power
-  - by going to sleep on timeout
+  - by going to lower power states on timeout
 - Save the calibration data into a sort-of flash/EEPROM filesystem to prevent
   early death of specific EEPROM memory cells - see Generational EEPROM storage
   This should replace the currently used EEPROMWealLevel library
