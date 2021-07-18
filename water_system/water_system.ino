@@ -99,10 +99,12 @@ void setup() {
     #define HAS_USARTs32
     #define HAS_USART1
     #define HAS_USART0
+
 #elif defined(__AVR_ATmega328P__) || defined(__AVR_ATmega168__) || defined(__AVR_ATmega168P__) || defined(__AVR_ATmega88__)
     #define HAS_TIMER2
 
     #define HAS_USART0
+
 #elif defined(__AVR_ATmega32U4__)
     #define HAS_TIMERs43
 
@@ -110,43 +112,49 @@ void setup() {
     #define UART1_IS_SERIAL
 
     #define HAS_USB
-#else
 
+#else
     #warning "low power not defined for this HW"
+    #define NO_LOW_POWER
 
 #endif
 
 void goLowPower() {
-    LowPower.idle(SLEEP_8S, ADC_OFF,
-        #if defined(HAS_TIMER5)
-                  TIMER5_OFF,
-        #endif
-        #if defined(HAS_TIMERs43)
-                  TIMER4_OFF, TIMER3_OFF,
-        #endif
-        #if defined(HAS_TIMER2)
-                  TIMER2_OFF,
-        #endif
-                  TIMER1_OFF, TIMER0_OFF,
-                  SPI_OFF,
-        #if defined(HAS_USARTs32)
-                  USART3_OFF, USART2_OFF,
-        #endif
-        #if defined(HAS_USART1)
-            #if defined(UART1_IS_SERIAL)
-                  USART1_ON,
-            #else
-                  USART1_OFF,
+    #if defined(NO_LOW_POWER)
+        DEBUG_P("Low power not defined for this HW");
+
+    #else
+        LowPower.idle(SLEEP_8S, ADC_OFF,
+            #if defined(HAS_TIMER5)
+                    TIMER5_OFF,
             #endif
-        #endif
-        #if defined(HAS_USART0)
-                  USART0_ON,
-        #endif
-                  TWI_ON
-        #if defined(HAS_USB)
-                  , USB_OFF
-        #endif
+            #if defined(HAS_TIMERs43)
+                    TIMER4_OFF, TIMER3_OFF,
+            #endif
+            #if defined(HAS_TIMER2)
+                    TIMER2_OFF,
+            #endif
+                    TIMER1_OFF, TIMER0_OFF,
+                    SPI_OFF,
+            #if defined(HAS_USARTs32)
+                    USART3_OFF, USART2_OFF,
+            #endif
+            #if defined(HAS_USART1)
+                #if defined(UART1_IS_SERIAL)
+                    USART1_ON,
+                #else
+                    USART1_OFF,
+                #endif
+            #endif
+            #if defined(HAS_USART0)
+                    USART0_ON,
+            #endif
+                    TWI_ON
+            #if defined(HAS_USB)
+                    , USB_OFF
+            #endif
         );
+    #endif
 }
 
 
