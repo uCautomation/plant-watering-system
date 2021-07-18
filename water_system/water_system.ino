@@ -24,7 +24,6 @@ void nextButISR(void)
 
 void okButISR(void)
 {
-    panicLEDToggle();
     pWSSM->okBut->changed();
 }
 
