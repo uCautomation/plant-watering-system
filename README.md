@@ -45,7 +45,7 @@ Note this code is:
   This should replace the currently used EEPROMWealLevel library
 - Persistent log system (using EEPROM)
 - Proportional watering - the system will keep the valve/pump open for a time
-  proportional to the difference from the reference value (to allow checking
+  proportional to the difference from the reference value (to allow catching
   up with the reference value)
 
 ## watering modules
