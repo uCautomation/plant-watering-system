@@ -122,6 +122,7 @@ void setup() {
 void goLowPower() {
     #if defined(NO_LOW_POWER)
         DEBUG_P("Low power not defined for this HW");
+        panicLEDToggle();
 
     #else
         LowPower.idle(SLEEP_8S, ADC_OFF,
