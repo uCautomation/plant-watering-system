@@ -2,10 +2,15 @@
 
 #include "WaterSystem.h"
 
-byte g_panic_led = 0;
+byte g_panic_led = 0U;
 
 void panicLEDToggle() {
     g_panic_led = !g_panic_led;
+    digitalWrite(LED_BUILTIN, g_panic_led);
+}
+
+void panicLEDOff() {
+    g_panic_led = 0U;
     digitalWrite(LED_BUILTIN, g_panic_led);
 }
 

@@ -87,6 +87,8 @@ void setup() {
         system_panic_no_return();
     }
 
+    // turn off the LED
+    panicLEDOff();
 }
 
 #if defined(__AVR_ATmega2560__)
