@@ -166,8 +166,6 @@ void loop() {
         set_system_state(pWSSM->State());
     }
 
-    goLowPower();
-
 }
 
 void set_system_state(wss_type nextstate)
@@ -241,6 +239,7 @@ void set_system_state(wss_type nextstate)
         case wss_sleep:
             lcd.setBacklight(0);
             lcd.noDisplay();
+            goLowPower();
             break;
 
         case wss_manualwater:
