@@ -120,6 +120,7 @@ void setup() {
 #endif
 
 void goLowPower() {
+    DEBUG_P("to low power");
     #if defined(NO_LOW_POWER)
         DEBUG_P("Low power not defined for this HW");
         panicLEDToggle();
