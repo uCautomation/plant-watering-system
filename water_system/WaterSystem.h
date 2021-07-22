@@ -113,8 +113,8 @@ class WaterSystem
 
 };
 
-
+void addSleepMillis(uint16_t wdt_sleep_prescaler);
+ulong allMillis(void);
 ulong timedelta(ulong ref_timestamp, ulong now);
-
 
 #endif // WATERSYSTEM_H

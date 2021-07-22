@@ -4,9 +4,12 @@
 
 #include "WaterSystem.h"
 
+// used to improve responsiveness when waking up on button presses
+extern volatile uint16_t sleep_period_id;
+
 ButtonWS::ButtonWS(int pin, isr butChISR) : _pin(pin), _debounceDelay(50)
 {
-    _milli = millis();
+    _milli = allMillis();
     _lastmilli = _milli;
     pinMode(_pin, INPUT_PULLUP);
     delay(100);
@@ -17,7 +20,10 @@ ButtonWS::ButtonWS(int pin, isr butChISR) : _pin(pin), _debounceDelay(50)
 
 void ButtonWS::changed(void)
 {
-    _milli = millis();
+    _milli = allMillis();
+
+    // increase responsiveness on button press, even on long sleep period
+    sleep_period_id = 0;
 }
 
 bool ButtonWS::isPressed(ulong now)

@@ -597,6 +597,22 @@ void WaterSystem::toggleUsageForCurrent()
     sp[_selected_module.moduleIndex].toggleModuleUsage();
 }
 
+static ulong sleep_millis = 0UL;
+ulong allMillis(void)
+{
+    return sleep_millis + millis();
+}
+
+static const ulong wdtToMillis[] = {
+    16, 32, 64, 125, 250, 500, 1000, 2000, 4000, 8000};
+
+void addSleepMillis(uint16_t wdt_sleep_prescaler)
+{
+    assert_or_panic(wdt_sleep_prescaler < 10 /* , PANIC_UNKOWN_WDT_PRESCALER_ID */);
+    // TODO: overflow detection
+    sleep_millis += wdtToMillis[wdt_sleep_prescaler & 0x0F];
+}
+
 ulong timedelta(ulong ref_timestamp, ulong now)
 {
     if (now >= ref_timestamp)

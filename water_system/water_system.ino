@@ -3,7 +3,6 @@
 
 #include <LowPower.h>
 
-
 #include "ws_defs.h"
 #include "ws_types.h"
 
@@ -72,7 +71,7 @@ void setup() {
     delay(500);
 
 
-    ulong last = millis();
+    ulong last = allMillis();
 
     pWaterSystem = new WaterSystem();
 
@@ -119,13 +118,25 @@ void setup() {
 
 #endif
 
+volatile uint16_t sleep_period_id = 0U;
+static_assert(sizeof(sleep_period_id) == sizeof(period_t), "nope, not big enough");
+
 void goLowPower() {
+    // DEBUG_P("LP\n");
+
     #if defined(NO_LOW_POWER)
         DEBUG_P("Low power not defined for this HW");
         panicLEDToggle();
 
     #else
-        LowPower.idle(SLEEP_8S, ADC_OFF,
+
+        // DEBUG("S%u", sleep_period_id);
+        panicLEDToggle();
+        delay(10); // TODO: LED settle timeout
+        panicLEDToggle();
+        // delay(10); // TODO: LED settle timeout
+
+        LowPower.idle((period_t)sleep_period_id, ADC_OFF,
             #if defined(HAS_TIMER5)
                     TIMER5_OFF,
             #endif
@@ -155,19 +166,43 @@ void goLowPower() {
                     , USB_OFF
             #endif
         );
+
+        // assume sleep has occurred and was completed, even if
+        // incorrect, it makes sense to have a roughly correct
+        // delta added to the millis;
+        // even if we would add these only when a complete sleep
+        // cycle is completed, the WDT timer is inaccurate and the
+        // error would still exist but it will undersestimate
+        // instead of overestimate the real millis
+        //
+        // Overestimating is simpler, has fewer moving parts
+        // and we don't have to modify the LowPower library to have
+        // our slightly modified ISR handler.
+        //
+        // Consider the more intrusive approach if button debouncing
+        // is broken by this and using millis() in the debounce still
+        // doesn't fix it
+        addSleepMillis(sleep_period_id);
+
+        noInterrupts();
+        // slowly increasing sleep duration, unless a button ISR resets it
+        sleep_period_id = sleep_period_id == (uint16_t)SLEEP_8S ? (uint16_t)SLEEP_8S : sleep_period_id + 1;
+        interrupts();
+
     #endif
 }
 
 
 void loop() {
-    ulong now = millis();
+    ulong now = allMillis();
 
     if (pWSSM->stateUpdated(now)) {
         set_system_state(pWSSM->State());
     }
 
-    goLowPower();
-
+    if (pWSSM->State() == wss_sleep) {
+        goLowPower();
+    }
 }
 
 void set_system_state(wss_type nextstate)
