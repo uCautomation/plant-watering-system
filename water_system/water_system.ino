@@ -119,14 +119,25 @@ void setup() {
 
 #endif
 
+volatile short sleep_period = (short)SLEEP_8S;
+static_assert(sizeof(sleep_period) == sizeof(period_t), "nope, not big enough");
+
 void goLowPower() {
-    DEBUG_P("to low power");
+    // DEBUG_P("LP\n");
+
     #if defined(NO_LOW_POWER)
         DEBUG_P("Low power not defined for this HW");
         panicLEDToggle();
 
     #else
-        LowPower.idle(SLEEP_8S, ADC_OFF,
+
+        // DEBUG("S%u", sleep_period);
+        panicLEDToggle();
+        delay(10); // TODO: LED settle timeout
+        panicLEDToggle();
+        delay(10); // TODO: LED settle timeout
+
+        LowPower.idle((period_t)sleep_period, ADC_OFF,
             #if defined(HAS_TIMER5)
                     TIMER5_OFF,
             #endif
@@ -156,6 +167,12 @@ void goLowPower() {
                     , USB_OFF
             #endif
         );
+
+        noInterrupts();
+        // slowly increasing sleep duration, unless a button ISR resets it
+        sleep_period = sleep_period == SLEEP_8S ? SLEEP_8S : sleep_period + 1;
+        interrupts();
+
     #endif
 }
 
@@ -167,6 +184,12 @@ void loop() {
         set_system_state(pWSSM->State());
     }
 
+    wss_type cs = pWSSM->State();
+    // DEBUG("s%d m%lu", cs, now);
+    if (cs == wss_sleep)
+    {
+        goLowPower();
+    }
 }
 
 void set_system_state(wss_type nextstate)
@@ -240,7 +263,6 @@ void set_system_state(wss_type nextstate)
         case wss_sleep:
             lcd.setBacklight(0);
             lcd.noDisplay();
-            goLowPower();
             break;
 
         case wss_manualwater:

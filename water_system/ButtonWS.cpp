@@ -15,9 +15,14 @@ ButtonWS::ButtonWS(int pin, isr butChISR) : _pin(pin), _debounceDelay(50)
     attachInterrupt(digitalPinToInterrupt(_pin), butChISR, CHANGE);
 }
 
+extern volatile short sleep_period;
+
 void ButtonWS::changed(void)
 {
     _milli = millis();
+
+    // increase responsiveness on button press, even on long sleep period
+    sleep_period = 0;
 }
 
 bool ButtonWS::isPressed(ulong now)
