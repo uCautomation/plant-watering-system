@@ -180,12 +180,16 @@ void goLowPower() {
 void loop() {
     ulong now = millis();
 
-    if (pWSSM->stateUpdated(now)) {
+    DEBUG("s%d m%lu", pWSSM->State(), now);
+    delay(20);
+    if (pWSSM->stateUpdated(now))
+    {
         set_system_state(pWSSM->State());
     }
 
     wss_type cs = pWSSM->State();
-    // DEBUG("s%d m%lu", cs, now);
+    DEBUG("_%d m%lu", pWSSM->State(), now);
+    delay(20);
     if (cs == wss_sleep)
     {
         goLowPower();
