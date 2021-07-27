@@ -147,7 +147,7 @@ void goLowPower() {
             #if defined(HAS_TIMER2)
                     TIMER2_OFF,
             #endif
-                    TIMER1_OFF, TIMER0_OFF,
+                    TIMER1_OFF, TIMER0_ON,
                     SPI_OFF,
             #if defined(HAS_USARTs32)
                     USART3_OFF, USART2_OFF,
