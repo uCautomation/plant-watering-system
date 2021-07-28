@@ -6,7 +6,7 @@
 
 ButtonWS::ButtonWS(int pin, isr butChISR) : _pin(pin), _debounceDelay(50)
 {
-    _milli = millis();
+    _milli = allMillis();
     _lastmilli = _milli;
     pinMode(_pin, INPUT_PULLUP);
     delay(100);
@@ -19,7 +19,7 @@ extern volatile short sleep_period;
 
 void ButtonWS::changed(void)
 {
-    _milli = millis();
+    _milli = allMillis();
 
     // increase responsiveness on button press, even on long sleep period
     sleep_period = 0;

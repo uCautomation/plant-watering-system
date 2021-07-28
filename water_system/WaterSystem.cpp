@@ -597,6 +597,21 @@ void WaterSystem::toggleUsageForCurrent()
     sp[_selected_module.moduleIndex].toggleModuleUsage();
 }
 
+static ulong sleep_millis = 0UL;
+ulong allMillis(void)
+{
+    return sleep_millis + millis();
+}
+
+const ulong wdtToMillis[] = {
+    16, 32, 64, 125, 250, 500, 1000, 2000, 4000, 8000};
+
+void addSleepMillis(uint8_t wdt_sleep)
+{
+    bool slept = !!(wdt_sleep & 0x80);
+    sleep_millis += slept ? wdtToMillis[wdt_sleep & 0x0F] : 0;
+}
+
 ulong timedelta(ulong ref_timestamp, ulong now)
 {
     if (now >= ref_timestamp)

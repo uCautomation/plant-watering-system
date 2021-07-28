@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 #include <LowPower.h>
+#include <avr/wdt.h>
 
 
 #include "ws_defs.h"
@@ -72,7 +73,7 @@ void setup() {
     delay(500);
 
 
-    ulong last = millis();
+    ulong last = allMillis();
 
     pWaterSystem = new WaterSystem();
 
@@ -87,8 +88,45 @@ void setup() {
         system_panic_no_return();
     }
 
+    read_timer2_setup();
+    read_timer2_value();
+
+
+    DEBUG("WDTCSR = %x", WDTCSR);
+
     // turn off the LED
     panicLEDOff();
+}
+
+void read_timer2_value(void)
+{
+    DEBUG("TCNT0 = %.3u  TCNT1 = %.5u  TCNT2 = %.3u", TCNT0, TCNT1, TCNT2);
+    if (TCNT1H == 1) {
+        DEBUG("TCNT1H %u", 1);
+    }
+}
+
+volatile uint8_t millis_offset = 0xFF;
+
+ISR(WDT_vect)
+{
+    uint8_t off = WDTCSR & 0x27;
+    off = ((0x20 & off) >> 2 | off) & 0x0F;
+    millis_offset = off | 0x80;
+    wdt_disable();
+}
+
+void read_timer2_setup(void)
+{
+    DEBUG("MCUSR  = %.02x", MCUSR);
+
+    DEBUG_P("     ASSR\t TCCR2A\t TCCR2B\t TIMSK2\n");
+    DEBUG("%.2x  \t%.2x   \t%.2x   \t%.2x", ASSR, TCCR2A, TCCR2B, TIMSK2);
+
+    TCCR2B |= 0x7;
+
+    DEBUG_P("     ASSR\t TCCR2A\t TCCR2B\t TIMSK2\n");
+    DEBUG("%.2x  \t%.2x   \t%.2x   \t%.2x", ASSR, TCCR2A, TCCR2B, TIMSK2);
 }
 
 #if defined(__AVR_ATmega2560__)
@@ -135,7 +173,21 @@ void goLowPower() {
         panicLEDToggle();
         delay(10); // TODO: LED settle timeout
         panicLEDToggle();
-        delay(10); // TODO: LED settle timeout
+        // delay(10); // TODO: LED settle timeout
+
+        static uint8_t cnt = 0;
+
+        millis_offset = sleep_period;
+
+        // if (cnt == 0 ) {
+        //     DEBUG("SL:millis = %lu", millis());
+        //     read_timer2_value();
+
+        //     DEBUG("millis_offset = %u sp = %u", millis_offset, sleep_period);
+
+        // }
+
+        // delay(100);
 
         LowPower.idle((period_t)sleep_period, ADC_OFF,
             #if defined(HAS_TIMER5)
@@ -147,7 +199,7 @@ void goLowPower() {
             #if defined(HAS_TIMER2)
                     TIMER2_OFF,
             #endif
-                    TIMER1_OFF, TIMER0_ON,
+                    TIMER1_OFF, TIMER0_OFF,
                     SPI_OFF,
             #if defined(HAS_USARTs32)
                     USART3_OFF, USART2_OFF,
@@ -168,6 +220,15 @@ void goLowPower() {
             #endif
         );
 
+        // if (cnt == 0 ) {
+        //     DEBUG("WU: millis = %lu", millis());
+        //     read_timer2_value();
+        // }
+        // DEBUG("millis_offset = %x sleep_period = %u", millis_offset, sleep_period);
+        // cnt++;
+
+        addSleepMillis(millis_offset);
+
         noInterrupts();
         // slowly increasing sleep duration, unless a button ISR resets it
         sleep_period = sleep_period == SLEEP_8S ? SLEEP_8S : sleep_period + 1;
@@ -178,9 +239,9 @@ void goLowPower() {
 
 
 void loop() {
-    ulong now = millis();
+    ulong now = allMillis();
 
-    DEBUG("s%d m%lu", pWSSM->State(), now);
+    // DEBUG("s%d m%lu", pWSSM->State(), now);
     delay(20);
     if (pWSSM->stateUpdated(now))
     {
@@ -188,11 +249,12 @@ void loop() {
     }
 
     wss_type cs = pWSSM->State();
-    DEBUG("_%d m%lu", pWSSM->State(), now);
+    // DEBUG("_%d m%lu", pWSSM->State(), now);
     delay(20);
     if (cs == wss_sleep)
     {
         goLowPower();
+        DEBUG("all = %lu, mi = %lu", allMillis(), millis());
     }
 }
 
