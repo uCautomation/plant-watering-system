@@ -560,9 +560,6 @@ void WaterSystem::autoWater()
         lcd.write('0' + i);
         delay(HUMAN_PERCEPTIBLE_MS);
 
-        DEBUG_P("Saving calibration data\n");
-        saveReferenceValuesToEEPROM();
-
         SensorAndPump *module = &sp[i];
         if (module->isModuleUsed()) {
 
@@ -584,7 +581,10 @@ void WaterSystem::autoWater()
     }
 
     DEBUG_P("Finished autowatering cycle.\n");
+    DEBUG_P("Saving used calibration data\n");
+    saveReferenceValuesToEEPROM();
     delay(HUMAN_PERCEPTIBLE_MS);
+
 }
 
 void WaterSystem::resetCalibrationForCurrentModule()
