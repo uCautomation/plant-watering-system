@@ -88,22 +88,8 @@ void setup() {
         system_panic_no_return();
     }
 
-    read_timer2_setup();
-    read_timer2_value();
-
-
-    DEBUG("WDTCSR = %x", WDTCSR);
-
     // turn off the LED
     panicLEDOff();
-}
-
-void read_timer2_value(void)
-{
-    DEBUG("TCNT0 = %.3u  TCNT1 = %.5u  TCNT2 = %.3u", TCNT0, TCNT1, TCNT2);
-    if (TCNT1H == 1) {
-        DEBUG("TCNT1H %u", 1);
-    }
 }
 
 volatile uint8_t millis_offset = 0xFF;
@@ -114,19 +100,6 @@ ISR(WDT_vect)
     off = ((0x20 & off) >> 2 | off) & 0x0F;
     millis_offset = off | 0x80;
     wdt_disable();
-}
-
-void read_timer2_setup(void)
-{
-    DEBUG("MCUSR  = %.02x", MCUSR);
-
-    DEBUG_P("     ASSR\t TCCR2A\t TCCR2B\t TIMSK2\n");
-    DEBUG("%.2x  \t%.2x   \t%.2x   \t%.2x", ASSR, TCCR2A, TCCR2B, TIMSK2);
-
-    TCCR2B |= 0x7;
-
-    DEBUG_P("     ASSR\t TCCR2A\t TCCR2B\t TIMSK2\n");
-    DEBUG("%.2x  \t%.2x   \t%.2x   \t%.2x", ASSR, TCCR2A, TCCR2B, TIMSK2);
 }
 
 #if defined(__AVR_ATmega2560__)
@@ -220,14 +193,14 @@ void goLowPower() {
             #endif
         );
 
-        // if (cnt == 0 ) {
-        //     DEBUG("WU: millis = %lu", millis());
-        //     read_timer2_value();
-        // }
-        // DEBUG("millis_offset = %x sleep_period = %u", millis_offset, sleep_period);
-        // cnt++;
-
         addSleepMillis(millis_offset);
+        if (cnt == 0 ) {
+            DEBUG("WU: allmillis = %lu, millis = %lu", allMillis(), millis());
+            cnt = 15;
+        }
+        // DEBUG("millis_offset = %x sleep_period = %u", millis_offset, sleep_period);
+
+        cnt--;
 
         noInterrupts();
         // slowly increasing sleep duration, unless a button ISR resets it
@@ -254,7 +227,6 @@ void loop() {
     if (cs == wss_sleep)
     {
         goLowPower();
-        DEBUG("all = %lu, mi = %lu", allMillis(), millis());
     }
 }
 
