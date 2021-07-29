@@ -97,6 +97,8 @@ volatile uint8_t millis_offset = 0xFF;
 ISR(WDT_vect)
 {
     // TODO: add clean version in the library - see https://github.com/rocketscream/Low-Power/issues/111#issuecomment-889497095
+    // TODO: Maybe just assuming all sleep cycles were completed and adjust millis like that? We don't care about precision much anyway
+    //       Could this affect proper debouncing, or should we use millis() for debouncing?
     uint8_t off = WDTCSR & 0x27;
     off = ((0x20 & off) >> 2 | off) & 0x0F;
     millis_offset = off | 0x80;
