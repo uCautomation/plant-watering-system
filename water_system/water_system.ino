@@ -2,8 +2,6 @@
 #include <stdio.h>
 
 #include <LowPower.h>
-#include <avr/wdt.h>
-
 
 #include "ws_defs.h"
 #include "ws_types.h"
@@ -92,18 +90,18 @@ void setup() {
     panicLEDOff();
 }
 
-volatile uint8_t millis_offset = 0xFF;
-
-ISR(WDT_vect)
-{
-    // TODO: add clean version in the library - see https://github.com/rocketscream/Low-Power/issues/111#issuecomment-889497095
-    // TODO: Maybe just assuming all sleep cycles were completed and adjust millis like that? We don't care about precision much anyway
-    //       Could this affect proper debouncing, or should we use millis() for debouncing?
-    uint8_t off = WDTCSR & 0x27;
-    off = ((0x20 & off) >> 2 | off) & 0x0F;
-    millis_offset = off | 0x80;
-    wdt_disable();
-}
+// volatile uint8_t millis_offset = 0xFF;
+//
+// ISR(WDT_vect)
+// {
+//     // TODO: add clean version in the library - see https://github.com/rocketscream/Low-Power/issues/111#issuecomment-889497095
+//     // TODO: Maybe just assuming all sleep cycles were completed and adjust millis like that? We don't care about precision much anyway
+//     //       Could this affect proper debouncing, or should we use millis() for debouncing?
+//     uint8_t off = WDTCSR & 0x27;
+//     off = ((0x20 & off) >> 2 | off) & 0x0F;
+//     millis_offset = off | 0x80;
+//     wdt_disable();
+// }
 
 #if defined(__AVR_ATmega2560__)
     #define HAS_TIMER5
@@ -153,7 +151,7 @@ void goLowPower() {
 
         static uint8_t cnt = 0;
 
-        millis_offset = sleep_period;
+        // millis_offset = sleep_period;
 
         // if (cnt == 0 ) {
         //     DEBUG("SL:millis = %lu", millis());
@@ -196,7 +194,23 @@ void goLowPower() {
             #endif
         );
 
-        addSleepMillis(millis_offset);
+        // assume sleep has occurred and was completed, even if
+        // incorrect, it makes sense to have a roughly correct
+        // delta added to the millis;
+        // even if we would add these only when a complete sleep
+        // cycle is completed, the WDT timer is inaccurate and the
+        // error would still exist but it will undersestimate
+        // instead of overestimate the real millis
+        //
+        // Overestimating is simpler, has fewer moving parts
+        // and we don't have to modify the LowPower library to have
+        // our slightly modified ISR handler.
+        //
+        // Consider the more intrusive approach if button debouncing
+        // is broken by this and using millis() in the debounce still
+        // doesn't fix it
+        addSleepMillis(sleep_period);
+
         if (cnt == 0 ) {
             DEBUG("WU: allmillis = %lu, millis = %lu", allMillis(), millis());
             cnt = 15;

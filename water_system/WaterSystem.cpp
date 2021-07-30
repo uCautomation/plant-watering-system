@@ -603,13 +603,13 @@ ulong allMillis(void)
     return sleep_millis + millis();
 }
 
-const ulong wdtToMillis[] = {
+static const ulong wdtToMillis[] = {
     16, 32, 64, 125, 250, 500, 1000, 2000, 4000, 8000};
 
-void addSleepMillis(uint8_t wdt_sleep)
+void addSleepMillis(uint8_t wdt_sleep_prescaler)
 {
-    bool slept = !!(wdt_sleep & 0x80);
-    sleep_millis += slept ? wdtToMillis[wdt_sleep & 0x0F] : 0;
+    assert_or_panic(wdt_sleep_prescaler < 10 /* , PANIC_UNKOWN_WDT_PRESCALER_ID */);
+    sleep_millis += wdtToMillis[wdt_sleep_prescaler & 0x0F];
 }
 
 ulong timedelta(ulong ref_timestamp, ulong now)
