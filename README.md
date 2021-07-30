@@ -38,8 +38,6 @@ Note this code is:
 ## TODO
 
 - Add a video of the working project
-- Save power
-  - by going to lower power states on timeout
 - Add a "Read all sensors w/o watering or updating references" command
 - Save the calibration data into a sort-of flash/EEPROM filesystem to prevent
   early death of specific EEPROM memory cells - see Generational EEPROM storage
