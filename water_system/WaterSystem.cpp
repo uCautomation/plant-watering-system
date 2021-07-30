@@ -109,7 +109,7 @@ WaterSystem::WaterSystem(/* args */)
         lcd.begin(16, 2); // initialize the lcd
         lcd.setBacklight(255);
         lcd.home(); lcd.clear();
-        lcd.print(F("Water system 0.3\n"));
+        lcd.print(F("Water system 0.4\n"));
 
         lcd.setCursor(0, 1);
         for (int i=0; i<8; i++)
