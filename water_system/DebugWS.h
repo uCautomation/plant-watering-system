@@ -6,12 +6,18 @@
 #ifdef DEBUG_ON
 #define MAX_DEBUG_MSG_LEN 80
 
-#define DEBUG(fmt, args ...)                    \
-    do {                                        \
-        char dbgbuf[MAX_DEBUG_MSG_LEN + 1];     \
-        snprintf(dbgbuf, MAX_DEBUG_MSG_LEN, "DBG: " fmt, ## args); \
-        Serial.println(dbgbuf);                 \
-    } while(0)
+extern char dbgbuf[MAX_DEBUG_MSG_LEN + 1];
+
+#define DEBUG(fmt, args ...)                                               \
+    do {                                                                   \
+        int ret = snprintf(dbgbuf, MAX_DEBUG_MSG_LEN, "D: " fmt, ## args); \
+        dbgbuf[MAX_DEBUG_MSG_LEN] = 0;                                     \
+        Serial.println(dbgbuf);                                            \
+        if ( (ret < 0) || (ret >= MAX_DEBUG_MSG_LEN)) {                    \
+            Serial.println(F(" Debug message buffer overflow !"));         \
+            system_panic_no_return();                                      \
+        };                                                                 \
+    } while (0)
 
 #define DEBUG_P(msg) Serial.print(F(msg))
 

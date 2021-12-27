@@ -9,6 +9,7 @@
 #include "WSRuntime.h"
 #include "WSMenu.h"
 
+char dbgbuf[MAX_DEBUG_MSG_LEN + 1];
 
 LiquidCrystal_PCF8574 lcd(LCD_I2C_ADDRESS);  // set the LCD address to 0x27 for a 16 chars and 2 line display
 
